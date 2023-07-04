@@ -1,4 +1,4 @@
 oldfile ForgedAlliance_base.exe
-newfile ForgedAlliance_exxt.exe
+newfile C:\ProgramData\FAForever\bin\ForgedAlliance_exxt.exe
 newsect .exxt
 sectsize 0x80000

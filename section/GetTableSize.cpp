@@ -206,11 +206,91 @@ int _Clone(lua_State *l)
     return 0;
 }
 
+bool __Project(float *cam, float *resultVec2, float x, float y, float z, float width, float height)
+{
+    float v10;
+    float v11;
+    v10 = 1.0 / ((((cam[50] * z) + (cam[46] * y)) + (cam[42] * x)) + cam[54]);
+    v11 = ((((cam[48] * z) + (cam[44] * y)) + (cam[40] * x)) + cam[52]) * v10;
+    resultVec2[0] = (((width) * ((((((cam[47] * z) + (cam[43] * y)) + (cam[39] * x)) + cam[51]) * v10) - -1.0)) * 0.5);
+    resultVec2[1] = (((-height) * (v11 - -1.0)) * 0.5) + height;
+
+    if (resultVec2[0] > width || resultVec2[0] < 0)
+        return false;
+    if (resultVec2[1] > height || resultVec2[1] < 0)
+        return false;
+    return true;
+}
+
+int lua_Project(lua_State *l) // camera , x,y,z
+{
+    if (!lua_istable(l, 1))
+    {
+        lua_pushstring(l, "table expected");
+        lua_error(l);
+    }
+
+    float x = luaL_checknumber(l, 2);
+    float y = luaL_checknumber(l, 3);
+    float z = luaL_checknumber(l, 4);
+    float w = luaL_checknumber(l, 5);
+    float h = luaL_checknumber(l, 6);
+
+    lua_pushlstring(l, "_c_object", 9);
+    lua_gettable(l, -7);
+
+    int *cameraObj = (int *)lua_topointer(l, -1);
+
+    int v3 = *cameraObj - 0x1C;
+    float *camera = (float *)(*(int(__thiscall **)(int))(*(unsigned int *)v3 + 8))(v3);
+
+    float result[2];
+    if (__Project(camera, result, x, y, z, w, h))
+    {
+        lua_pushnumber(l, result[0]);
+        lua_pushnumber(l, result[1]);
+        return 2;
+    }
+    return 0;
+}
+/*
+
+UI_Lua LOG(GetCamera"WorldCamera")
+UI_Lua reprsl(GetCamera"WorldCamera")
+INFO: table: 21256A00
+DEBUG: Current gametime: 00:00:30
+INFO:
+INFO:  - _c_object: userdata: CScriptObject* at 124FE254 = [CScriptObject at 0x1FAEE600]
+
+
+
+UI_Lua table.project(GetCamera"WorldCamera",1,1,1)
+UI_Lua LOG(table.project(GetCamera"WorldCamera",1,1,1))
+
+INFO: 124FE254
+INFO: 1FAEE61C
+
+
+UI_Lua reprsl(GetSelectedUnits()[1]:GetPosition())
+UI_Lua LOG(import("/lua/ui/game/worldview.lua").viewLeft:GetScreenPos(GetSelectedUnits()[1]).x)
+UI_Lua LOG(import("/lua/ui/game/worldview.lua").viewLeft:GetScreenPos(GetSelectedUnits()[1]).y)
+
+
+INFO:  - _c_object: userdata: CScriptObject* at 21226F88 = [CScriptObject at 0x1FAB7600]
+INFO: table: 21221500
+
+v12 1FDD7600
+v3  1FAB7600
+cameraObj 1FAB761C
+
+*/
+
 int RegTableFuncsDesc[] = {"getsize2", &GetTableSize,
                            "empty2", &IsTableEmpty,
                            "getn2", 0x00927C20,
                            "create", &_CreateTable,
                            "clone", &_Clone,
+                           "project", &lua_Project,
                            0, 0};
 
 void RegTableFuncs()
