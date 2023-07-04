@@ -28,14 +28,14 @@ void GetTableSize()
         "TEST EDX,EDX;"
         "JZ L7;"
         "MOV ECX,[EAX+0x10];"
-        "L5:;"
+        "L05:;"
         "CMP DWORD PTR [ECX],0x0;"
-        "JE L6;"
+        "JE L61;"
         "ADD EBX,0x1;"
-        "L6:;"
+        "L61:;"
         "ADD ECX,0x8;"
         "DEC EDX;"
-        "JNZ L5;"
+        "JNZ L05;"
         "L7:;"
         "CVTSI2SS XMM0,EBX;"
         "SUB ESP,0x4;"
@@ -95,14 +95,14 @@ void IsTableEmpty()
 
 void lua_createtable(/*lua_State *l, int narr, int nhash*/)
 {
-    asm(//copied from lua_newtable
+    asm( // copied from lua_newtable
         "push    esi;"
-        "mov     esi, [esp+0x8];"
+        "mov     esi, [esp+0x8];" // lua_State
         "mov     eax, [esi+0x10];"
         "mov     ecx, [eax+0x2C];"
         "cmp     ecx, [eax+0x24];"
-        "mov  edx, [esp+0x0C];"
-        "mov  ecx, [esp+0x10];"
+        "mov  edx, [esp+0x0C];" // push narr
+        "mov  ecx, [esp+0x10];" // push nhash
         "push    edi;"
         "jb      short loc_90D130;"
         "cmp     dword ptr [eax+0x28], 0;"
@@ -149,7 +149,7 @@ int _CreateTable(lua_State *l)
 {
     int narr = luaL_checknumber(l, 1);
     int nhash = luaL_checknumber(l, 2);
-    //lua_createtable(l, narr, nhash);
+    // lua_createtable(l, narr, nhash);
     reinterpret_cast<void (*)(lua_State *, int, int)>(&lua_createtable)(l, narr, nhash);
 
     // LuaState *ls = l->LuaState;
@@ -162,10 +162,56 @@ int _CreateTable(lua_State *l)
     return 1;
 }
 
+int GettTableArraySize(lua_State *l)
+{
+    if (!lua_istable(l, 1))
+    {
+        lua_pushstring(l, "table expected");
+        lua_error(l);
+    }
+    Table *t = (Table *)lua_topointer(l, 1);
+    lua_pushnumber(l, t->sizearray);
+    return 1;
+}
+int GettTableHashSize(lua_State *l)
+{
+    if (!lua_istable(l, 1))
+    {
+        lua_pushstring(l, "table expected");
+        lua_error(l);
+    }
+    Table *t = (Table *)lua_topointer(l, 1);
+    lua_pushnumber(l, t->lsizenode);
+    return 1;
+}
+
+void _CloneTable(lua_State *l)
+{
+}
+
+int _Clone(lua_State *l)
+{
+    if (!lua_istable(l, 1))
+    {
+        lua_pushstring(l, "table expected");
+        lua_error(l);
+    }
+
+    // LuaState *ls = l->LuaState;
+    // LuaObject tbl;
+    // CLuaObject::CLuaObject3(&tbl, ls, 1);
+    // LuaObject cloneTbl = CLuaObject::Clone(&tbl);
+    // //CLuaObject::PushStack2(&cloneTbl, l);
+    // CLuaObject::DLuaObject(&tbl);
+    // CLuaObject::DLuaObject(&cloneTbl);
+    return 0;
+}
+
 int RegTableFuncsDesc[] = {"getsize2", &GetTableSize,
                            "empty2", &IsTableEmpty,
                            "getn2", 0x00927C20,
                            "create", &_CreateTable,
+                           "clone", &_Clone,
                            0, 0};
 
 void RegTableFuncs()
