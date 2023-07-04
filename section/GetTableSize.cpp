@@ -149,7 +149,6 @@ int _CreateTable(lua_State *l)
 {
     int narr = luaL_checknumber(l, 1);
     int nhash = luaL_checknumber(l, 2);
-    // lua_createtable(l, narr, nhash);
     reinterpret_cast<void (*)(lua_State *, int, int)>(&lua_createtable)(l, narr, nhash);
 
     // LuaState *ls = l->LuaState;
