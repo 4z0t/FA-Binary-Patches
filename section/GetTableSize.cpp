@@ -93,64 +93,64 @@ void IsTableEmpty()
         "MOV EAX,0x1;");
 }
 
-void lua_createtable(lua_State *l, int narr, int nhash)
+void lua_createtable(/*lua_State *l, int narr, int nhash*/)
 {
-    asm(
-                "push    esi;"
-                "mov     esi, [esp+4+arg_0];"
-                "mov     eax, [esi+10h];"
-                "mov     ecx, [eax+2Ch];"
-                "cmp     ecx, [eax+24h];"
-                "push    edi;"
-                "jb      short loc_90D130;"
-                "cmp     dword ptr [eax+28h], 0;"
-                "jnz     short loc_90D130;"
-                "push    esi;"
-                "call    sub_915D90;"
-                "add     esp, 4;"
-                "loc_90D130: ;"
-                "mov     edi, [esi+8];"
-                "push    0;" //nhash
-                "push    0;" //narr
-                "push    esi;"
-                "call    0x00927320;" //luaH_new
-                "movzx   edx, byte ptr [eax+4];"
-                "mov     [edi], edx;"
-                "mov     [edi+4], eax;"
-                "mov     eax, [esi+8];"
-                "mov     ecx, [esi+14h];"
-                "add     esp, 0Ch;"
-                "cmp     eax, [ecx+4];"
-                "jb      short loc_90D173;"
-                "mov     edx, [esi+18h];"
-                "sub     edx, eax;"
-                "mov     edi, 8;"
-                "cmp     edx, edi;"
-                "jg      short loc_90D16D;"
-                "push    1;"
-                "push    esi;"
-                "call    sub_913990;"
-                "add     esp, 8;"
-                "loc_90D16D:                            ;"
-                "add     [esi+8], edi;"
-                "pop     edi;"
-                "pop     esi;"
-                "retn;"
-                "loc_90D173:                           ;"
-                "add     dword ptr [esi+8], 8;"
-                "pop     edi;"
-                "pop     esi;"
-                "retn;"
-    );
-           
+    asm(//copied from lua_newtable
+        "push    esi;"
+        "mov     esi, [esp+0x8];"
+        "mov     eax, [esi+0x10];"
+        "mov     ecx, [eax+0x2C];"
+        "cmp     ecx, [eax+0x24];"
+        "mov  edx, [esp+0x0C];"
+        "mov  ecx, [esp+0x10];"
+        "push    edi;"
+        "jb      short loc_90D130;"
+        "cmp     dword ptr [eax+0x28], 0;"
+        "jnz     short loc_90D130;"
+        "push    esi;"
+        "call    0x915D90;"
+        "add     esp, 4;"
+        "loc_90D130: ;"
+        "mov     edi, [esi+8];"
+        "push    ecx;" // nhash
+        "push    edx;" // narr
+        "push    esi;"
+        "call    0x00927320;" // luaH_new
+        "movzx   edx, byte ptr [eax+4];"
+        "mov     [edi], edx;"
+        "mov     [edi+4], eax;"
+        "mov     eax, [esi+8];"
+        "mov     ecx, [esi+0x14];"
+        "add     esp, 0x0C;"
+        "cmp     eax, [ecx+4];"
+        "jb      short loc_90D173;"
+        "mov     edx, [esi+0x18];"
+        "sub     edx, eax;"
+        "mov     edi, 8;"
+        "cmp     edx, edi;"
+        "jg      short loc_90D16D;"
+        "push    1;"
+        "push    esi;"
+        "call    0x913990;"
+        "add     esp, 8;"
+        "loc_90D16D:;"
+        "add     [esi+8], edi;"
+        "pop     edi;"
+        "pop     esi;"
+        "ret;"
+        "loc_90D173:;"
+        "add     dword ptr [esi+8], 8;"
+        "pop     edi;"
+        "pop     esi;"
+        "ret;");
 }
 
 int _CreateTable(lua_State *l)
 {
     int narr = luaL_checknumber(l, 1);
     int nhash = luaL_checknumber(l, 2);
-    lua_createtable(l, narr, nhash);
-                
+    //lua_createtable(l, narr, nhash);
+    reinterpret_cast<void (*)(lua_State *, int, int)>(&lua_createtable)(l, narr, nhash);
 
     // LuaState *ls = l->LuaState;
     // LuaObject tbl;
