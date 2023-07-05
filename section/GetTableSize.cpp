@@ -210,10 +210,10 @@ bool __Project(float *cam, float *resultVec2, float x, float y, float z, float w
 {
     float v10;
     float v11;
-    v10 = 1.0 / ((((cam[50] * z) + (cam[46] * y)) + (cam[42] * x)) + cam[54]);
-    v11 = ((((cam[48] * z) + (cam[44] * y)) + (cam[40] * x)) + cam[52]) * v10;
-    resultVec2[0] = (((width) * ((((((cam[47] * z) + (cam[43] * y)) + (cam[39] * x)) + cam[51]) * v10) - -1.0)) * 0.5);
-    resultVec2[1] = (((-height) * (v11 - -1.0)) * 0.5) + height;
+    v10 = 1.0 / (cam[50] * z + cam[46] * y + cam[42] * x + cam[54]);
+    v11 = (cam[48] * z + cam[44] * y + cam[40] * x + cam[52]) * v10;
+    resultVec2[0] = width * ((cam[47] * z + cam[43] * y + cam[39] * x + cam[51]) * v10 + 1.0f) * 0.5f;
+    resultVec2[1] = (-height) * (v11 + 1.0f) * 0.5f + height;
 
     if (resultVec2[0] > width || resultVec2[0] < 0)
         return false;
@@ -242,7 +242,25 @@ int lua_Project(lua_State *l) // camera , x,y,z
     int *cameraObj = (int *)lua_topointer(l, -1);
 
     int v3 = *cameraObj - 0x1C;
-    float *camera = (float *)(*(int(__thiscall **)(int))(*(unsigned int *)v3 + 8))(v3);
+    float *camera = reinterpret_cast<float *(__thiscall *)(int)>(0x7A6A00)(v3);
+    // float *camera = (float *)(*(int(__thiscall **)(int))(*(unsigned int *)v3 + 8))(v3);
+    // LogF("%p", *(unsigned int *)v3 + 8); // 00E3C47C sub_7A6A00
+
+    // float arr[]{camera[50],
+    //             camera[46],
+    //             camera[42],
+    //             camera[54],
+    //             camera[48],
+    //             camera[44],
+    //             camera[40],
+    //             camera[52],
+    //             camera[47],
+    //             camera[43],
+    //             camera[39],
+    //             camera[51]};
+
+    // for (int i = 0; i < 12; i++)
+    //     LogF("%.3f", arr[i]);
 
     float result[2];
     if (__Project(camera, result, x, y, z, w, h))
