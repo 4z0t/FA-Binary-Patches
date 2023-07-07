@@ -161,7 +161,30 @@ int _CreateTable(lua_State *l)
     return 1;
 }
 
-int GettTableArraySize(lua_State *l)
+// int GettTableArraySize(lua_State *l)
+// {
+//     if (!lua_istable(l, 1))
+//     {
+//         lua_pushstring(l, "table expected");
+//         lua_error(l);
+//     }
+//     Table *t = (Table *)lua_topointer(l, 1);
+//     lua_pushnumber(l, t->sizearray);
+//     return 1;
+// }
+// int GettTableHashSize(lua_State *l)
+// {
+//     if (!lua_istable(l, 1))
+//     {
+//         lua_pushstring(l, "table expected");
+//         lua_error(l);
+//     }
+//     Table *t = (Table *)lua_topointer(l, 1);
+//     lua_pushnumber(l, t->lsizenode);
+//     return 1;
+// }
+
+int GetTableArrayAndHashSizes(lua_State *l)
 {
     if (!lua_istable(l, 1))
     {
@@ -170,18 +193,8 @@ int GettTableArraySize(lua_State *l)
     }
     Table *t = (Table *)lua_topointer(l, 1);
     lua_pushnumber(l, t->sizearray);
-    return 1;
-}
-int GettTableHashSize(lua_State *l)
-{
-    if (!lua_istable(l, 1))
-    {
-        lua_pushstring(l, "table expected");
-        lua_error(l);
-    }
-    Table *t = (Table *)lua_topointer(l, 1);
     lua_pushnumber(l, t->lsizenode);
-    return 1;
+    return 2;
 }
 
 void _CloneTable(lua_State *l)
