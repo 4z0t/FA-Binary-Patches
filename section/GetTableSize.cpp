@@ -1,4 +1,7 @@
+
+
 #include "include/moho.h"
+
 void GetTableSize()
 {
     asm(
@@ -161,28 +164,6 @@ int _CreateTable(lua_State *l)
     return 1;
 }
 
-// int GettTableArraySize(lua_State *l)
-// {
-//     if (!lua_istable(l, 1))
-//     {
-//         lua_pushstring(l, "table expected");
-//         lua_error(l);
-//     }
-//     Table *t = (Table *)lua_topointer(l, 1);
-//     lua_pushnumber(l, t->sizearray);
-//     return 1;
-// }
-// int GettTableHashSize(lua_State *l)
-// {
-//     if (!lua_istable(l, 1))
-//     {
-//         lua_pushstring(l, "table expected");
-//         lua_error(l);
-//     }
-//     Table *t = (Table *)lua_topointer(l, 1);
-//     lua_pushnumber(l, t->lsizenode);
-//     return 1;
-// }
 
 int GetTableArrayAndHashSizes(lua_State *l)
 {
@@ -218,7 +199,7 @@ int _Clone(lua_State *l)
     // CLuaObject::DLuaObject(&cloneTbl);
     return 0;
 }
-
+#pragma GCC optimize("O3")
 bool __Project(float *cam, float *resultVec2, float x, float y, float z, float width, float height)
 {
     float v10;
