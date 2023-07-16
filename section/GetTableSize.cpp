@@ -150,20 +150,13 @@ void lua_createtable(/*lua_State *l, int narr, int nhash*/)
 
 int _CreateTable(lua_State *l)
 {
-    int narr = luaL_checknumber(l, 1);
-    int nhash = luaL_checknumber(l, 2);
-    reinterpret_cast<void (*)(lua_State *, int, int)>(&lua_createtable)(l, narr, nhash);
-
-    // LuaState *ls = l->LuaState;
-    // LuaObject tbl;
-    // LuaStackObject so;
-    // CLuaObject::CLuaObject2(&tbl, ls);
-    // CLuaObject::AssignNewTable(&tbl, ls, narr, nhash);
-    // CLuaObject::PushStack(&tbl, &so, ls);
-    // CLuaObject::DLuaObject(&tbl);
+    int narr = static_cast<int>(luaL_checknumber(l, 1));
+    int nhash = static_cast<int>(luaL_optnumber(l, 2, 0.0f));
+    reinterpret_cast<void (*)(lua_State *, int, int)>(&lua_createtable)(l,
+                                                                        ((narr > 0) ? narr : 0),
+                                                                        ((nhash > 0) ? nhash : 0));
     return 1;
 }
-
 
 int GetTableArrayAndHashSizes(lua_State *l)
 {
@@ -303,6 +296,7 @@ int RegTableFuncsDesc[] = {"getsize2", &GetTableSize,
                            "create", &_CreateTable,
                            "clone", &_Clone,
                            "project", &lua_Project,
+                           "allocsize", &GetTableArrayAndHashSizes,
                            0, 0};
 
 void RegTableFuncs()
@@ -317,3 +311,7 @@ void RegTableFuncs()
         : [RegTableFuncsDesc] "i"(RegTableFuncsDesc)
         :);
 }
+
+/*
+5E6AC0
+*/
