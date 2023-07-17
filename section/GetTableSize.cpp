@@ -192,15 +192,20 @@ int _Clone(lua_State *l)
     // CLuaObject::DLuaObject(&cloneTbl);
     return 0;
 }
+
 #pragma GCC optimize("O3")
+// #define _VCRT_BUILD
+// #define _INC_MALLOC
+// #include <immintrin.h>
 bool __Project(float *cam, float *resultVec2, float x, float y, float z, float width, float height)
 {
-    float v10;
-    float v11;
-    v10 = 1.0 / (cam[50] * z + cam[46] * y + cam[42] * x + cam[54]);
-    v11 = (cam[48] * z + cam[44] * y + cam[40] * x + cam[52]) * v10;
-    resultVec2[0] = width * ((cam[47] * z + cam[43] * y + cam[39] * x + cam[51]) * v10 + 1.0f) * 0.5f;
-    resultVec2[1] = (-height) * (v11 + 1.0f) * 0.5f + height;
+
+    float c = cam[50] * z + cam[46] * y + cam[42] * x + cam[54] * 1.0f;
+    float a = cam[48] * z + cam[44] * y + cam[40] * x + cam[52] * 1.0f;
+    float b = cam[47] * z + cam[43] * y + cam[39] * x + cam[51] * 1.0f;
+    float d = 1.0f / c;
+    resultVec2[0] = width * (b * d + 1.0f) * 0.5f;
+    resultVec2[1] = (-height) * (a * d + 1.0f) * 0.5f + height;
 
     if (resultVec2[0] > width || resultVec2[0] < 0)
         return false;
@@ -208,6 +213,28 @@ bool __Project(float *cam, float *resultVec2, float x, float y, float z, float w
         return false;
     return true;
 }
+
+/*
+    __m256 fd = _mm256_set_ps(cam[50], cam[46], cam[42],cam[48],cam[44] ,cam[40],cam[47], cam[43]);
+    __m256 fx = _mm256_set_ps(z,y,x,z,y,x,z,y);
+    __m256 md = _mm256_mul_ps(fd,fx);
+
+    float r[8];
+    _mm256_storeu_ps(r,md);
+    float d = 1.0 / (r[0]+r[1]+r[2] + cam[54]);
+
+    float a = (r[3]+r[4]+r[5] + cam[52]) * d;
+    float b = (r[6]+r[7] + cam[39] * x + cam[51]) * d;
+
+    resultVec2[0] = width * (b + 1.0f) * 0.5f;
+    resultVec2[1] = (-height) * (a + 1.0f) * 0.5f + height;
+
+    if (resultVec2[0] > width || resultVec2[0] < 0)
+        return false;
+    if (resultVec2[1] > height || resultVec2[1] < 0)
+        return false;
+    return true;
+*/
 
 int lua_Project(lua_State *l) // camera , x,y,z
 {
