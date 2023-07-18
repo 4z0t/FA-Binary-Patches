@@ -86,10 +86,10 @@ void IsTableEmpty()
         "JNZ ITE_L5;"
         "L721:;"
         "PUSH 0x1;"
-        "JMP L12;"
+        "JMP L012;"
         "L62:;"
         "PUSH 0x0;"
-        "L12:;"
+        "L012:;"
         "PUSH ESI;"
         "CALL 0x0090CF80;" // PushBool
         "ADD ESP,0x8;"
@@ -183,13 +183,13 @@ int _Clone(lua_State *l)
         lua_error(l);
     }
 
-    // LuaState *ls = l->LuaState;
-    // LuaObject tbl;
-    // CLuaObject::CLuaObject3(&tbl, ls, 1);
-    // LuaObject cloneTbl = CLuaObject::Clone(&tbl);
-    // //CLuaObject::PushStack2(&cloneTbl, l);
-    // CLuaObject::DLuaObject(&tbl);
-    // CLuaObject::DLuaObject(&cloneTbl);
+    LuaState *ls = GetLuaState(l);
+    LuaObject tbl{};
+    CLuaObject::AssignNewTable(&tbl, ls, 0, 0);
+    LuaObject cloneTbl{CLuaObject::Clone(&tbl)};
+    CLuaObject::PushStack(&cloneTbl, l, ls);
+    CLuaObject::DLuaObject(&tbl);
+    CLuaObject::DLuaObject(&cloneTbl);
     return 0;
 }
 

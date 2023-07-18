@@ -20,7 +20,7 @@ struct lua_Debug {
 
 class LuaState;
 //lua.org/source/5.0/lstate.h.html#lua_State
-typedef struct {uint8_t pad[0x44]; LuaState* LuaState;} lua_State;
+typedef struct lua_State {uint8_t pad[0x44]; LuaState* LuaState;} lua_State;
 
 typedef struct luaL_Buffer luaL_Buffer;
 typedef const char* (*lua_Chunkreader)(lua_State *L, void *data, size_t *size);
@@ -164,17 +164,8 @@ class Table {
   };
   VALIDATE_SIZE(LuaStackObject, 8)
 
-  class LuaObject
-  {// 0x14 bytes
-    public:
-      LuaObject* m_next;
-      LuaObject* m_prev;
-      LuaState* m_state;
-      TObject m_object;
-  };
-  VALIDATE_SIZE(LuaObject, 0x14)
-
-  namespace CLuaObject
+  class LuaObject;
+ namespace CLuaObject
   {
     //public
       FDecl(0x9072a0, CLuaObject, __thiscall LuaObject (*)(LuaObject* this_))
@@ -206,7 +197,7 @@ class Table {
       FDecl(0x908e70, GetByObject, __thiscall LuaObject (*)(LuaObject* this_, const LuaObject&))
       FDecl(0x908ba0, GetMetaTable, __thiscall LuaObject (*)(LuaObject* this_))
       FDecl(0x9093b0, Lookup, __thiscall LuaObject (*)(LuaObject* this_, const char*))
-      FDecl(0x907d80, PushStack, __thiscall void (*)(LuaObject* this_, LuaStackObject* out, LuaState*))
+      FDecl(0x907d80, PushStack, __thiscall LuaStackObject (*)(LuaObject* this_, lua_State*, LuaState*))
       FDecl(0x907d10, PushStack2, __thiscall void (*)(LuaObject* this_, lua_State*))
       FDecl(0x9072b0, GetActiveState, __thiscall LuaState* (*)(LuaObject* this_))
       FDecl(0x907a90, GetString, __thiscall const char* (*)(LuaObject* this_))
@@ -260,6 +251,55 @@ class Table {
       FDecl(0x9074b0, SetTableHelper, __thiscall void (*)(LuaObject* this_, const char*, const TObject&))
   }
 
+#define setnilvalue2n(obj) { TObject *i_o=(obj); i_o->tt=LUA_TNIL; }
+  class LuaObject
+  {// 0x14 bytes
+    public:
+      LuaObject* m_next;
+      LuaObject* m_prev;
+      LuaState* m_state;
+      TObject m_object;
+
+
+  //      LuaObject():
+  //       m_next(nullptr),
+  //       m_prev(nullptr),
+  //       m_state(nullptr)
+  //     {
+  //       setnilvalue2n(&m_object);
+  //     }
+
+  //      LuaObject(const LuaObject& other)
+  //     {
+  //       CLuaObject::CLuaObject4(this, other);
+  //     }
+
+  //   LuaObject& operator=(const LuaObject& src) throw()
+  //   {
+  //     RemoveFromUsedList();
+  //     CLuaObject::AddToUsedList2(this, src.m_state, src.m_object);
+  //     return *this;
+  //   }
+      
+  // inline void RemoveFromUsedList() noexcept
+  // {
+  //   if (m_state)
+  //   {
+  //     m_prev->m_next = m_next;
+  //     m_next->m_prev = m_prev;
+
+  //     setnilvalue2n(&m_object);
+  //   }
+  // }
+    
+  //   ~LuaObject()
+  //   {
+  //     RemoveFromUsedList();
+  //   }
+  };
+  VALIDATE_SIZE(LuaObject, 0x14)
+
+ 
   class LuaState
   {// 0x34 bytes
     public:
