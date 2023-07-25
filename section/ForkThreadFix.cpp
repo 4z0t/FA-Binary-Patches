@@ -1,6 +1,6 @@
 #include "include/moho.h"
 
-void FixForkThread()
+void ForkThreadCheckLuaFunction()
 {
     asm(
         "sub     esp, 0x28;"
