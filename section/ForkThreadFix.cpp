@@ -16,7 +16,7 @@ void ForkThreadCheckLuaFunction()
         "loc_907836: ;"
         "mov     ecx, [ecx+0x0C];"
         "xor     eax, eax;"
-        "cmp     ecx, 7;"
+        "cmp     ecx, 7;" // check for lua function
         "setz    al;"
         "add     esp, 0x28;"
         "ret;");
