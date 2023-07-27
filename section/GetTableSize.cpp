@@ -177,14 +177,8 @@ void _CloneTable(lua_State *l)
 
 int _Clone(lua_State *l)
 {
-    if (!lua_istable(l, 1))
-    {
-        lua_pushstring(l, "table expected");
-        lua_error(l);
-    }
-
     LuaState *ls = GetLuaState(l);
-    LuaObject tbl;
+    LuaObject tbl{};
     LuaStackObject a{ls, 1};
     CLuaObject::CLuaObject5(&tbl, &a);
     LuaObject cloneTbl{};
