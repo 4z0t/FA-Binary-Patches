@@ -185,15 +185,15 @@ int _Clone(lua_State *l)
 
     LuaState *ls = GetLuaState(l);
     LuaObject tbl{};
-    CLuaObject::AssignNewTable(&tbl, ls, 0, 0);
-    LuaObject cloneTbl{CLuaObject::Clone(&tbl)};
+    LuaStackObject a{ls, 1};
+    CLuaObject::CLuaObject5(&tbl, &a);
+    LuaObject cloneTbl{};
+    CLuaObject::Clone(&tbl, &cloneTbl);
     CLuaObject::PushStack(&cloneTbl, l, ls);
     CLuaObject::DLuaObject(&tbl);
     CLuaObject::DLuaObject(&cloneTbl);
     return 0;
 }
-
-#pragma GCC optimize("O3")
 // #define _VCRT_BUILD
 // #define _INC_MALLOC
 // #include <immintrin.h>

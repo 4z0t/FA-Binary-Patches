@@ -1,5 +1,7 @@
-struct FuncDesc {
-    char* Name; char* Ptr;
+struct FuncDesc
+{
+    char *Name;
+    char *Ptr;
 };
 
 FuncDesc Funcs[] = {
@@ -223,23 +225,23 @@ void FAExtLoad()
     VirtualProtect_t *VirtualProtect = GetProcAddress(Kernel, "VirtualProtect");
     void *ldll = LoadLibrary("FAExt.dll");
     if (ldll)
-    for (int i = 0; i < sizeof(Funcs) / sizeof(Funcs[0]); i++) {
-        char *FPtr = GetProcAddress(ldll, Funcs[i].Name);
-        //if (FPtr) {
+        for (int i = 0; i < sizeof(Funcs) / sizeof(Funcs[0]); i++)
+        {
+            char *FPtr = GetProcAddress(ldll, Funcs[i].Name);
+            // if (FPtr) {
             int OldProtect;
-            char* Ptr = Funcs[i].Ptr;
+            char *Ptr = Funcs[i].Ptr;
             VirtualProtect(Ptr, 5, 0x04, &OldProtect);
             *Ptr = (char)(0xE9);
-            *(int*)(Ptr+1) = FPtr - (unsigned int)(Ptr) - 5;
+            *(int *)(Ptr + 1) = FPtr - (unsigned int)(Ptr)-5;
             VirtualProtect(Ptr, 5, OldProtect, &OldProtect);
-        //}
-    }
+            //}
+        }
     asm(
         "ADD ESP,0x3C \n"
         "POP EBX \n"
         "POP ESI \n"
         "POP EDI \n"
         "POP EBP \n"
-        "JMP 0xA8ED7E \n"
-    );
+        "JMP 0xA8ED7E \n");
 }

@@ -27,8 +27,12 @@ Get debugging info about a Lua call:
 #define WDecl(addr, type) \
   ((type)*(uintptr_t*)addr)
 
+
+// template<typename RType, typename ...Args, size_t addr>
+// RType 
+
 #define FDecl(addr, name, type) \
-  const auto name = (type)addr;
+  static auto name = reinterpret_cast<type>(addr);
 
 #define VALIDATE_SIZE(struc, size) \
   static_assert(sizeof(struc) == size, "Invalid structure size of " #struc);
@@ -83,9 +87,9 @@ FDecl(0xA94450, strlen,		size_t (*)(const char *str))
 struct lua_State;
 class LuaState;
 
-FDecl(0x405550, InitString,	__thiscall void (*)(void *this_, const char *str))
-FDecl(0x4059E0, AssignString,	__thiscall void (*)(void *this_, const char *str, size_t size))
-FDecl(0x90A510, GetLuaState, __cdecl LuaState* (*)(lua_State* L))
+FDecl(0x405550, InitString,	 void (__thiscall*)(void *this_, const char *str))
+FDecl(0x4059E0, AssignString,	 void (__thiscall*)(void *this_, const char *str, size_t size))
+FDecl(0x90A510, GetLuaState,  LuaState* (__cdecl*)(lua_State* L))
 
 #define GetModuleHandle WDecl(0xC0F378, __stdcall void* (*)(const char *lpLibFileName))
 #define GetProcAddress  WDecl(0xC0F48C, __stdcall void* (*)(void* hModule, const char *lpProcName))
