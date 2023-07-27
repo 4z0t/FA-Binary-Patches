@@ -187,12 +187,12 @@ namespace CLuaObject
 {
 
     // public
-    FDecl(0x9072a0, CLuaObject, LuaObject *(__thiscall *)(LuaObject *this_));
-    FDecl(0x908970, CLuaObject2, LuaObject *(__thiscall *)(LuaObject *this_, LuaState *));
-    FDecl(0x9089c0, CLuaObject3, LuaObject *(__thiscall *)(LuaObject *this_, LuaState *, int));
-    FDecl(0x908a40, CLuaObject4, LuaObject *(__thiscall *)(LuaObject *this_, const LuaObject &));
-    FDecl(0x908a70, CLuaObject5, LuaObject *(__thiscall *)(LuaObject *this_, LuaStackObject *));
-    FDecl(0x9089f0, CLuaObject6, LuaObject *(__thiscall *)(LuaObject *this_, LuaState *, const TObject *));
+    FDecl(0x9072a0, CLuaObject, LuaObject &(__thiscall *)(LuaObject *this_));
+    FDecl(0x908970, CLuaObject2, LuaObject &(__thiscall *)(LuaObject *this_, LuaState *));
+    FDecl(0x9089c0, CLuaObject3, LuaObject &(__thiscall *)(LuaObject *this_, LuaState *, int));
+    FDecl(0x908a40, CLuaObject4, LuaObject &(__thiscall *)(LuaObject *this_, const LuaObject &));
+    FDecl(0x908a70, CLuaObject5, LuaObject &(__thiscall *)(LuaObject *this_, const LuaStackObject &));
+    FDecl(0x9089f0, CLuaObject6, LuaObject &(__thiscall *)(LuaObject *this_, LuaState *, const TObject *));
     FDecl(0x9075d0, DLuaObject, void(__thiscall *)(LuaObject *this_));
     FDecl(0x908ab0, EQ, LuaObject &(__thiscall *)(LuaObject *this_, const LuaObject &));
     FDecl(0x908b00, EQ2, LuaObject &(__thiscall *)(LuaObject *this_, const LuaStackObject &));
@@ -208,7 +208,7 @@ namespace CLuaObject
     FDecl(0x907370, IsString, bool(__thiscall *)(LuaObject *this_));
     FDecl(0x907310, IsTable, bool(__thiscall *)(LuaObject *this_));
     FDecl(0x907320, IsUserData, bool(__thiscall *)(LuaObject *this_));
-    FDecl(0x90a180, Clone, LuaObject *(__thiscall *)(LuaObject *this_, LuaObject *dest));
+    FDecl(0x90a180, Clone, LuaObject *(__thiscall *)(LuaObject *this_, LuaObject &dest));
     FDecl(0x908c10, CreateTable, LuaObject(__thiscall *)(LuaObject *this_, const char *, int, int));
     FDecl(0x908ca0, CreateTable2, LuaObject(__thiscall *)(LuaObject *this_, int, int, int));
     FDecl(0x908df0, GetByIndex, LuaObject(__thiscall *)(LuaObject *this_, int));
