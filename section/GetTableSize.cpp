@@ -181,7 +181,7 @@ int _Clone(lua_State *l)
     LuaObject tbl{};
     CLuaObject::CLuaObject3(&tbl, ls, 1);
     LuaObject cloneTbl{};
-    CLuaObject::Clone(&tbl, &cloneTbl);
+    CLuaObject::Clone(&tbl, cloneTbl);
     CLuaObject::PushStack2(&cloneTbl, l);
     CLuaObject::DLuaObject(&tbl);
     CLuaObject::DLuaObject(&cloneTbl);
