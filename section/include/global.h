@@ -67,21 +67,24 @@ Get debugging info about a Lua call:
 #define g_ExeVersion2 GDecl(0x87612d, const int)
 #define g_ExeVersion3 GDecl(0x4d3d40, const int)
 
-FDecl(0x937CB0, LogF, int (*)(const char *fmt, ...));
-FDecl(0x937D30, WarningF, int (*)(const char *fmt, ...));
-FDecl(0x937C30, SpewF, int (*)(const char *fmt, ...));
-FDecl(0x41C990, ConsoleLogF, int (*)(const char *fmt, ...));
-FDecl(0xA9B4E6, FileWrite, int (*)(int fileIndex, const char *str, int strlen)); // index 3 is log.
-FDecl(0xA825B9, shi_new, void *(*)(size_t size));
-FDecl(0x957B00, realloc, void *(*)(void *ptr, size_t new_size));
-FDecl(0x958B20, malloc, void *(*)(size_t size));
-FDecl(0x958C40, free, void (*)(void *ptr));
-FDecl(0x957EA0, msize, size_t (*)(void *memblock));
-FDecl(0x957AB0, calloc, void *(*)(size_t num, size_t size));
-FDecl(0xA89110, memset, void *(*)(void *dest, int ch, size_t count));
-FDecl(0xA89190, memcpy, void *(*)(void *dest, const void *src, size_t count));
-FDecl(0x452FC0, sqrtf, float (*)(float arg));
-FDecl(0xA94450, strlen, size_t (*)(const char *str));
+FDecl(0x9C4940, AbortF,		void (*)(wchar_t *fmt, ...))
+FDecl(0x937CB0, LogF,		int (*)(const char *fmt, ...))
+FDecl(0x937D30, WarningF,	int (*)(const char *fmt, ...))
+FDecl(0x937C30, SpewF,		int (*)(const char *fmt, ...))
+FDecl(0x41C990, ConsoleLogF,	int (*)(const char *fmt, ...))
+FDecl(0xA9B4E6, FileWrite,	int (*)(int fileIndex, const char *str, int strlen)) //index 3 is log.
+FDecl(0xA825B9, shi_new,	void* (*)(size_t size))
+FDecl(0x957B00, realloc,	void* (*)(void *ptr, size_t new_size))
+FDecl(0x958B20, malloc,		void* (*)(size_t size))
+FDecl(0x958C40, free,		void (*)(void *ptr))
+FDecl(0x957EA0, msize,		size_t (*)(void *memblock))
+FDecl(0x957AB0, calloc,		void* (*)(size_t num, size_t size))
+FDecl(0xA89110, memset,		void* (*)(void *dest, int ch, size_t count))
+FDecl(0xA89190, memcpy,		void* (*)(void *dest, const void *src, size_t count))
+FDecl(0x452FC0, sqrtf,		float (*)(float arg))
+FDecl(0xA94450, strlen,		size_t (*)(const char *str))
+FDecl(0xAA549E, strcmp,		int (*)(const char *str1, const char *str2))
+FDecl(0xA82F32, sprintf_s,	int (*)(char *Buffer, size_t BufferCount, const char *Format, ...))
 
 struct lua_State;
 class LuaState;
