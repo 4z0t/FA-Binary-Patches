@@ -178,13 +178,9 @@ void _CloneTable(lua_State *l)
 int _Clone(lua_State *l)
 {
     LuaState *ls = GetLuaState(l);
-    LuaObject tbl{};
-    CLuaObject::CLuaObject3(&tbl, ls, 1);
-    LuaObject cloneTbl{};
-    CLuaObject::Clone(&tbl, cloneTbl);
-    CLuaObject::PushStack2(&cloneTbl, l);
-    CLuaObject::DLuaObject(&tbl);
-    CLuaObject::DLuaObject(&cloneTbl);
+    LuaObject tbl{ls, 1};
+    LuaObject cloneTbl = tbl.Clone();
+    cloneTbl.PushStack(l);
     return 1;
 }
 // #define _VCRT_BUILD

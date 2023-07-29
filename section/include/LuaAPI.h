@@ -170,7 +170,14 @@ public:
 class RType
 {
 };
-
+class LuaState;
+class LuaStackObject
+{
+public:
+    LuaState *m_state;
+    int m_stackIndex;
+};
+VALIDATE_SIZE(LuaStackObject, 8)
   class LuaObject
   {// 0x14 bytes
     public:
@@ -238,7 +245,9 @@ class RType
         return ((__thiscall bool (*)(LuaObject*))0x907320)(this);
       }
       LuaObject Clone() {
-        return ((__thiscall LuaObject (*)(LuaObject*))0x90a180)(this);
+        LuaObject copy{};
+        ((__thiscall LuaObject (*)(LuaObject*, LuaObject*))0x90a180)(this, &copy);
+        return copy;
       }
       LuaObject CreateTable(const char* key, int narray, int lnhash) {
         return ((__thiscall LuaObject (*)(LuaObject*, const char*, int, int))0x908c10)(this, key, narray, lnhash);

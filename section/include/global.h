@@ -31,7 +31,7 @@ Get debugging info about a Lua call:
 // RType
 
 #define FDecl(addr, name, type) \
-    static const auto name = reinterpret_cast<type>(addr)
+    static const auto name = reinterpret_cast<type>(addr);
 
 #define VALIDATE_SIZE(struc, size) \
     static_assert(sizeof(struc) == size, "Invalid structure size of " #struc);
