@@ -399,8 +399,8 @@ class RType
       void TypeError(const char* msg) {
         ((__thiscall void (*)(LuaObject*, const char*))0x9072d0)(this, msg);
       }
-      __cdecl int Error(const char* msg, ...) {
-        return ((__cdecl int (*)(LuaObject*, const char*, ...))0x90c1d0)(this, msg, ...);
+      int Error(const char* fmt, ...) {
+        return ((__cdecl int (*)(LuaObject*, const char*, ...))0x90c1d0)(this, fmt, (uintptr_t*)fmt + 1);
       }
 
     //private
