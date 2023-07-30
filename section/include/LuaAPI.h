@@ -246,7 +246,7 @@ VALIDATE_SIZE(LuaStackObject, 8)
       }
       LuaObject Clone() {
         LuaObject copy{};
-        (( LuaObject (__thiscall*)(LuaObject*, LuaObject*))0x90a180)(this, &copy);
+        this->Clone(&copy);
         return copy;
       }
        void Clone(LuaObject* dest) {
