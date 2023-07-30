@@ -175,12 +175,11 @@ void _CloneTable(lua_State *l)
 {
 }
 
+
+//UI_Lua local t = {a = {1,2},b=4, 2,3} local nt = table.clone(t) LOG(t, nt) reprsl(nt)
 int _Clone(lua_State *l)
 {
-    LuaObject tbl{l->LuaState, 1};
-    LuaObject cloneTbl{};
-    tbl.Clone(&cloneTbl);
-    cloneTbl.PushStack(l);
+    LuaObject{l->LuaState, 1}.Clone().PushStack(l);
     return 1;
 }
 // #define _VCRT_BUILD
