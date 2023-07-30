@@ -3,7 +3,7 @@ OUTPUT(section.pe)
 SECTIONS {
   . = __image_base__ + 0x1000;
   .text : {
-    *(.text)
+    *(.text*)
     *(.data)
     *(.bss)
     *(.rdata)
@@ -11,7 +11,7 @@ SECTIONS {
   /DISCARD/ : {
     *(.text.startup)
     *(.rdata$zzz)
-    *(.eh_frame)
+    *(.eh_frame*)
     *(.ctors)
     *(.reloc)
   }

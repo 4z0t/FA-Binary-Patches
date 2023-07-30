@@ -182,22 +182,22 @@ VALIDATE_SIZE(LuaStackObject, 8)
   {// 0x14 bytes
     public:
       LuaObject() {
-        ((__thiscall LuaObject* (*)(LuaObject*))0x9072a0)(this);
+        ((__thiscall void(*)(LuaObject*))0x9072a0)(this);
       }
       LuaObject(LuaState* state) {
-        ((__thiscall LuaObject* (*)(LuaObject*, LuaState*))0x908970)(this, state);
+        ((__thiscall void (*)(LuaObject*, LuaState*))0x908970)(this, state);
       }
       LuaObject(LuaState* state, int index) {
-        ((__thiscall LuaObject* (*)(LuaObject*, LuaState*, int))0x9089c0)(this, state, index);
+        (( void (__thiscall *)(LuaObject*, LuaState*, int))0x9089c0)(this, state, index);
       }
       LuaObject(const LuaObject* obj) {
-        ((__thiscall LuaObject* (*)(LuaObject*, const LuaObject*))0x908a40)(this, obj);
+        ((__thiscall void (*)(LuaObject*, const LuaObject*))0x908a40)(this, obj);
       }
       LuaObject(const LuaStackObject* stack) {
-        ((__thiscall LuaObject* (*)(LuaObject*, const LuaStackObject*))0x908a70)(this, stack);
+        (( void (__thiscall*)(LuaObject*, const LuaStackObject*))0x908a70)(this, stack);
       }
       LuaObject(LuaState* state, const TObject* obj) {
-        ((__thiscall LuaObject* (*)(LuaObject*, LuaState*, const TObject*))0x9089f0)(this, state, obj);
+        ((__thiscall void (*)(LuaObject*, LuaState*, const TObject*))0x9089f0)(this, state, obj);
       }
       ~LuaObject() {
         ((__thiscall void (*)(LuaObject*))0x9075d0)(this);
@@ -246,8 +246,11 @@ VALIDATE_SIZE(LuaStackObject, 8)
       }
       LuaObject Clone() {
         LuaObject copy{};
-        ((__thiscall LuaObject (*)(LuaObject*, LuaObject*))0x90a180)(this, &copy);
+        (( LuaObject (__thiscall*)(LuaObject*, LuaObject*))0x90a180)(this, &copy);
         return copy;
+      }
+       void Clone(LuaObject* dest) {
+        (( void (__thiscall*)(LuaObject*, LuaObject*))0x90a180)(this, dest);
       }
       LuaObject CreateTable(const char* key, int narray, int lnhash) {
         return ((__thiscall LuaObject (*)(LuaObject*, const char*, int, int))0x908c10)(this, key, narray, lnhash);
@@ -423,10 +426,10 @@ VALIDATE_SIZE(LuaStackObject, 8)
         ((__thiscall void (*)(LuaObject*, const char*, const TObject*))0x9074b0)(this, key, value);
       }
 
-      LuaObject* m_next;
-      LuaObject* m_prev;
-      LuaState* m_state;
-      TObject m_object;
+     LuaObject* m_next;
+     LuaObject* m_prev;
+     LuaState* m_state;
+     TObject m_object;
   };
   VALIDATE_SIZE(LuaObject, 0x14)
 

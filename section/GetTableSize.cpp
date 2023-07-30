@@ -177,9 +177,9 @@ void _CloneTable(lua_State *l)
 
 int _Clone(lua_State *l)
 {
-    LuaState *ls = GetLuaState(l);
-    LuaObject tbl{ls, 1};
-    LuaObject cloneTbl = tbl.Clone();
+    LuaObject tbl{l->LuaState, 1};
+    LuaObject cloneTbl{};
+    tbl.Clone(&cloneTbl);
     cloneTbl.PushStack(l);
     return 1;
 }
