@@ -171,7 +171,7 @@ int GetTableArrayAndHashSizes(lua_State *l)
     return 2;
 }
 
-void _CloneTable(LuaObject *dest, LuaObject *source, LuaState *s)
+void SCR_Copy(LuaObject *dest, LuaObject *source, LuaState *s)
 {
     reinterpret_cast<void(__cdecl *)(LuaObject *, LuaObject *, LuaState *)>(0x004D26D0)(dest, source, s);
 }
@@ -183,7 +183,7 @@ int _Clone(lua_State *l)
 {
     LuaObject source{l->LuaState, 1};
     LuaObject dest{};
-    _CloneTable(&dest, &source, l->LuaState);
+    SCR_Copy(&dest, &source, l->LuaState);
     dest.PushStack(l);
     return 1;
 }
