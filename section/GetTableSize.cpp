@@ -171,15 +171,20 @@ int GetTableArrayAndHashSizes(lua_State *l)
     return 2;
 }
 
-void _CloneTable(lua_State *l)
+void _CloneTable(LuaObject *dest, LuaObject *source, LuaState *s)
 {
+    reinterpret_cast<void(__cdecl *)(LuaObject *, LuaObject *, LuaState *)>(0x004D26D0)(dest, source, s);
 }
-
-
-//UI_Lua local t = {a = {1,2},b=4, 2,3} local nt = table.clone(t) LOG(t, nt) reprsl(nt)
+// 0x0090a7af
+//     attempted to read memory at 0x56500005
+// UI_Lua local t = {a = {1,2},b=4, 2,3} local nt = table.clone(t) LOG(t, nt) reprsl(nt)
+// UI_Lua local t = {a = {1,2},b=4, 2,3} t[6]=t local nt = table.clone(t) LOG(t, nt) reprsl(nt)
 int _Clone(lua_State *l)
 {
-    LuaObject{l->LuaState, 1}.Clone().PushStack(l);
+    LuaObject source{l->LuaState, 1};
+    LuaObject dest{};
+    _CloneTable(&dest, &source, l->LuaState);
+    dest.PushStack(l);
     return 1;
 }
 // #define _VCRT_BUILD
