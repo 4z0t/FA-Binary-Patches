@@ -4,8 +4,8 @@ void CheckUserUnit()
 {
     asm(
         "push edi;"
-        "mov eax, [esp+0x0C];"
-        "mov edi, [esp+0x10];"
+        "mov eax, [esp+0x8];"
+        "mov edi, [esp+0xC];"
         "call 0x00822B80;"
         "pop edi;"
         "ret;");
