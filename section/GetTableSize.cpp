@@ -175,8 +175,6 @@ void SCR_Copy(LuaObject *dest, LuaObject *source, LuaState *s)
 {
     reinterpret_cast<void(__cdecl *)(LuaObject *, LuaObject *, LuaState *)>(0x004D26D0)(dest, source, s);
 }
-// 0x0090a7af
-//     attempted to read memory at 0x56500005
 // UI_Lua local t = {a = {1,2},b=4, 2,3} local nt = table.clone(t) LOG(t, nt) reprsl(nt)
 // UI_Lua local t = {a = {1,2},b=4, 2,3} t[6]=t local nt = table.clone(t) LOG(t, nt) reprsl(nt)
 int _Clone(lua_State *l)
