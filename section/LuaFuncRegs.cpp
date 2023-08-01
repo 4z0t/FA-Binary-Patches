@@ -95,10 +95,19 @@ luaFuncDescReg UUserUnitGetInterpolatedPosition = {0x00E4DA64,
                                                    GetInterpolatedPosition,
                                                    0x00F8D89C};
 
+int GetFractionComplete(lua_State *l);
+luaFuncDescReg UUserUnitGetFractionComplete = {0x00E4DA64,
+                                                   "GetFractionComplete",
+                                                   "UserUnit",
+                                                   "UserUnit:GetFractionComplete()",
+                                                   &UUserUnitGetInterpolatedPosition,
+                                                   GetFractionComplete,
+                                                   0x00F8D89C};
+
 luaFuncDescReg UGDAPRegDesc = {0x00E45E90, // UI chain entry
                                s_GDAPName,
                                0x00E00D90,
                                s_GDAPDesc,
-                               &UUserUnitGetInterpolatedPosition, // Next reg desc
+                               &UUserUnitGetFractionComplete, // Next reg desc
                                SimGetDepositsAroundPoint,
                                0x00000000};
