@@ -411,10 +411,7 @@ VALIDATE_SIZE(LuaStackObject, 8)
       void TypeError(const char* msg) {
         ((__thiscall void (*)(LuaObject*, const char*))0x9072d0)(this, msg);
       }
-      int Error(const char* fmt, ...) {
-        return ((__cdecl int (*)(LuaObject*, const char*, ...))0x90c1d0)(this, fmt, (uintptr_t*)fmt + 1);
-      }
-
+    
     //private
       void AddToUsedList(LuaState* state) {
         ((__thiscall void (*)(LuaObject*, LuaState*))0x908890)(this, state);
@@ -471,6 +468,11 @@ VALIDATE_SIZE(LuaStackObject, 8)
       void CheckAny(int narg) {
         ((__thiscall void (*)(LuaState*, int))0x923f20)(this, narg);
       }
+
+      int Error(const char* fmt, ...) {
+        return ((__cdecl int (*)(LuaState*, const char*, ...))0x90c1d0)(this, fmt, (uintptr_t*)fmt + 1);
+      }
+
 
     //private
       void Init(enum StandardLibraries libs) {
