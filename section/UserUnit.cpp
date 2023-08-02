@@ -24,6 +24,11 @@ namespace Moho
         {
             return *((void **)unit + 11);
         }
+
+        inline void* GetUserUnit(LuaObject * obj, LuaState *luaState)
+        {
+            return reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(obj, luaState);
+        }
     } // namespace UserUnit
 
 }
@@ -35,6 +40,7 @@ int GetInterpolatedPosition(lua_State *l)
         l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
     LuaObject unitObject{l->LuaState, 1};
+    //float *unit = (float *)Moho::UserUnit::GetUserUnit(&unitObject, l->LuaState);
     float *unit = (float *)reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(&unitObject, l->LuaState);
     if (unit == nullptr)
         return 0;
@@ -50,6 +56,8 @@ int GetInterpolatedPosition(lua_State *l)
 // UI_Lua LOG(GetSelectedUnits()[1].GetInterpolatedPosition)
 // UI_Lua LOG(GetSelectedUnits()[1].GetInterpolatedPosition())
 // UI_Lua LOG(GetSelectedUnits()[1]:GetInterpolatedPosition())
+// UI_Lua LOG(GetSelectedUnits()[1].GetInterpolatedPosition{})--crash
+// UI_Lua LOG(GetSelectedUnits()[1].GetInterpolatedPosition(GetCamera"WorldCamera"))--crash
 
 int GetFractionComplete(lua_State *l)
 {
@@ -67,3 +75,4 @@ int GetFractionComplete(lua_State *l)
 // UI_Lua LOG(GetSelectedUnits()[1].GetFractionComplete)
 // UI_Lua LOG(GetSelectedUnits()[1].GetFractionComplete())
 // UI_Lua LOG(GetSelectedUnits()[1]:GetFractionComplete())
+// UI_Lua LOG(GetSelectedUnits()[1].GetFractionComplete{})--crash
