@@ -4,8 +4,8 @@ SECTIONS {
   . = __image_base__ + 0x1000;
   .text : {
     *(.text*)
-    *(.data)
-    *(.bss)
+    *(.data*)
+    *(.bss*)
     *(.rdata)
   }
   /DISCARD/ : {
