@@ -31,6 +31,15 @@ namespace Moho
         }
     } // namespace UserUnit
 
+    namespace MeshInstance
+    {
+        inline void UpdateInterpolatedTransform(void* mesh)
+        {
+            reinterpret_cast<void(__stdcall*)(void*)>(0x007DEC80)(mesh);
+        }
+    } // namespace MeshInstance
+    
+
 }
 
 int GetInterpolatedPosition(lua_State *l)
@@ -47,7 +56,7 @@ int GetInterpolatedPosition(lua_State *l)
     float *mesh = (float*)Moho::UserUnit::GetMeshInstance(unit);
     if (mesh == nullptr)
         return 0;
-    reinterpret_cast< void(__stdcall*)(void*)>(0x007DEC80)(mesh);
+    Moho::MeshInstance::UpdateInterpolatedTransform(mesh);
     lua_pushnumber(l, mesh[34]);
     lua_pushnumber(l, mesh[35]);
     lua_pushnumber(l, mesh[36]);
