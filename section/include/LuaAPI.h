@@ -469,8 +469,8 @@ VALIDATE_SIZE(LuaStackObject, 8)
         ((__thiscall void (*)(LuaState*, int))0x923f20)(this, narg);
       }
 
-      int Error(const char* fmt, ...) {
-        return ((__cdecl int (*)(LuaState*, const char*, ...))0x90c1d0)(this, fmt, (uintptr_t*)fmt + 1);
+     __attribute__((noinline)) __cdecl int Error(const char* fmt, ...) {
+        asm("jmp 0x90c1d0;");
       }
 
 

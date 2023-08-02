@@ -32,9 +32,7 @@ int GetInterpolatedPosition(lua_State *l)
 {
     if (lua_gettop(l) != 1)
     {
-        // l->LuaState->Error("%s\n  expected %d args, but got %d", __FUNCTION__, 1, lua_gettop(l));
-        lua_pushstring(l, "Хуйло не так вызвал");
-        lua_error(l);
+        l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
     LuaObject unitObject{l->LuaState, 1};
     float *unit = (float *)reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(&unitObject, l->LuaState);
@@ -57,9 +55,7 @@ int GetFractionComplete(lua_State *l)
 {
     if (lua_gettop(l) != 1)
     {
-        // l->LuaState->Error("%s\n  expected %d args, but got %d", __FUNCTION__, 1, lua_gettop(l));
-        lua_pushstring(l, "Хуйло не так вызвал");
-        lua_error(l);
+        l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
     LuaObject unitObject{l->LuaState, 1};
     void *unit = reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(&unitObject, l->LuaState);
@@ -68,3 +64,6 @@ int GetFractionComplete(lua_State *l)
     lua_pushnumber(l, Moho::UserUnit::GetFractionComplete(unit));
     return 1;
 }
+// UI_Lua LOG(GetSelectedUnits()[1].GetFractionComplete)
+// UI_Lua LOG(GetSelectedUnits()[1].GetFractionComplete())
+// UI_Lua LOG(GetSelectedUnits()[1]:GetFractionComplete())

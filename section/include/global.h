@@ -2,6 +2,7 @@
 
 #include "../../workflow.cpp"
 #include <cstdint>
+#include "strings.h"
 /*
 GetClassNamePtr -> [[[Self]-4]+C]+8
 GetParentClassNamePtr -> [[[[Self]-4]+24+1*4]]+8
