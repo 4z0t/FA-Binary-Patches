@@ -45,7 +45,7 @@ Get debugging info about a Lua call:
 #define g_CAiBrainTypeInfo GDecl(0x10C6FA0, CAiBrainTypeInfo *)
 #define g_CUIManager GDecl(0x10A6450, CUIManager *)
 #define g_EngineStats GDecl(0x10A67B8, EngineStats *)
-#define g_WRenViewport GDecl(0x10C7C28, WRenViewport *)
+#define g_WRenViewport GDecl(0x10A6428, WRenViewport *)
 #define g_ConsoleLuaState GDecl(0x10A6478, LuaState *)
 #define g_Device GDecl(0x0F8E284, Device *)
 
