@@ -110,7 +110,7 @@ luaFuncDescReg DrawRectDesc = {0x00E45E90, // UI chain entry
                                0x00E00D90,
                                "DrawRect()",
                                &UUserUnitGetFractionComplete, // Next reg desc
-                               DrawRect,
+                               LuaDrawRect,
                                0x00000000};
 
 luaFuncDescReg UGDAPRegDesc = {0x00E45E90, // UI chain entry

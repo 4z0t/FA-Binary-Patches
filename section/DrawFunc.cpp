@@ -17,18 +17,18 @@ void _DrawRect()
 
         "push ecx;"
         "push edi;"
-        "lea ecx,   [ebp+ 0x08];" // vec3_2
+        "mov ecx,   [ebp+ 0x08];" // vec3_2
         "mov edi,   [ebp+ 0x0C];" // int
         "movss xmm0,[ebp+ 0x10];" // float_1
         "mov eax, [ebp + 0x20];"  // float_2
         "push eax;"
         "mov eax, [ebp + 0x1C];" // heightmap
         "push eax;"
-        "lea eax, [ebp + 0x18];" // vec3_3
+        "mov eax, [ebp + 0x18];" // vec3_3
         "push eax;"
         "mov eax, [ebp + 0x14];" // batcher
         "push eax;"
-        "lea eax,   [ebp+ 0x04];" // vec3_1
+        "mov eax,   [ebp+ 0x04];" // vec3_1
         "call 0x00455480;"
         "add esp, 0x10;"
         "pop edi;"
@@ -52,12 +52,13 @@ int LuaDrawRect(lua_State *l)
 {
     LuaState* ls = l->LuaState;
 
-    int *batcher = *(int **)(g_WRenViewport + 2135);
+    int *batcher = (int*)(0x112D6140);//(int *)(g_WRenViewport + 2135);
     if (batcher == nullptr)
     {
         WarningF("%s","LOX");
         return 0;
     }
+    LogF("%p", batcher);
     float a[]{0, 0, 0};
     float b[]{255, 255, 0};
     float c[]{0, 255, 0};
