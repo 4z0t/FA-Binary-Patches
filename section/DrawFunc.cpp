@@ -1,6 +1,6 @@
 #include "include/moho.h"
 
-// 455480
+// UI_Lua DrawRect()
 void _DrawRect()
 /*
     eax vec3_1
@@ -14,19 +14,25 @@ void _DrawRect()
 */
 {
     asm(
-        "mov eax, [esp+  0x04];" // vec3_1
-        "mov [esp+  0x04], ecx;"
-        "mov ecx, [esp+ 0x08];" // vec3_2
-        "mov [esp+  0x08], edi;"
-        "mov edi, [esp+ 0x0C];"    // int
-        "movss xmm0, [esp+ 0x10];" // float_1
 
-        
-        "add esp, 0x10;"
+        "push ecx;"
+        "push edi;"
+        "lea ecx,   [ebp+ 0x08];" // vec3_2
+        "mov edi,   [ebp+ 0x0C];" // int
+        "movss xmm0,[ebp+ 0x10];" // float_1
+        "mov eax, [ebp + 0x20];"  // float_2
+        "push eax;"
+        "mov eax, [ebp + 0x1C];" // heightmap
+        "push eax;"
+        "lea eax, [ebp + 0x18];" // vec3_3
+        "push eax;"
+        "mov eax, [ebp + 0x14];" // batcher
+        "push eax;"
+        "lea eax,   [ebp+ 0x04];" // vec3_1
         "call 0x00455480;"
-        "sub esp, 0x10;"
-        "mov ecx, [esp+  0x04];"
-        "mov edi, [esp+  0x08];");
+        "add esp, 0x10;"
+        "pop edi;"
+        "pop ecx;");
 }
 
 inline int DrawRect(
@@ -44,16 +50,17 @@ inline int DrawRect(
 
 int LuaDrawRect(lua_State *l)
 {
-    LuaState ls = l->LuaState;
+    LuaState* ls = l->LuaState;
 
-    // int *batcher = (int *)(g_WRenViewport + 2135);
-    // if (batcher == nullptr)
-    // {
-    //     return 0;
-    // }
+    int *batcher = *(int **)(g_WRenViewport + 2135);
+    if (batcher == nullptr)
+    {
+        WarningF("%s","LOX");
+        return 0;
+    }
     float a[]{0, 0, 0};
     float b[]{255, 255, 0};
     float c[]{0, 255, 0};
-    DrawRect(a, b, -65281, 5.0f, 0, c, 0, -1000);
+    DrawRect(a, b, -65281, 5.0f, batcher, c, 0, -1000.0f);
     return 0;
 }
