@@ -1,6 +1,5 @@
 #include "include/moho.h"
 
-// UI_Lua DrawRect()
 void _DrawRect()
 /*
     eax vec3_1
@@ -14,25 +13,28 @@ void _DrawRect()
 */
 {
     asm(
-
+        "offset = 0x04;"
+        "push ebp;"
+        "mov ebp, esp;"
         "push ecx;"
         "push edi;"
-        "mov ecx,   [ebp+ 0x08];" // vec3_2
-        "mov edi,   [ebp+ 0x0C];" // int
-        "movss xmm0,[ebp+ 0x10];" // float_1
-        "mov eax, [ebp + 0x20];"  // float_2
+        "mov ecx,   [ebp + 0x04 + 0x08];" // vec3_2
+        "mov edi,   [ebp + 0x04 + 0x0C];" // int
+        "movss xmm0,[ebp + 0x04 + 0x10];" // float_1
+        "mov eax,   [ebp + 0x04 + 0x20];"  // float_2
         "push eax;"
-        "mov eax, [ebp + 0x1C];" // heightmap
+        "mov eax,   [ebp + 0x04 + 0x1C];" // heightmap
         "push eax;"
-        "mov eax, [ebp + 0x18];" // vec3_3
+        "mov eax,   [ebp + 0x04 + 0x18];" // vec3_3
         "push eax;"
-        "mov eax, [ebp + 0x14];" // batcher
+        "mov eax,   [ebp + 0x04 + 0x14];" // batcher
         "push eax;"
-        "mov eax,   [ebp+ 0x04];" // vec3_1
+        "mov eax,   [ebp + 0x04 + 0x04];" // vec3_1
         "call 0x00455480;"
         "add esp, 0x10;"
         "pop edi;"
-        "pop ecx;");
+        "pop ecx;"
+        "pop ebp;");
 }
 
 inline int DrawRect(
@@ -47,21 +49,23 @@ inline int DrawRect(
 {
     return reinterpret_cast<int (*)(float *, float *, int, float, int *, float *, int *, float)>(_DrawRect)(v1, v2, i, f1, batcher, v3, heightmap, f2);
 }
-
+// UI_Lua DrawRect()
 int LuaDrawRect(lua_State *l)
 {
-    LuaState* ls = l->LuaState;
+    LuaState *ls = l->LuaState;
 
-    int *batcher = (int*)(0x112D6140);//(int *)(g_WRenViewport + 2135);
+    //   int *batcher = (int*)(0x112D6140);//(int *)(g_WRenViewport + 2135);
+    int **batcher = (int **)(((int *)g_WRenViewport) + 2135);
     if (batcher == nullptr)
     {
-        WarningF("%s","LOX");
+        WarningF("%s", "LOX");
         return 0;
     }
     LogF("%p", batcher);
+    LogF("%p", *batcher);
     float a[]{0, 0, 0};
     float b[]{255, 255, 0};
     float c[]{0, 255, 0};
-    DrawRect(a, b, -65281, 5.0f, batcher, c, 0, -1000.0f);
+    DrawRect(a, b, -65281, 5.0f, *batcher, c, 0, -1000.0f);
     return 0;
 }
