@@ -49,14 +49,35 @@ inline int DrawRect(
     return reinterpret_cast<int (*)(float *, float *, unsigned int, float, int *, float *, void *, float)>(_DrawRect)(v1, v2, i, f1, batcher, v3, heightmap, f2);
 }
 
-//#define ui_Terrain GDecl(0x010A6438, void *)
-#define ui_WldMap GDecl(0x010C4F58, void *)
-
 void FlushBatcher(void *batcher)
 {
     reinterpret_cast<void (*)(void *)>(0x0043A140)(batcher);
-    asm("add esp, 4;");
+    asm("add esp,4;");
 }
+
+void ResetBatcher(void *batcher)
+{
+    *(char *)((int *)batcher + 285) = 0;
+}
+
+namespace Moho
+{
+    int *D3D_GetDevice()
+    {
+        return reinterpret_cast<int *(*)()>(0x00430590)();
+    }
+
+    void SetupDevice(int *device, const char *target, const char *mode)
+    {
+        (*(void(__thiscall **)(int *, const char *))(*device + 80))(device, target);
+        (*(void(__thiscall **)(int *, const char *))(*device + 84))(device, mode);
+    }
+
+    //"primbatcher"
+
+    //"TAlphaBlendLinearSampleNoDepth"
+
+} // namespace Moho
 
 namespace IWldTerrainRes
 {
@@ -77,21 +98,21 @@ namespace IWldTerrainRes
 
 } // namespace  IWldTerrainRes
 
+#define DebugLog(_s) LogF("%s", (_s))
+
 // UI_Lua DrawRect()
 int LuaDrawRect(lua_State *l)
 {
     LuaState *ls = l->LuaState;
 
-    //   int *batcher = (int*)(0x112D6140);//(int *)(g_WRenViewport + 2135);
     int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
     if (batcher == nullptr)
     {
         WarningF("%s", "LOX");
         return 0;
     }
-    // LogF("%p", batcher);
-    // LogF("%p", *batcher);
-    float a[]{0, 0, 8};
+
+    float a[]{0, 8, 0};
     float b[]{8, 0, 0};
     float c[]{653.5, 18.77, 168.5};
     void *wldmap = IWldTerrainRes::GetWldMap();
@@ -99,8 +120,19 @@ int LuaDrawRect(lua_State *l)
     if (!terrain)
         return 0;
     void *map = IWldTerrainRes::GetMap(terrain);
-    LogF("%s", "Here!");
-    DrawRect(a, b, 0xFF00FF00, 0.03, batcher, c, map, 17.5);
-    // FlushBatcher(batcher);
+    DebugLog("Here!");
+
+    //int *device = Moho::D3D_GetDevice();
+    //(*(void(__thiscall **)(int *))(*device + 4))(device);
+    //Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
+
+    DebugLog("after setup");
+    //ResetBatcher(batcher);
+    DebugLog("after reset");
+    DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
+    DebugLog("after draw");
+    FlushBatcher(batcher);
+    DebugLog("after flush");
+    //(*(void(__thiscall **)(int *))(*device + 4))(device);
     return 0;
 }
