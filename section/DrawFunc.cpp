@@ -152,6 +152,9 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     int *device = Moho::D3D_GetDevice();
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
+    
+    int *a3 = *(int **)((int)_this + 4);
+    int projmatrix = (*(int(__thiscall **)(int *))(*a3 + 8))(a3);
 
     ResetBatcher(batcher);
     DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
@@ -162,6 +165,7 @@ void CustomDrawEnter()
 {
     asm(
         "push edi;"
+        "mov ecx, esi;"
         "call %[CustomDraw];"
         //"add esp, 4;"
         "pop     edi;" // as done in original code
