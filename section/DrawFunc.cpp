@@ -46,22 +46,25 @@ inline int DrawRect(
     void *heightmap,
     float f2)
 {
-    return reinterpret_cast<int (*)(float *, float *, unsigned int, float, int *, float *, void *, float)>(_DrawRect)(v1, v2, i, f1, batcher, v3, heightmap, f2);
-}
-
-void FlushBatcher(void *batcher)
-{
-    reinterpret_cast<void (*)(void *)>(0x0043A140)(batcher);
-    asm("add esp,4;");
-}
-
-void ResetBatcher(void *batcher)
-{
-    *(char *)((int *)batcher + 285) = 0;
+    return reinterpret_cast<int (*)(float *, float *, unsigned int, float, void *, float *, void *, float)>(_DrawRect)(v1, v2, i, f1, batcher, v3, heightmap, f2);
 }
 
 namespace Moho
 {
+    namespace CPrimBatcher
+    {
+        void FlushBatcher(void *batcher)
+        {
+            reinterpret_cast<void (*)(void *)>(0x0043A140)(batcher);
+            asm("add esp,4;");
+        }
+
+        void ResetBatcher(void *batcher)
+        {
+            *(char *)((int *)batcher + 285) = 0;
+        }
+    } // namespace CPrimBatcher
+
     int *D3D_GetDevice()
     {
         return reinterpret_cast<int *(*)()>(0x00430590)();
@@ -127,11 +130,11 @@ int LuaDrawRect(lua_State *l)
     // Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
 
     DebugLog("after setup");
-    // ResetBatcher(batcher);
+    //  Moho::CPrimBatcher::ResetBatcher(batcher);
     DebugLog("after reset");
     DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
     DebugLog("after draw");
-    FlushBatcher(batcher);
+    Moho::CPrimBatcher::FlushBatcher(batcher);
     DebugLog("after flush");
     //(*(void(__thiscall **)(int *))(*device + 4))(device);
     return 0;
@@ -152,13 +155,13 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     int *device = Moho::D3D_GetDevice();
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
-    
+
     int *a3 = *(int **)((int)_this + 4);
     int projmatrix = (*(int(__thiscall **)(int *))(*a3 + 8))(a3);
 
-    ResetBatcher(batcher);
+    Moho::CPrimBatcher::ResetBatcher(batcher);
     DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
-    FlushBatcher(batcher);
+    Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
 void CustomDrawEnter()
