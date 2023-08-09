@@ -122,12 +122,12 @@ int LuaDrawRect(lua_State *l)
     void *map = IWldTerrainRes::GetMap(terrain);
     DebugLog("Here!");
 
-    //int *device = Moho::D3D_GetDevice();
+    // int *device = Moho::D3D_GetDevice();
     //(*(void(__thiscall **)(int *))(*device + 4))(device);
-    //Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
+    // Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
 
     DebugLog("after setup");
-    //ResetBatcher(batcher);
+    // ResetBatcher(batcher);
     DebugLog("after reset");
     DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
     DebugLog("after draw");
@@ -135,4 +135,25 @@ int LuaDrawRect(lua_State *l)
     DebugLog("after flush");
     //(*(void(__thiscall **)(int *))(*device + 4))(device);
     return 0;
+}
+
+void CustomDraw(void* batcher)
+{
+    
+}
+
+void CustomDrawEnter()
+{
+    asm(
+        "push edi;"
+        "call %[CustomDraw];"
+        "pop     edi;" // as done in original code
+        "pop     esi;"
+        "pop     ebx;"
+        "mov     esp, ebp;"
+        "jmp     0x86EF30;" // jump back
+        :
+        :[CustomDraw] "i" (CustomDraw)
+        :
+    );
 }
