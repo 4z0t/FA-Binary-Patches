@@ -41,7 +41,7 @@ inline int DrawRect(
     float *v2,
     unsigned int i,
     float f1,
-    int *batcher,
+    void *batcher,
     float *v3,
     void *heightmap,
     float f2)
@@ -137,9 +137,25 @@ int LuaDrawRect(lua_State *l)
     return 0;
 }
 
-void CustomDraw(void* batcher)
+void __thiscall CustomDraw(void *_this, void *batcher)
 {
-    
+    float a[]{0, 0, 8};
+    float b[]{8, 0, 0};
+    float c[]{653.5, 18.77, 168.5};
+    void *wldmap = IWldTerrainRes::GetWldMap();
+    void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
+    if (!terrain)
+        return;
+    void *map = IWldTerrainRes::GetMap(terrain);
+    if (!map)
+        return;
+
+    int *device = Moho::D3D_GetDevice();
+    Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
+
+    ResetBatcher(batcher);
+    DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
+    FlushBatcher(batcher);
 }
 
 void CustomDrawEnter()
@@ -147,13 +163,13 @@ void CustomDrawEnter()
     asm(
         "push edi;"
         "call %[CustomDraw];"
+        //"add esp, 4;"
         "pop     edi;" // as done in original code
         "pop     esi;"
         "pop     ebx;"
         "mov     esp, ebp;"
         "jmp     0x86EF30;" // jump back
         :
-        :[CustomDraw] "i" (CustomDraw)
-        :
-    );
+        : [CustomDraw] "i"(CustomDraw)
+        :);
 }
