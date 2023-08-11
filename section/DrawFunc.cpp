@@ -36,18 +36,30 @@ void _DrawRect()
         "pop ebp;");
 }
 
-inline int DrawRect(
-    float *v1,
-    float *v2,
+int DrawRect(
+    Vector3f v1,
+    Vector3f v2,
     unsigned int i,
     float f1,
     void *batcher,
-    float *v3,
+    Vector3f v3,
     void *heightmap,
     float f2)
 {
-    return reinterpret_cast<int (*)(float *, float *, unsigned int, float, void *, float *, void *, float)>(_DrawRect)(v1, v2, i, f1, batcher, v3, heightmap, f2);
+    return reinterpret_cast<int (*)(Vector3f *, Vector3f *, unsigned int, float, void *, Vector3f *, void *, float)>(_DrawRect)(&v1, &v2, i, f1, batcher, &v3, heightmap, f2);
 }
+
+// int DrawRect(
+//     Vector3f v1,
+//     Vector3f v2,
+//     unsigned int i,
+//     float f1,
+//     void *batcher,
+//     Vector3f v3,
+//     float f2)
+// {
+//     return reinterpret_cast<int (*)(Vector3f *, Vector3f *, unsigned int, float, void *, Vector3f *, int, float)>(_DrawRect)(&v1, &v2, i, f1, batcher, &v3, 0, f2);
+// }
 
 namespace Moho
 {
@@ -78,7 +90,7 @@ namespace Moho
 
         void __stdcall FromSolidColor(Texture *t, unsigned int color)
         {
-            reinterpret_cast<void (*)(Texture *, unsigned int)>(0x4478C0)(t, color);
+            reinterpret_cast<void *(*)(Texture *, unsigned int)>(0x4478C0)(t, color);
         }
 
         void _SetTexture()
@@ -95,7 +107,7 @@ namespace Moho
 
         void __stdcall SetTexture(void *batcher, Texture *texture)
         {
-            reinterpret_cast<void (*)(Texture *, void *)>(_SetTexture)(texture, batcher);
+            reinterpret_cast<void *(*)(Texture *, void *)>(_SetTexture)(texture, batcher);
         }
 
         void _SetViewProjMatrix()
@@ -104,7 +116,7 @@ namespace Moho
                 "push ebx;"
                 "mov ebx, [esp+0x0C];" // matrix
                 "push ebx;"
-                "mov ebx, [esp+0x0C];"// batcher
+                "mov ebx, [esp+0x0C];" // batcher
                 "call 0x4385F0;"
                 //"add esp, 4;"
                 "pop ebx;");
@@ -183,7 +195,7 @@ int LuaDrawRect(lua_State *l)
     DebugLog("after setup");
     //  Moho::CPrimBatcher::ResetBatcher(batcher);
     DebugLog("after reset");
-    DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
+    // DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
     DebugLog("after draw");
     Moho::CPrimBatcher::FlushBatcher(batcher);
     DebugLog("after flush");
@@ -206,15 +218,17 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     int *camera = *(int **)((int)_this + 4);
     void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
+    // LogF("%p", projmatrix);
+    // LogF("%p", map);
     Moho::CPrimBatcher::ResetBatcher(batcher);
-    Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
+    // Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
     Moho::CPrimBatcher::Texture t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
-    float a[]{0, 0, 8};
-    float b[]{8, 0, 0};
-    float c[]{653.5f, 18.77f, 168.5f};
-    DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, map, 17.5f);
+    Vector3f a{0, 0, 8};
+    Vector3f b{8, 0, 0};
+    Vector3f c{653.5f, 18.77f, 168.5f};
+    DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, map, -10000);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
