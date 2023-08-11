@@ -93,43 +93,26 @@ namespace Moho
             reinterpret_cast<void *(*)(Texture *, unsigned int)>(0x4478C0)(t, color);
         }
 
-        void _SetTexture()
-        {
-            asm(
-                "push ebx;"
-                "push edi;"
-                "mov ebx, [esp+0x0C];"
-                "mov edi, [esp+0x10];"
-                "call 0x4386A0;"
-                "pop edi;"
-                "pop ebx;"
-                :
-                :
-                : "edx");
-        }
-
         void __stdcall SetTexture(void *batcher, Texture *texture)
         {
-            reinterpret_cast<void *(*)(Texture *, void *)>(_SetTexture)(texture, batcher);
-        }
-
-        void _SetViewProjMatrix()
-        {
             asm(
-                "push ebx;"
-                "mov ebx, [esp+0xC];" // matrix
-                "push ebx;"
-                "mov ebx, [esp+0xC];" // batcher
-                "call 0x4385F0;"
-                "pop ebx;"
+                "mov ebx, %[batcher];"
+                "mov edi, %[texture];"
+                "call 0x4386A0;"
                 :
-                :
-                : "edx");
+                : [batcher] "rm"(batcher), [texture] "rm"(texture)
+                : "edx", "edi", "ebx");
         }
 
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
         {
-            reinterpret_cast<void (*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
+            asm(
+                "push %[matrix];"
+                "mov ebx, %[batcher];"
+                "call 0x4385F0;"
+                :
+                : [batcher] "rm"(batcher), [matrix] "rm"(matrix)
+                : "edx", "ebx");
         }
     } // namespace CPrimBatcher
 
@@ -143,11 +126,6 @@ namespace Moho
         (*(void(__thiscall **)(int *, const char *))(*device + 80))(device, target);
         (*(void(__thiscall **)(int *, const char *))(*device + 84))(device, mode);
     }
-
-    //"primbatcher"
-
-    //"TAlphaBlendLinearSampleNoDepth"
-
 } // namespace Moho
 
 namespace IWldTerrainRes
