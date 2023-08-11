@@ -102,7 +102,10 @@ namespace Moho
                 "mov edi, [esp+0x10];"
                 "call 0x4386A0;"
                 "pop edi;"
-                "pop ebx;");
+                "pop ebx;"
+                :
+                :
+                : "edx");
         }
 
         void __stdcall SetTexture(void *batcher, Texture *texture)
@@ -114,12 +117,14 @@ namespace Moho
         {
             asm(
                 "push ebx;"
-                "mov ebx, [esp+0x0C];" // matrix
+                "mov ebx, [esp+0xC];" // matrix
                 "push ebx;"
-                "mov ebx, [esp+0x0C];" // batcher
+                "mov ebx, [esp+0xC];" // batcher
                 "call 0x4385F0;"
-                //"add esp, 4;"
-                "pop ebx;");
+                "pop ebx;"
+                :
+                :
+                : "edx");
         }
 
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
@@ -167,41 +172,41 @@ namespace IWldTerrainRes
 #define DebugLog(_s) LogF("%s", (_s))
 
 // UI_Lua DrawRect()
-int LuaDrawRect(lua_State *l)
-{
-    LuaState *ls = l->LuaState;
+// int LuaDrawRect(lua_State *l)
+// {
+//     LuaState *ls = l->LuaState;
 
-    int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
-    if (batcher == nullptr)
-    {
-        WarningF("%s", "LOX");
-        return 0;
-    }
+//     int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
+//     if (batcher == nullptr)
+//     {
+//         WarningF("%s", "LOX");
+//         return 0;
+//     }
 
-    float a[]{0, 8, 0};
-    float b[]{8, 0, 0};
-    float c[]{653.5, 18.77, 168.5};
-    void *wldmap = IWldTerrainRes::GetWldMap();
-    void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
-    if (!terrain)
-        return 0;
-    void *map = IWldTerrainRes::GetMap(terrain);
-    DebugLog("Here!");
+//     float a[]{0, 8, 0};
+//     float b[]{8, 0, 0};
+//     float c[]{653.5, 18.77, 168.5};
+//     void *wldmap = IWldTerrainRes::GetWldMap();
+//     void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
+//     if (!terrain)
+//         return 0;
+//     void *map = IWldTerrainRes::GetMap(terrain);
+//     DebugLog("Here!");
 
-    // int *device = Moho::D3D_GetDevice();
-    //(*(void(__thiscall **)(int *))(*device + 4))(device);
-    // Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
+//     // int *device = Moho::D3D_GetDevice();
+//     //(*(void(__thiscall **)(int *))(*device + 4))(device);
+//     // Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
 
-    DebugLog("after setup");
-    //  Moho::CPrimBatcher::ResetBatcher(batcher);
-    DebugLog("after reset");
-    // DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
-    DebugLog("after draw");
-    Moho::CPrimBatcher::FlushBatcher(batcher);
-    DebugLog("after flush");
-    //(*(void(__thiscall **)(int *))(*device + 4))(device);
-    return 0;
-}
+//     DebugLog("after setup");
+//     //  Moho::CPrimBatcher::ResetBatcher(batcher);
+//     DebugLog("after reset");
+//     // DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
+//     DebugLog("after draw");
+//     Moho::CPrimBatcher::FlushBatcher(batcher);
+//     DebugLog("after flush");
+//     //(*(void(__thiscall **)(int *))(*device + 4))(device);
+//     return 0;
+// }
 
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
@@ -228,9 +233,28 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Vector3f a{0, 0, 8};
     Vector3f b{8, 0, 0};
     Vector3f c{653.5f, 18.77f, 168.5f};
-    DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, map, -10000);
+    DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
+
+// void CustomDrawEnter()
+// {
+//     asm(
+//         "push ebx;"
+
+//         "push ebx;"
+//         "mov ebx, [esp + 0x78 + 0x8 + 0x8];"
+//         "push ebx;"
+//         "call %[CustomDraw];"
+//         "pop ebx;"
+
+//         "mov     eax, [ebp+0x0C];"
+//         "cmp     eax, ebx;"
+//         "jmp     0x854C55;" // jump back
+//         :
+//         : [CustomDraw] "i"(CustomDraw)
+//         :);
+// }
 
 void CustomDrawEnter()
 {
