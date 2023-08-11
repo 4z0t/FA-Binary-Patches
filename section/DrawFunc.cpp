@@ -93,26 +93,23 @@ namespace Moho
             reinterpret_cast<void *(*)(Texture *, unsigned int)>(0x4478C0)(t, color);
         }
 
-        void __stdcall SetTexture(void *batcher, Texture *texture)
+        void SetTexture(void *batcher, Texture *texture)
         {
             asm(
-                "mov ebx, %[batcher];"
-                "mov edi, %[texture];"
                 "call 0x4386A0;"
                 :
-                : [batcher] "rm"(batcher), [texture] "rm"(texture)
-                : "edx", "edi", "ebx");
+                : "b"(batcher), [texture] "D"(texture)
+                : "edx");
         }
 
-        void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
+        void SetViewProjMatrix(void *batcher, void *matrix)
         {
             asm(
                 "push %[matrix];"
-                "mov ebx, %[batcher];"
                 "call 0x4385F0;"
                 :
-                : [batcher] "rm"(batcher), [matrix] "rm"(matrix)
-                : "edx", "ebx");
+                : "b"(batcher), [matrix] "g" (matrix)
+                : "edx");
         }
     } // namespace CPrimBatcher
 
