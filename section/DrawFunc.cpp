@@ -63,6 +63,57 @@ namespace Moho
         {
             *(char *)((int *)batcher + 285) = 0;
         }
+
+        struct Texture
+        {
+            int a;
+            int b;
+        };
+        Texture FromSolidColor(unsigned int color)
+        {
+            Texture t;
+            reinterpret_cast<void (*)(Texture *, unsigned int)>(0x4478C0)(&t, color);
+            return t;
+        }
+
+        void __stdcall FromSolidColor(Texture *t, unsigned int color)
+        {
+            reinterpret_cast<void (*)(Texture *, unsigned int)>(0x4478C0)(t, color);
+        }
+
+        void _SetTexture()
+        {
+            asm(
+                "push ebx;"
+                "push edi;"
+                "mov ebx, [esp+0x0C];"
+                "mov edi, [esp+0x10];"
+                "call 0x4386A0;"
+                "pop edi;"
+                "pop ebx;");
+        }
+
+        void __stdcall SetTexture(void *batcher, Texture *texture)
+        {
+            reinterpret_cast<void (*)(Texture *, void *)>(_SetTexture)(texture, batcher);
+        }
+
+        void _SetViewProjMatrix()
+        {
+            asm(
+                "push ebx;"
+                "mov ebx, [esp+0x0C];" // matrix
+                "push ebx;"
+                "mov ebx, [esp+0x0C];"// batcher
+                "call 0x4385F0;"
+                //"add esp, 4;"
+                "pop ebx;");
+        }
+
+        void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
+        {
+            reinterpret_cast<void (*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
+        }
     } // namespace CPrimBatcher
 
     int *D3D_GetDevice()
@@ -142,9 +193,6 @@ int LuaDrawRect(lua_State *l)
 
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
-    float a[]{0, 0, 8};
-    float b[]{8, 0, 0};
-    float c[]{653.5, 18.77, 168.5};
     void *wldmap = IWldTerrainRes::GetWldMap();
     void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
     if (!terrain)
@@ -156,11 +204,17 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     int *device = Moho::D3D_GetDevice();
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
 
-    int *a3 = *(int **)((int)_this + 4);
-    int projmatrix = (*(int(__thiscall **)(int *))(*a3 + 8))(a3);
-
+    int *camera = *(int **)((int)_this + 4);
+    void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
     Moho::CPrimBatcher::ResetBatcher(batcher);
-    DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
+    Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
+    Moho::CPrimBatcher::Texture t;
+    Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
+    Moho::CPrimBatcher::SetTexture(batcher, &t);
+    float a[]{0, 0, 8};
+    float b[]{8, 0, 0};
+    float c[]{653.5f, 18.77f, 168.5f};
+    DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, map, 17.5f);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 

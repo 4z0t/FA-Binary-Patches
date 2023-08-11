@@ -247,7 +247,7 @@ int lua_Project(lua_State *l) // camera , x,y,z
     int *cameraObj = (int *)lua_topointer(l, -1);
 
     int v3 = *cameraObj - 0x1C;
-    float *camera = reinterpret_cast<float *(__thiscall *)(int)>(0x7A6A00)(v3);
+    float *camera = reinterpret_cast<float *(__thiscall *)(int)>(0x7A6A00)(v3); // this is a projection matrix
     // float *camera = (float *)(*(int(__thiscall **)(int))(*(unsigned int *)v3 + 8))(v3);
     // LogF("%p", *(unsigned int *)v3 + 8); // 00E3C47C sub_7A6A00
 
