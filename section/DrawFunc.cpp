@@ -49,18 +49,6 @@ int DrawRect(
     return reinterpret_cast<int (*)(Vector3f *, Vector3f *, unsigned int, float, void *, Vector3f *, void *, float)>(_DrawRect)(&v1, &v2, i, f1, batcher, &v3, heightmap, f2);
 }
 
-// int DrawRect(
-//     Vector3f v1,
-//     Vector3f v2,
-//     unsigned int i,
-//     float f1,
-//     void *batcher,
-//     Vector3f v3,
-//     float f2)
-// {
-//     return reinterpret_cast<int (*)(Vector3f *, Vector3f *, unsigned int, float, void *, Vector3f *, int, float)>(_DrawRect)(&v1, &v2, i, f1, batcher, &v3, 0, f2);
-// }
-
 namespace Moho
 {
     namespace CPrimBatcher
@@ -143,11 +131,6 @@ namespace Moho
         (*(void(__thiscall **)(int *, const char *))(*device + 80))(device, target);
         (*(void(__thiscall **)(int *, const char *))(*device + 84))(device, mode);
     }
-
-    //"primbatcher"
-
-    //"TAlphaBlendLinearSampleNoDepth"
-
 } // namespace Moho
 
 namespace IWldTerrainRes
@@ -250,34 +233,12 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
-// void CustomDrawEnter()
-// {
-//     asm(
-//         "push ebx;"
-
-//         "push ebx;"
-//         "mov ebx, [esp + 0x78 + 0x8 + 0x8];"
-//         "push ebx;"
-//         "call %[CustomDraw];"
-//         "pop ebx;"
-
-//         "mov     eax, [ebp+0x0C];"
-//         "cmp     eax, ebx;"
-//         "jmp     0x854C55;" // jump back
-//         :
-//         : [CustomDraw] "i"(CustomDraw)
-//         :);
-// }
-
 void CustomDrawEnter()
 {
     asm(
-        //"push eax;"
         "push edi;"
         "mov ecx, esi;"
         "call %[CustomDraw];"
-        //"add esp, 4;"
-        //"pop    eax;"
         "pop     edi;" // as done in original code
         "pop     esi;"
         "pop     ebx;"
