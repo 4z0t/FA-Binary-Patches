@@ -117,7 +117,7 @@ namespace Moho
 
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
         {
-            reinterpret_cast<void* (*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
+            reinterpret_cast<void *(*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
         }
     } // namespace CPrimBatcher
 
@@ -155,41 +155,24 @@ namespace IWldTerrainRes
 #define DebugLog(_s) LogF("%s", (_s))
 
 // UI_Lua DrawRect()
-// int LuaDrawRect(lua_State *l)
-// {
-//     LuaState *ls = l->LuaState;
-
-//     int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
-//     if (batcher == nullptr)
-//     {
-//         WarningF("%s", "LOX");
-//         return 0;
-//     }
-
-//     float a[]{0, 8, 0};
-//     float b[]{8, 0, 0};
-//     float c[]{653.5, 18.77, 168.5};
-//     void *wldmap = IWldTerrainRes::GetWldMap();
-//     void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
-//     if (!terrain)
-//         return 0;
-//     void *map = IWldTerrainRes::GetMap(terrain);
-//     DebugLog("Here!");
-
-//     // int *device = Moho::D3D_GetDevice();
-//     //(*(void(__thiscall **)(int *))(*device + 4))(device);
-//     // Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
-
-//     DebugLog("after setup");
-//     //  Moho::CPrimBatcher::ResetBatcher(batcher);
-//     DebugLog("after reset");
-//     // DrawRect(a, b, 0xFFFFFF00, 0.03, batcher, c, map, 17.5);
-//     DebugLog("after draw");
-//     Moho::CPrimBatcher::FlushBatcher(batcher);
-//     DebugLog("after flush");
-//     //(*(void(__thiscall **)(int *))(*device + 4))(device);
-//     return 0;
-// }
+int LuaDrawRect(lua_State *l)
+{
+    int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
+    if (batcher == nullptr)
+    {
+        return 0;
+    }
+    float x, y, z;
+    x = luaL_checknumber(l, 1);
+    y = luaL_checknumber(l, 2);
+    z = luaL_checknumber(l, 3);
+    Vector3f a{0, 0, 8};
+    Vector3f b{8, 0, 0};
+    Vector3f c{x, y, z};
+    DrawRect(a, b, 0xFFFFFF00, 1.f, batcher, c, nullptr, -10000);
+    Moho::CPrimBatcher::FlushBatcher(batcher);
+    return 0;
+}
 
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
