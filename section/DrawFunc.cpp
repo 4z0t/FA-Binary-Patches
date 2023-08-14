@@ -129,7 +129,7 @@ namespace Moho
 
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
         {
-            reinterpret_cast<void (*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
+            reinterpret_cast<void* (*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
         }
     } // namespace CPrimBatcher
 
@@ -218,22 +218,35 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     if (!map)
         return;
 
+    LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
+    lua_State *l = state->m_state;
+
+    lua_pushstring(l, "import");
+    lua_gettable(l, -10001);
+    lua_pushstring(l, "/lua/ui/game/gamemain.lua");
+    lua_call(l, 1, 1);
+    lua_pushstring(l, "OnRenderWorld");
+    lua_rawget(l, -2);
+    if (lua_type(l, -1) != 7)
+    {
+        WarningF("%s", "OnRenderWorld not a function");
+        return;
+    }
     int *device = Moho::D3D_GetDevice();
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
 
     int *camera = *(int **)((int)_this + 4);
     void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
-    // LogF("%p", projmatrix);
-    // LogF("%p", map);
     Moho::CPrimBatcher::ResetBatcher(batcher);
     Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
     Moho::CPrimBatcher::Texture t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
-    Vector3f a{0, 0, 8};
-    Vector3f b{8, 0, 0};
-    Vector3f c{653.5f, 18.77f, 168.5f};
-    DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
+    lua_call(l, 0, 0);
+    // Vector3f a{0, 0, 8};
+    // Vector3f b{8, 0, 0};
+    // Vector3f c{653.5f, 18.77f, 168.5f};
+    // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
@@ -259,10 +272,12 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 void CustomDrawEnter()
 {
     asm(
+        //"push eax;"
         "push edi;"
         "mov ecx, esi;"
         "call %[CustomDraw];"
         //"add esp, 4;"
+        //"pop    eax;"
         "pop     edi;" // as done in original code
         "pop     esi;"
         "pop     ebx;"
