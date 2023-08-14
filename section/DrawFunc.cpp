@@ -69,16 +69,16 @@ namespace Moho
             int a;
             int b;
         };
-        Texture FromSolidColor(unsigned int color)
-        {
-            Texture t;
-            reinterpret_cast<void (*)(Texture *, unsigned int)>(0x4478C0)(&t, color);
-            return t;
-        }
-
         void __stdcall FromSolidColor(Texture *t, unsigned int color)
         {
             reinterpret_cast<void *(*)(Texture *, unsigned int)>(0x4478C0)(t, color);
+        }
+
+        Texture FromSolidColor(unsigned int color)
+        {
+            Texture t;
+            FromSolidColor(&t, color);
+            return t;
         }
 
         void _SetTexture()
@@ -176,13 +176,13 @@ int LuaDrawRect(lua_State *l)
 
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
-    void *wldmap = IWldTerrainRes::GetWldMap();
-    void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
-    if (!terrain)
-        return;
-    void *map = IWldTerrainRes::GetMap(terrain);
-    if (!map)
-        return;
+    // void *wldmap = IWldTerrainRes::GetWldMap();
+    // void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
+    // if (!terrain)
+    //     return;
+    // void *map = IWldTerrainRes::GetMap(terrain);
+    // if (!map)
+    //     return;
 
     LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
     lua_State *l = state->m_state;
