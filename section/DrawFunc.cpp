@@ -120,7 +120,7 @@ namespace Moho
                 "mov ebx, [esp+0xC];" // matrix
                 "push ebx;"
                 "mov ebx, [esp+0xC];" // batcher
-                "call 0x4385F0;"
+                "call 0x438640;"
                 "pop ebx;"
                 :
                 :
@@ -226,7 +226,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     // LogF("%p", projmatrix);
     // LogF("%p", map);
     Moho::CPrimBatcher::ResetBatcher(batcher);
-    // Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
+    Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
     Moho::CPrimBatcher::Texture t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
