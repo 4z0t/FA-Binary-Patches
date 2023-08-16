@@ -9,4 +9,6 @@ asm(
     ".section h2; .set h2,0x4562CD;"
     "addss xmm0, ds:"QU(THICKNESS)";"
 
+    ".section h3; .set h3,0x4561A8;"
+    "jmp "QU(_SetColor)";"
 );

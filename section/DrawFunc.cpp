@@ -50,9 +50,11 @@ int DrawRect(
 }
 
 float THICKNESS = 0.1;
-void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, Vector3f *huh)
+extern unsigned int CIRCLE_COLOR;
+void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, uint32_t color, Vector3f *huh)
 {
     THICKNESS = thickness;
+    CIRCLE_COLOR = color;
     asm(
         "push %[radius];"
         "push %[pos];"
@@ -227,7 +229,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Vector3f c{653.5f, 18.77f, 168.5f};
     Vector3f m{0, 0.5, 0};
     // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
-    _DrawCircle(batcher, &c, 100, 0.2, &m);
+    _DrawCircle(batcher, &c, 100, 0.2, 0xFFFF0000, &m);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
