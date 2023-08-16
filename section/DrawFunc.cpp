@@ -185,6 +185,8 @@ int LuaDrawRect(lua_State *l)
     return 0;
 }
 
+float THICKNESS = 0.1;
+
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
     // void *wldmap = IWldTerrainRes::GetWldMap();
