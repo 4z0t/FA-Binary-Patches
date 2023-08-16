@@ -223,9 +223,9 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     // Vector3f a{0, 0, 8};
     // Vector3f b{8, 0, 0};
     Vector3f c{653.5f, 18.77f, 168.5f};
-    Vector3f m{0, 1, 0};
+    Vector3f m{0, 0.5, 0};
     // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
-    _DrawCircle(batcher, &c, 10, &m);
+    _DrawCircle(batcher, &c, 100, &m);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
