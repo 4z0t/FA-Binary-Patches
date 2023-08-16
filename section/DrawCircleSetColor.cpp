@@ -1,4 +1,5 @@
 unsigned int CIRCLE_COLOR = 0xFF00D800;
+float SEGMENT_RAD = 0.1308996939f;
 
 void _SetColor()
 {

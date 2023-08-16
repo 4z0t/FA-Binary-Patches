@@ -146,6 +146,12 @@ namespace Moho
         (*(void(__thiscall **)(int *, const char *))(*device + 80))(device, target);
         (*(void(__thiscall **)(int *, const char *))(*device + 84))(device, mode);
     }
+
+
+    bool TryConvertToColor(const char* s, uint32_t& color)
+    {
+        return reinterpret_cast<bool(__cdecl*)(const char*, uint32_t*)>(0x4B2B90)(s, &color);
+    }
 } // namespace Moho
 
 namespace IWldTerrainRes
@@ -178,13 +184,22 @@ int LuaDrawRect(lua_State *l)
         return 0;
     }
     float x, y, z;
+    const char* s;
     x = luaL_checknumber(l, 1);
     y = luaL_checknumber(l, 2);
     z = luaL_checknumber(l, 3);
+    s = lua_tostring(l, 4);
+    uint32_t color;
+    if (!Moho::TryConvertToColor(s, color))
+    {
+        lua_pushstring(l, "unknown color");
+        lua_error(l);
+        return 0;
+    }
     Vector3f a{0, 0, 8};
     Vector3f b{8, 0, 0};
     Vector3f c{x, y, z};
-    DrawRect(a, b, 0xFFFFFF00, 1.f, batcher, c, nullptr, -10000);
+    DrawRect(a, b, color, 1.f, batcher, c, nullptr, -10000);
     Moho::CPrimBatcher::FlushBatcher(batcher);
     return 0;
 }

@@ -11,4 +11,14 @@ asm(
 
     ".section h3; .set h3,0x4561A8;"
     "jmp "QU(_SetColor)";"
+
+    ".section h4; .set h4,0x455E53;"
+    "mov ecx, 0x30;"
+    
+    ".section h5; .set h5,0x4561E4;"
+    "cmp eax, 0x30;"
+
+    ".section h6; .set h6,0x455E30;"
+    "fld dword ptr ["QU(SEGMENT_RAD)"];"
+
 );
