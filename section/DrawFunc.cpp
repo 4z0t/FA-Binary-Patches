@@ -49,8 +49,10 @@ int DrawRect(
     return reinterpret_cast<int (*)(Vector3f *, Vector3f *, unsigned int, float, void *, Vector3f *, void *, float)>(_DrawRect)(&v1, &v2, i, f1, batcher, &v3, heightmap, f2);
 }
 
-void _DrawCircle(void *batcher, Vector3f *pos, float radius, Vector3f *huh)
+float THICKNESS = 0.1;
+void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, Vector3f *huh)
 {
+    THICKNESS = thickness;
     asm(
         "push %[radius];"
         "push %[pos];"
@@ -185,8 +187,6 @@ int LuaDrawRect(lua_State *l)
     return 0;
 }
 
-float THICKNESS = 0.1;
-
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
     // void *wldmap = IWldTerrainRes::GetWldMap();
@@ -227,7 +227,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Vector3f c{653.5f, 18.77f, 168.5f};
     Vector3f m{0, 0.5, 0};
     // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
-    _DrawCircle(batcher, &c, 100, &m);
+    _DrawCircle(batcher, &c, 100, 0.2, &m);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
