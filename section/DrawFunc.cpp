@@ -51,7 +51,7 @@ int DrawRect(
 
 float THICKNESS = 0.1;
 extern unsigned int CIRCLE_COLOR;
-void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, uint32_t color, Vector3f *huh)
+void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, uint32_t color, Vector3f *orientation)
 {
     THICKNESS = thickness;
     CIRCLE_COLOR = color;
@@ -61,7 +61,7 @@ void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, ui
         "push %[batcher];"
         "call 0x00456200;"
         :
-        : [huh] "c"(huh), [batcher] "g"(batcher), [pos] "g"(pos), [radius] "g"(radius)
+        : "c"(orientation), [batcher] "g"(batcher), [pos] "g"(pos), [radius] "g"(radius)
         : "eax");
 }
 namespace Moho
@@ -226,10 +226,10 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     lua_call(l, 0, 0);
     // Vector3f a{0, 0, 8};
     // Vector3f b{8, 0, 0};
-    Vector3f c{653.5f, 18.77f, 168.5f};
-    Vector3f m{0, 0.5, 0};
+    Vector3f pos{653.5f, 18.77f, 168.5f};
+    Vector3f orientation{0, 1, 0};
     // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
-    _DrawCircle(batcher, &c, 100, 0.2, 0xFFFF0000, &m);
+    _DrawCircle(batcher, &pos, 100, 0.2, 0xFFFF0000, &orientation);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
