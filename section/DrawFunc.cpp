@@ -60,6 +60,7 @@ void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, ui
         "push %[pos];"
         "push %[batcher];"
         "call 0x00456200;"
+        "add esp, 0xC;"
         :
         : "c"(orientation), [batcher] "g"(batcher), [pos] "g"(pos), [radius] "g"(radius)
         : "eax");
@@ -70,7 +71,7 @@ namespace Moho
     {
         void FlushBatcher(void *batcher)
         {
-            reinterpret_cast<void (*)(void *)>(0x0043A140)(batcher);
+            reinterpret_cast<void *(*)(void *)>(0x0043A140)(batcher);
             asm("add esp,4;");
         }
 
