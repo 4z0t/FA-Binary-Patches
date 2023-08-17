@@ -97,24 +97,13 @@ namespace Moho
             return t;
         }
 
-        void _SetTexture()
-        {
-            asm(
-                "push ebx;"
-                "push edi;"
-                "mov ebx, [esp+0x0C];"
-                "mov edi, [esp+0x10];"
-                "call 0x4386A0;"
-                "pop edi;"
-                "pop ebx;"
-                :
-                :
-                : "edx");
-        }
-
         void __stdcall SetTexture(void *batcher, Texture *texture)
         {
-            reinterpret_cast<void *(*)(Texture *, void *)>(_SetTexture)(texture, batcher);
+            asm(
+                "call 0x4386A0;"
+                :
+                : [batcher] "D"(batcher), [texture] "b"(texture)
+                : "edx", "ecx", "eax");
         }
 
         void _SetViewProjMatrix()
@@ -151,6 +140,11 @@ namespace Moho
     bool TryConvertToColor(const char *s, uint32_t &color)
     {
         return reinterpret_cast<bool(__cdecl *)(const char *, uint32_t *)>(0x4B2B90)(s, &color);
+    }
+
+    float GetLODMetric(float *camera, const Vector3f &v)
+    {
+        return camera[169] * v.x + camera[170] * v.y + camera[171] * v.z + camera[172];
     }
 } // namespace Moho
 
@@ -267,10 +261,13 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::CPrimBatcher::Texture t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
+
+    // Vector3f pos{653.5f, 18.77f, 168.5f};
+    // float lod = Moho::GetLODMetric((float *)projmatrix, pos);
+    // LogF("%.2f", lod);
     lua_call(l, 0, 0);
     // Vector3f a{0, 0, 8};
     // Vector3f b{8, 0, 0};
-    // Vector3f pos{653.5f, 18.77f, 168.5f};
     // Vector3f orientation{0, 1, 0};
     // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
     //_DrawCircle(batcher, &pos, 100, 0.2, 0xFFFF0000, &orientation);
