@@ -108,15 +108,24 @@ int LuaDrawRect(lua_State *l);
 luaFuncDescReg DrawRectDesc = {0x00E45E90, // UI chain entry
                                "DrawRect",
                                0x00E00D90,
-                               "DrawRect()",
+                               "DrawRect(x,y,z,color)",
                                &UUserUnitGetFractionComplete, // Next reg desc
                                LuaDrawRect,
+                               0x00000000};
+
+int LuaDrawCircle(lua_State *l);
+luaFuncDescReg DrawCircleDesc = {0x00E45E90, // UI chain entry
+                               "DrawCircle",
+                               0x00E00D90,
+                               "DrawCircle(x,y,z,r,color)",
+                               &DrawRectDesc, // Next reg desc
+                               LuaDrawCircle,
                                0x00000000};
 
 luaFuncDescReg UGDAPRegDesc = {0x00E45E90, // UI chain entry
                                s_GDAPName,
                                0x00E00D90,
                                s_GDAPDesc,
-                               &DrawRectDesc, // Next reg desc
+                               &DrawCircleDesc, // Next reg desc
                                SimGetDepositsAroundPoint,
                                0x00000000};
