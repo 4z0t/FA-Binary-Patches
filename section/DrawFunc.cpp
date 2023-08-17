@@ -147,10 +147,9 @@ namespace Moho
         (*(void(__thiscall **)(int *, const char *))(*device + 84))(device, mode);
     }
 
-
-    bool TryConvertToColor(const char* s, uint32_t& color)
+    bool TryConvertToColor(const char *s, uint32_t &color)
     {
-        return reinterpret_cast<bool(__cdecl*)(const char*, uint32_t*)>(0x4B2B90)(s, &color);
+        return reinterpret_cast<bool(__cdecl *)(const char *, uint32_t *)>(0x4B2B90)(s, &color);
     }
 } // namespace Moho
 
@@ -184,7 +183,7 @@ int LuaDrawRect(lua_State *l)
         return 0;
     }
     float x, y, z;
-    const char* s;
+    const char *s;
     x = luaL_checknumber(l, 1);
     y = luaL_checknumber(l, 2);
     z = luaL_checknumber(l, 3);
@@ -200,6 +199,36 @@ int LuaDrawRect(lua_State *l)
     Vector3f b{8, 0, 0};
     Vector3f c{x, y, z};
     DrawRect(a, b, color, 1.f, batcher, c, nullptr, -10000);
+    Moho::CPrimBatcher::FlushBatcher(batcher);
+    return 0;
+}
+
+int LuaDrawCircle(lua_State *l)
+{
+    int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
+    if (batcher == nullptr)
+    {
+        return 0;
+    }
+    float x, y, z, r;
+    const char *s;
+    x = luaL_checknumber(l, 1);
+    y = luaL_checknumber(l, 2);
+    z = luaL_checknumber(l, 3);
+    r = luaL_checknumber(l, 4);
+    s = lua_tostring(l, 5);
+    uint32_t color;
+    if (!Moho::TryConvertToColor(s, color))
+    {
+        lua_pushstring(l, "unknown color");
+        lua_error(l);
+        return 0;
+    }
+
+    Vector3f pos{x, y, z};
+    Vector3f orientation{0, 1, 0};
+    _DrawCircle(batcher, &pos, 100, 0.2, color, &orientation);
+
     Moho::CPrimBatcher::FlushBatcher(batcher);
     return 0;
 }
