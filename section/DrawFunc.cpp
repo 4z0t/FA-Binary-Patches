@@ -245,7 +245,6 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
     lua_State *l = state->m_state;
-
     lua_pushstring(l, "import");
     lua_gettable(l, -10001);
     lua_pushstring(l, "/lua/ui/game/gamemain.lua");
@@ -270,10 +269,10 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     lua_call(l, 0, 0);
     // Vector3f a{0, 0, 8};
     // Vector3f b{8, 0, 0};
-    Vector3f pos{653.5f, 18.77f, 168.5f};
-    Vector3f orientation{0, 1, 0};
+    // Vector3f pos{653.5f, 18.77f, 168.5f};
+    // Vector3f orientation{0, 1, 0};
     // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
-    _DrawCircle(batcher, &pos, 100, 0.2, 0xFFFF0000, &orientation);
+    //_DrawCircle(batcher, &pos, 100, 0.2, 0xFFFF0000, &orientation);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
