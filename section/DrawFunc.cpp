@@ -273,16 +273,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::CPrimBatcher::Texture t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
-
-    // Vector3f pos{653.5f, 18.77f, 168.5f};
-    // float lod = Moho::GetLODMetric((float *)projmatrix, pos);
-    // LogF("%.2f", lod);
     lua_call(l, 0, 0);
-    // Vector3f a{0, 0, 8};
-    // Vector3f b{8, 0, 0};
-    // Vector3f orientation{0, 1, 0};
-    // DrawRect(a, b, 0xFFFFFF00, 3.f, batcher, c, nullptr, -10000);
-    //_DrawCircle(batcher, &pos, 100, 0.2, 0xFFFF0000, &orientation);
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
