@@ -227,7 +227,7 @@ int LuaDrawCircle(lua_State *l)
 
     Vector3f pos{x, y, z};
     Vector3f orientation{0, 1, 0};
-    _DrawCircle(batcher, &pos, 100, 0.2, color, &orientation);
+    _DrawCircle(batcher, &pos, r, 0.2, color, &orientation);
 
     Moho::CPrimBatcher::FlushBatcher(batcher);
     return 0;
