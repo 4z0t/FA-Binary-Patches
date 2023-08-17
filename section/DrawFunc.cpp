@@ -67,6 +67,13 @@ void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, ui
 }
 namespace Moho
 {
+
+    void *GetWorldCamera()
+    {
+        int *camera = *(int **)((int)*((int *)g_WRenViewport + 2128) + 4);
+        void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
+        return projmatrix;
+    }
     namespace CPrimBatcher
     {
         void FlushBatcher(void *batcher)
@@ -222,7 +229,13 @@ int LuaDrawCircle(lua_State *l)
 
     Vector3f pos{x, y, z};
     Vector3f orientation{0, 1, 0};
-    _DrawCircle(batcher, &pos, r, 0.2, color, &orientation);
+    float thickness = Moho::GetLODMetric((float *)Moho::GetWorldCamera(), pos);
+    float a = 0.15 / thickness;
+    if (a < 2)
+    {
+        a = 2;
+    }
+    _DrawCircle(batcher, &pos, r, thickness * a, color, &orientation);
 
     Moho::CPrimBatcher::FlushBatcher(batcher);
     return 0;
@@ -253,7 +266,6 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     }
     int *device = Moho::D3D_GetDevice();
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
-
     int *camera = *(int **)((int)_this + 4);
     void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
     Moho::CPrimBatcher::ResetBatcher(batcher);
