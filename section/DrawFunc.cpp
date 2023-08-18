@@ -67,6 +67,13 @@ void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, ui
 }
 namespace Moho
 {
+    void Import(lua_State *l, const char *filename)
+    {
+        lua_pushstring(l, "import");
+        lua_gettable(l, -10001);
+        lua_pushstring(l, filename);
+        lua_call(l, 1, 1);
+    }
 
     void *GetWorldCamera()
     {
@@ -253,10 +260,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
     lua_State *l = state->m_state;
-    lua_pushstring(l, "import");
-    lua_gettable(l, -10001);
-    lua_pushstring(l, "/lua/ui/game/gamemain.lua");
-    lua_call(l, 1, 1);
+    Moho::Import(l, "/lua/ui/game/gamemain.lua");
     lua_pushstring(l, "OnRenderWorld");
     lua_rawget(l, -2);
     if (lua_type(l, -1) != 7)
