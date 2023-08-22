@@ -120,23 +120,15 @@ namespace Moho
                 : "edx", "ecx", "eax");
         }
 
-        void _SetViewProjMatrix()
-        {
-            asm(
-                "push ebx;"
-                "mov ebx, [esp+0xC];" // matrix
-                "push ebx;"
-                "mov ebx, [esp+0xC];" // batcher
-                "call 0x438640;"
-                "pop ebx;"
-                :
-                :
-                : "edx");
-        }
-
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
         {
-            reinterpret_cast<void *(*)(void *, void *)>(_SetViewProjMatrix)(batcher, matrix);
+            asm(
+                "push %[matrix];"
+                "call 0x438640;"
+                :
+                :[batcher] "b"(batcher), [matrix] "g"(matrix)
+                : "edx", "eax"
+            );
         }
     } // namespace CPrimBatcher
 
@@ -248,6 +240,8 @@ int LuaDrawCircle(lua_State *l)
     return 0;
 }
 
+
+//this world view?
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
     // void *wldmap = IWldTerrainRes::GetWldMap();
