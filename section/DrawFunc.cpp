@@ -116,7 +116,7 @@ namespace Moho
             asm(
                 "call 0x4386A0;"
                 :
-                : [batcher] "D"(batcher), [texture] "b"(texture)
+                : "D"(batcher), [texture] "b"(texture)
                 : "edx", "ecx", "eax");
         }
 
@@ -126,7 +126,7 @@ namespace Moho
                 "push %[matrix];"
                 "call 0x438640;"
                 :
-                : [batcher] "b"(batcher), [matrix] "g"(matrix)
+                : "b"(batcher), [matrix] "g"(matrix)
                 : "edx", "eax");
         }
     } // namespace CPrimBatcher
