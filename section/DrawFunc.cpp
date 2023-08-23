@@ -58,7 +58,10 @@ void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness, ui
         "call 0x00456200;"
         "add esp, 0xC;"
         :
-        : "c"(orientation), [batcher] "g"(batcher), [pos] "g"(pos), [radius] "g"(radius)
+        : "c"(orientation),
+          NON_GENERAL_REG(batcher),
+          NON_GENERAL_REG(pos),
+          NON_GENERAL_REG(radius)
         : "eax");
 }
 namespace Moho
@@ -116,7 +119,8 @@ namespace Moho
             asm(
                 "call 0x4386A0;"
                 :
-                : "D"(batcher), [texture] "b"(texture)
+                : "D"(batcher),
+                  [texture] "b"(texture)
                 : "edx", "ecx", "eax");
         }
 
@@ -126,7 +130,8 @@ namespace Moho
                 "push %[matrix];"
                 "call 0x438640;"
                 :
-                : "b"(batcher), [matrix] "g"(matrix)
+                : "b"(batcher),
+                  NON_GENERAL_REG(matrix)
                 : "edx", "eax");
         }
     } // namespace CPrimBatcher
