@@ -35,14 +35,14 @@ void _DrawRect(
 void DrawRect(
     Vector3f v1,
     Vector3f v2,
-    unsigned int i,
+    uint32_t color,
     float f1,
     void *batcher,
     Vector3f v3,
     void *heightmap,
     float f2)
 {
-    return _DrawRect(&v1, &v2, i, f1, batcher, &v3, heightmap, f2);
+    return _DrawRect(&v1, &v2, color, f1, batcher, &v3, heightmap, f2);
 }
 
 float THICKNESS = 0.1;
