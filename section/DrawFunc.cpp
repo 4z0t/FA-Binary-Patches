@@ -1,42 +1,38 @@
 #include "include/moho.h"
 
-void _DrawRect()
-/*
-    eax vec3_1
-    ecx vec3_2
-    edi int color?
-    xmm0 float_1 //thickness
-    stack batcher
-    stack vec3_3
-    stack heightmap
-    stack float_2
-*/
+#define NON_GENERAL_REG(var_) [var_] "g"(var_)
+
+void _DrawRect(
+    Vector3f *v1,
+    Vector3f *v2,
+    unsigned int color,
+    float thickness,
+    void *batcher,
+    Vector3f *v3,
+    void *heightmap,
+    float f2)
 {
     asm(
-        "push ebp;"
-        "mov ebp, esp;"
-        "push ecx;"
-        "push edi;"
-        "mov ecx,   [ebp + 0x04 + 0x08];" // vec3_2
-        "mov edi,   [ebp + 0x04 + 0x0C];" // int
-        "movss xmm0,[ebp + 0x04 + 0x10];" // float_1
-        "mov eax,   [ebp + 0x04 + 0x20];" // float_2
-        "push eax;"
-        "mov eax,   [ebp + 0x04 + 0x1C];" // heightmap
-        "push eax;"
-        "mov eax,   [ebp + 0x04 + 0x18];" // vec3_3
-        "push eax;"
-        "mov eax,   [ebp + 0x04 + 0x14];" // batcher
-        "push eax;"
-        "mov eax,   [ebp + 0x04 + 0x04];" // vec3_1
+        "push %[f2];"
+        "push %[heightmap];"
+        "push %[v3];"
+        "push %[batcher];"
+        "movss xmm0, %[thickness];"
         "call 0x00455480;"
         "add esp, 0x10;"
-        "pop edi;"
-        "pop ecx;"
-        "pop ebp;");
+        :
+        : "c"(v2),
+          "D"(color),
+          "a"(v1),
+          [thickness] "m"(thickness),
+          NON_GENERAL_REG(f2),
+          NON_GENERAL_REG(batcher),
+          NON_GENERAL_REG(v3),
+          NON_GENERAL_REG(heightmap)
+        : "xmm0");
 }
 
-int DrawRect(
+void DrawRect(
     Vector3f v1,
     Vector3f v2,
     unsigned int i,
@@ -46,7 +42,7 @@ int DrawRect(
     void *heightmap,
     float f2)
 {
-    return reinterpret_cast<int (*)(Vector3f *, Vector3f *, unsigned int, float, void *, Vector3f *, void *, float)>(_DrawRect)(&v1, &v2, i, f1, batcher, &v3, heightmap, f2);
+    return _DrawRect(&v1, &v2, i, f1, batcher, &v3, heightmap, f2);
 }
 
 float THICKNESS = 0.1;
@@ -126,9 +122,8 @@ namespace Moho
                 "push %[matrix];"
                 "call 0x438640;"
                 :
-                :[batcher] "b"(batcher), [matrix] "g"(matrix)
-                : "edx", "eax"
-            );
+                : [batcher] "b"(batcher), [matrix] "g"(matrix)
+                : "edx", "eax");
         }
     } // namespace CPrimBatcher
 
@@ -240,8 +235,7 @@ int LuaDrawCircle(lua_State *l)
     return 0;
 }
 
-
-//this world view?
+// this world view?
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
     // void *wldmap = IWldTerrainRes::GetWldMap();
