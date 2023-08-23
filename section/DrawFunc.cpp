@@ -119,7 +119,7 @@ namespace Moho
                 "call 0x4386A0;"
                 :
                 : "D"(batcher),
-                  [texture] "b"(texture)
+                  "b"(texture)
                 : "edx", "ecx", "eax");
         }
 
