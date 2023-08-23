@@ -269,7 +269,10 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::CPrimBatcher::Texture t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
-    lua_call(l, 0, 0);
+    if (lua_pcall(l, 0, 0))
+    {
+        WarningF("%s", lua_tostring(l, -1));
+    }
     Moho::CPrimBatcher::FlushBatcher(batcher);
 }
 
