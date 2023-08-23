@@ -260,7 +260,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::Import(l, "/lua/ui/game/gamemain.lua");
     lua_pushstring(l, "OnRenderWorld");
     lua_rawget(l, -2);
-    if (lua_type(l, -1) != 7)
+    if (lua_isfunction(l, -1))
     {
         WarningF("%s", "OnRenderWorld not a function");
         return;
