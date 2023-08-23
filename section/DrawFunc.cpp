@@ -221,6 +221,7 @@ int LuaDrawCircle(lua_State *l)
     z = luaL_checknumber(l, 3);
     r = luaL_checknumber(l, 4);
     s = lua_tostring(l, 5);
+    float thickness = luaL_optnumber(l, 6, 0.15);
     uint32_t color;
     if (!Moho::TryConvertToColor(s, color))
     {
@@ -231,13 +232,9 @@ int LuaDrawCircle(lua_State *l)
 
     Vector3f pos{x, y, z};
     Vector3f orientation{0, 1, 0};
-    float thickness = Moho::GetLODMetric((float *)Moho::GetWorldCamera(), pos);
-    float a = 0.15 / thickness;
-    if (a < 2)
-    {
-        a = 2;
-    }
-    _DrawCircle(batcher, &pos, r, thickness * a, color, &orientation);
+    float lod = Moho::GetLODMetric((float *)Moho::GetWorldCamera(), pos);
+    float a = MAX(thickness / lod, 2);
+    _DrawCircle(batcher, &pos, r, lod * a, color, &orientation);
 
     Moho::CPrimBatcher::FlushBatcher(batcher);
     return 0;

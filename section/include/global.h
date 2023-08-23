@@ -100,6 +100,9 @@ FDecl(0x90A510, GetLuaState, LuaState *(__cdecl *)(lua_State *L));
 #define QueryPerformanceCounter WDecl(0xC0F470, __stdcall bool (*)(int64_t *))
 #define QueryPerformanceFrequency WDecl(0xC0F46C, __stdcall bool (*)(int64_t *))
 
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+
 /*
 LuaPlus: See FALuaFuncs.txt
 
