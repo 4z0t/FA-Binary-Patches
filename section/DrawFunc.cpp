@@ -81,8 +81,12 @@ namespace Moho
     {
         void FlushBatcher(void *batcher)
         {
-            reinterpret_cast<void *(*)(void *)>(0x0043A140)(batcher);
-            asm("add esp,4;");
+            asm(
+                "push %[batcher];"
+                "call 0x0043A140;"
+                :
+                : NON_GENERAL_REG(batcher)
+                : "eax");
         }
 
         void ResetBatcher(void *batcher)
