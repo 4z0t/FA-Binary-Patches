@@ -1,14 +1,15 @@
 #include "include/moho.h"
 
-void CheckUserUnit()
+void *CheckUserUnit(LuaObject *obj, LuaState *ls)
 {
+    void *result;
     asm(
-        "push edi;"
-        "mov eax, [esp+0x8];"
-        "mov edi, [esp+0xC];"
         "call 0x00822B80;"
-        "pop edi;"
-        "ret;");
+        :"=a" (result)
+        : [obj] "a"(obj), [ls] "D"(ls)
+        :);
+
+    return result;
 }
 
 namespace Moho
@@ -25,20 +26,19 @@ namespace Moho
             return *((void **)unit + 11);
         }
 
-        inline void* GetUserUnit(LuaObject * obj, LuaState *luaState)
+        inline void *GetUserUnit(LuaObject *obj, LuaState *luaState)
         {
-            return reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(obj, luaState);
+            return CheckUserUnit(obj, luaState);
         }
     } // namespace UserUnit
 
     namespace MeshInstance
     {
-        inline void UpdateInterpolatedTransform(void* mesh)
+        inline void UpdateInterpolatedTransform(void *mesh)
         {
-            reinterpret_cast<void(__stdcall*)(void*)>(0x007DEC80)(mesh);
+            reinterpret_cast<void(__stdcall *)(void *)>(0x007DEC80)(mesh);
         }
     } // namespace MeshInstance
-    
 
 }
 
@@ -49,11 +49,11 @@ int GetInterpolatedPosition(lua_State *l)
         l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
     LuaObject unitObject{l->LuaState, 1};
-    //float *unit = (float *)Moho::UserUnit::GetUserUnit(&unitObject, l->LuaState);
-    float *unit = (float *)reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(&unitObject, l->LuaState);
+    // float *unit = (float *)Moho::UserUnit::GetUserUnit(&unitObject, l->LuaState);
+    float *unit = (float *)CheckUserUnit(&unitObject, l->LuaState);
     if (unit == nullptr)
         return 0;
-    float *mesh = (float*)Moho::UserUnit::GetMeshInstance(unit);
+    float *mesh = (float *)Moho::UserUnit::GetMeshInstance(unit);
     if (mesh == nullptr)
         return 0;
     Moho::MeshInstance::UpdateInterpolatedTransform(mesh);
@@ -75,7 +75,7 @@ int GetFractionComplete(lua_State *l)
         l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
     LuaObject unitObject{l->LuaState, 1};
-    void *unit = reinterpret_cast<void *(*)(LuaObject *, LuaState *)>(CheckUserUnit)(&unitObject, l->LuaState);
+    void *unit = CheckUserUnit(&unitObject, l->LuaState);
     if (unit == nullptr)
         return 0;
     lua_pushnumber(l, Moho::UserUnit::GetFractionComplete(unit));
