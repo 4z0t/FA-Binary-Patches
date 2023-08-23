@@ -69,7 +69,7 @@ namespace Moho
     void Import(lua_State *l, const char *filename)
     {
         lua_pushstring(l, "import");
-        lua_gettable(l, -10001);
+        lua_gettable(l, LUA_GLOBALSINDEX);
         lua_pushstring(l, filename);
         lua_call(l, 1, 1);
     }
