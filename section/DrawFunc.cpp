@@ -77,59 +77,60 @@ namespace Moho
         void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
         return projmatrix;
     }
-    namespace CPrimBatcher
+
+    struct Texture
     {
-        void FlushBatcher(void *batcher)
+        int a;
+        int b;
+    };
+    void __stdcall FromSolidColor(Texture *t, unsigned int color)
+    {
+        reinterpret_cast<void *(*)(Texture *, unsigned int)>(0x4478C0)(t, color);
+    }
+    Texture FromSolidColor(unsigned int color)
+    {
+        Texture t;
+        FromSolidColor(&t, color);
+        return t;
+    }
+
+    class CD3DPrimBatcher
+    {
+    public:
+        void FlushBatcher()
         {
             asm(
                 "push %[batcher];"
                 "call 0x0043A140;"
                 :
-                : NON_GENERAL_REG(batcher)
+                : [batcher]"g"(this)
                 : "eax");
         }
 
-        void ResetBatcher(void *batcher)
+        void ResetBatcher()
         {
-            *(char *)((int *)batcher + 285) = 0;
+            *(char *)((int *)this + 285) = 0;
         }
 
-        struct Texture
-        {
-            int a;
-            int b;
-        };
-        void __stdcall FromSolidColor(Texture *t, unsigned int color)
-        {
-            reinterpret_cast<void *(*)(Texture *, unsigned int)>(0x4478C0)(t, color);
-        }
-
-        Texture FromSolidColor(unsigned int color)
-        {
-            Texture t;
-            FromSolidColor(&t, color);
-            return t;
-        }
-
-        void __stdcall SetTexture(void *batcher, Texture *texture)
+        void SetTexture(Texture *texture)
         {
             asm(
                 "call 0x4386A0;"
                 :
-                : [batcher] "D"(batcher), [texture] "b"(texture)
+                : "D"(this), "b"(texture)
                 : "edx", "ecx", "eax");
         }
 
-        void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
+        void SetViewProjMatrix(void *matrix)
         {
             asm(
                 "push %[matrix];"
                 "call 0x438640;"
                 :
-                : [batcher] "b"(batcher), [matrix] "g"(matrix)
+                : "b"(this), [matrix] "g"(matrix)
                 : "edx", "eax");
         }
-    } // namespace CPrimBatcher
+    }; // namespace CPrimBatcher
 
     int *D3D_GetDevice()
     {
@@ -177,7 +178,7 @@ namespace IWldTerrainRes
 // UI_Lua DrawRect()
 int LuaDrawRect(lua_State *l)
 {
-    int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
+    Moho::CD3DPrimBatcher *batcher = *(Moho::CD3DPrimBatcher **)(((int *)g_WRenViewport) + 2135);
     if (batcher == nullptr)
     {
         return 0;
@@ -199,13 +200,13 @@ int LuaDrawRect(lua_State *l)
     Vector3f b{8, 0, 0};
     Vector3f c{x, y, z};
     DrawRect(a, b, color, 1.f, batcher, c, nullptr, -10000);
-    Moho::CPrimBatcher::FlushBatcher(batcher);
+    batcher->FlushBatcher();
     return 0;
 }
 
 int LuaDrawCircle(lua_State *l)
 {
-    int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
+    Moho::CD3DPrimBatcher *batcher = *(Moho::CD3DPrimBatcher **)(((int *)g_WRenViewport) + 2135);
     if (batcher == nullptr)
     {
         return 0;
@@ -235,12 +236,12 @@ int LuaDrawCircle(lua_State *l)
     }
     _DrawCircle(batcher, &pos, r, thickness * a, color, &orientation);
 
-    Moho::CPrimBatcher::FlushBatcher(batcher);
+    batcher->FlushBatcher();
     return 0;
 }
 
 // this world view?
-void __thiscall CustomDraw(void *_this, void *batcher)
+void __thiscall CustomDraw(void *_this, Moho::CD3DPrimBatcher *batcher)
 {
     // void *wldmap = IWldTerrainRes::GetWldMap();
     // void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
@@ -264,16 +265,16 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
     int *camera = *(int **)((int)_this + 4);
     void *projmatrix = (*(void *(__thiscall **)(int *))(*camera + 8))(camera);
-    Moho::CPrimBatcher::ResetBatcher(batcher);
-    Moho::CPrimBatcher::SetViewProjMatrix(batcher, projmatrix);
-    Moho::CPrimBatcher::Texture t;
-    Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
-    Moho::CPrimBatcher::SetTexture(batcher, &t);
+    batcher->ResetBatcher();
+    batcher->SetViewProjMatrix(projmatrix);
+    Moho::Texture t;
+    Moho::FromSolidColor(&t, 0xFFFFFFFF);
+    batcher->SetTexture(&t);
     if (lua_pcall(l, 0, 0))
     {
         WarningF("%s", lua_tostring(l, -1));
     }
-    Moho::CPrimBatcher::FlushBatcher(batcher);
+    batcher->FlushBatcher();
 }
 
 void CustomDrawEnter()
