@@ -292,3 +292,40 @@ void CustomDrawEnter()
         : [CustomDraw] "i"(CustomDraw)
         :);
 }
+
+void *CheckBitmap(LuaObject *obj, LuaState *ls)
+{
+    void *result;
+    asm(
+        "call 0x00783C70;"
+        : "=a"(result)
+        : [obj] "a"(obj), [ls] "D"(ls)
+        :);
+
+    return result;
+}
+
+int LuaBitmapSetColorMask(lua_State *l)
+{
+    if (lua_gettop(l) != 2)
+    {
+        l->LuaState->Error(ExpectedButGot, __FUNCTION__, 2, lua_gettop(l));
+    }
+    void *bitmap = nullptr;
+
+    LuaObject unitObject{l->LuaState, 1};
+    bitmap = CheckBitmap(&unitObject, l->LuaState);
+
+    if (bitmap == nullptr)
+        return 0;
+    const char *s = lua_tostring(l, 2);
+    uint32_t color;
+    if (!Moho::TryConvertToColor(s, color))
+    {
+        lua_pushstring(l, "unknown color");
+        lua_error(l);
+        return 0;
+    }
+    *(uint32_t *)((int)bitmap + 244) = color;
+    return 0;
+}

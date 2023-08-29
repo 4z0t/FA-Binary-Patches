@@ -115,17 +115,24 @@ luaFuncDescReg DrawRectDesc = {0x00E45E90, // UI chain entry
 
 int LuaDrawCircle(lua_State *l);
 luaFuncDescReg DrawCircleDesc = {0x00E45E90, // UI chain entry
-                               "DrawCircle",
-                               0x00E00D90,
-                               "DrawCircle(x,y,z,r,color)",
-                               &DrawRectDesc, // Next reg desc
-                               LuaDrawCircle,
-                               0x00000000};
-
+                                 "DrawCircle",
+                                 0x00E00D90,
+                                 "DrawCircle(x,y,z,r,color)",
+                                 &DrawRectDesc, // Next reg desc
+                                 LuaDrawCircle,
+                                 0x00000000};
+int LuaBitmapSetColorMask(lua_State *l);
+luaFuncDescReg BitmapSetColorMaskDesc = {0x00E37C14,
+                                         "SetColorMask",
+                                         "CMauiBitmap",
+                                         "Bitmap:SetColorMask(color)",
+                                         &DrawCircleDesc,
+                                         LuaBitmapSetColorMask,
+                                         0x00F8D7DC};
 luaFuncDescReg UGDAPRegDesc = {0x00E45E90, // UI chain entry
                                s_GDAPName,
                                0x00E00D90,
                                s_GDAPDesc,
-                               &DrawCircleDesc, // Next reg desc
+                               &BitmapSetColorMaskDesc, // Next reg desc
                                SimGetDepositsAroundPoint,
                                0x00000000};
