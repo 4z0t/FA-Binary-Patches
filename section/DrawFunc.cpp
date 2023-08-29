@@ -327,7 +327,7 @@ int LuaBitmapSetColorMask(lua_State *l)
         return 0;
     }
     color &= 0x00FFFFFFu;
-    *(uint32_t *)((int)bitmap + 244) = (*(uint32_t *)((int)bitmap + 244) & 0xFF000000) | color;
+    *(uint32_t *)((int)bitmap + 244) = (*(uint32_t *)((int)bitmap + 244) & 0xFF000000u) | color;
     return 0;
 }
 
