@@ -1,5 +1,40 @@
 void IssueBuildMobile()
 {
+
+        // anonymous_0     = dword ptr -158h
+        // var_14C         = dword ptr -14Ch
+        // var_148         = dword ptr -148h
+        // var_144         = dword ptr -144h
+        // var_140         = dword ptr -140h
+        // var_13C         = dword ptr -13Ch
+        // var_138         = dword ptr -138h
+        // var_134         = dword ptr -134h
+        // var_130         = dword ptr -130h
+        // var_12C         = dword ptr -12Ch
+        // var_128         = dword ptr -128h
+        // var_124         = dword ptr -124h
+        // var_120         = dword ptr -120h
+        // var_110         = dword ptr -110h
+        // var_10C         = dword ptr -10Ch
+        // var_108         = dword ptr -108h
+        // var_104         = dword ptr -104h
+        // Set2            = dword ptr -0F8h
+        // var_F4          = dword ptr -0F4h
+        // var_F0          = dword ptr -0F0h
+        // var_EC          = dword ptr -0ECh
+        // var_E8          = dword ptr -0E8h
+        // var_E4          = dword ptr -0E4h
+        // var_E0          = byte ptr -0E0h
+        // var_D0          = dword ptr -0D0h
+        // var_CC          = dword ptr -0CCh
+        // var_C8          = dword ptr -0C8h
+        // var_C4          = dword ptr -0C4h
+        // var_BC          = dword ptr -0BCh
+        // var_A4          = dword ptr -0A4h
+        // var_A0          = dword ptr -0A0h
+        // var_C           = dword ptr -0Ch
+        // var_4           = dword ptr -4
+        // luaState        = dword ptr  8
     asm(
         //retrieve arguments
         #pragma region 
@@ -290,11 +325,11 @@ void IssueBuildMobile()
                 "test    edi, edi;" 
                 "jz      loc_6F5FE0;"
 
-                "lea     edx, [esp+158h+var_F8];"
+                "lea     edx, [esp+158h+Set2];"
                 "mov     eax, edx;"
                 "lea     ecx, [esp+158h+var_E0];"
                 "mov     [esp+158h+var_F4], edx;"
-                "mov     [esp+158h+var_F8], eax;"
+                "mov     [esp+158h+Set2], eax;"
                 "mov     edx, ecx;"
                 "lea     eax, [esp+158h+var_D0];"
                 "mov     [esp+158h+var_F0], ecx;"
@@ -303,7 +338,7 @@ void IssueBuildMobile()
                 "mov     [esp+158h+var_E4], ecx;"
                 "push    edi;"
                 "lea     ebx, [esp+15Ch+var_148];"
-                "lea     eax, [esp+15Ch+var_F8];"
+                "lea     eax, [esp+15Ch+Set2];"
                 "mov     byte ptr [esp+15Ch+var_4], 3;"
                 "call    sub_57DDD0;" //Moho::Set::AddItem
                 "movss   xmm0, [esp+158h+var_13C];"
@@ -339,7 +374,7 @@ void IssueBuildMobile()
                 "call    lua_getglobaluserdata;"
                 "add     esp, 4;"
                 "push    eax;"
-                "lea     edx, [esp+164h+var_F8];"
+                "lea     edx, [esp+164h+Set2];"
                 "call    ?UNIT_IssueCommand@Moho@@YAPAVCUnitCommand@1@PAVSim@1@ABV?$EntitySetTemplate@VUnit@Moho@@@1@ABUSSTICommandIssueData@1@_N3@Z ; Moho::UNIT_IssueCommand(Moho::Sim *,Moho::EntitySetTemplate<Moho::Unit> const &,Moho::SSTICommandIssueData const &,bool,bool);"
                 "add     esp, 0Ch;"
                 "lea     eax, [esp+158h+var_A0];"
@@ -355,11 +390,11 @@ void IssueBuildMobile()
 
     "loc_6F5FCB:                        "
                 //dtor for set
-                "mov     ecx, [esp+158h+var_F8];"
+                "mov     ecx, [esp+158h+Set2];"
                 "mov     edx, [esp+158h+var_F4];"
                 "mov     [ecx+4], edx;"
                 "mov     eax, [esp+158h+var_F4];"
-                "mov     ecx, [esp+158h+var_F8];"
+                "mov     ecx, [esp+158h+Set2];"
                 "mov     [eax], ecx;"
 
    "loc_6F5FE0:  "
