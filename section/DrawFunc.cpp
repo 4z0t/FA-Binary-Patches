@@ -329,3 +329,15 @@ int LuaBitmapSetColorMask(lua_State *l)
     *(uint32_t *)((int)bitmap + 244) = color;
     return 0;
 }
+
+int __thiscall _SetAlpha(int bitmap, float alpha)
+{
+    uint32_t alphai = 0xFF * alpha;
+    if (alphai > 0xFF)
+    {
+        alphai = 0xFF;
+    }
+    *(float *)(bitmap + 240) = alpha;
+    *(uint32_t *)(bitmap + 244) = (*(uint32_t *)(bitmap + 244) & 0x00FFFFFFu) | (alphai << 24);
+    return alphai;
+}
