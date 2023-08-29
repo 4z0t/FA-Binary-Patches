@@ -27,8 +27,8 @@ void IssueBuildMobile()
         // var_E0          = byte ptr -0E0h
         // var_D0          = dword ptr -0D0h
         // var_CC          = dword ptr -0CCh
-        // var_C8          = dword ptr -0C8h
-        // var_C4          = dword ptr -0C4h
+        // setBegin          = dword ptr -0C8h
+        // setEnd          = dword ptr -0C4h
         // var_BC          = dword ptr -0BCh
         // var_A4          = dword ptr -0A4h
         // var_A0          = dword ptr -0A0h
@@ -153,7 +153,7 @@ void IssueBuildMobile()
 
  "loc_6F5CB7:    "                   
                 "mov     [esp+158h+var_10C], eax;"
-                "mov     eax, [esp+158h+var_C8];"
+                "mov     eax, [esp+158h+setBegin];"
                 "cmp     eax, [esp+158h+var_BC];"
                 "jz      short loc_6F5CD4;"
                 "push    eax;"
@@ -186,20 +186,20 @@ void IssueBuildMobile()
                 "jnz     short loc_6F5D3F;"
                 "movss   xmm0, dword_10A99A4;"
                 "or      dword_10C7AB0, eax;"
-                "movss   dword_10C7AA4, xmm0;"
-                "movss   dword_10C7AA8, xmm0;"
-                "movss   dword_10C7AAC, xmm0;"
+                "movss   dword_10C7AA4, xmm0;" //nans?
+                "movss   dword_10C7AA8, xmm0;" //nans?
+                "movss   dword_10C7AAC, xmm0;" //nans?
 
  "loc_6F5D3F:  "  
                 "movss   xmm0, dword_10C7AA4;"
-                "mov     ebx, [esp+158h+var_C8];"
+                "mov     ebx, [esp+158h+setBegin];"
                 "movss   [esp+158h+var_130], xmm0;"
                 "movss   xmm0, dword_10C7AA8;"
                 "movss   [esp+158h+var_12C], xmm0;"
                 "movss   xmm0, dword_10C7AAC;"
                 "xor     edi, edi;"
                  // check for start of while loop to pick unit
-                "cmp     ebx, [esp+158h+var_C4];" 
+                "cmp     ebx, [esp+158h+setEnd];" 
                 "movss   [esp+158h+var_128], xmm0;"
                 "jz      loc_6F5FE0;"
 //do{
@@ -318,7 +318,7 @@ void IssueBuildMobile()
  "loc_6F5EAC:                        "
                 //increment iterator
                 "add     ebx, 4;"
-                "cmp     ebx, [esp+158h+var_C4];"
+                "cmp     ebx, [esp+158h+setEnd];"
                 "jnz     loc_6F5D80;"
 // }while(v10 != v54)
                 // if unit
@@ -413,7 +413,7 @@ void IssueBuildMobile()
 
    "loc_6F6001:                        "
                 "mov     [esp+158h+var_10C], eax;"
-                "mov     eax, [esp+158h+var_C8];"
+                "mov     eax, [esp+158h+setBegin];"
                 "cmp     eax, [esp+158h+var_BC];"
                 "jz      short loc_6F601E;"
                 "push    eax;"
