@@ -1,5 +1,6 @@
 void IssueBuildMobile()
 {
+    asm(
                 "push    ebp;"
                 "mov     ebp, esp;"
                 "and     esp, 0FFFFFFF8h;"
@@ -30,7 +31,7 @@ void IssueBuildMobile()
                 "add     esp, 14h;"
 
  "loc_6F5BAF:"   
-                "push    offset aIssuebuildmobi ; "IssueBuildMobile";"
+                "push    offset aIssuebuildmobi ;"// "IssueBuildMobile";"
                 "push    esi;"
                 "lea     ecx, [esp+160h+var_148];"
                 "push    ecx;"
@@ -45,7 +46,7 @@ void IssueBuildMobile()
                 "mov     [esp+160h+var_14C], esp;"
                 "mov     [esp+160h+var_4], 0;"
 
-                "push    offset aIssuebuildmobi ; "IssueBuildMobile";"
+                "push    offset aIssuebuildmobi ;"// "IssueBuildMobile";"
                 "push    esi;"
                 "lea     edi, [esp+168h+var_130];"
                 "mov     [eax], esi;"
@@ -78,7 +79,7 @@ void IssueBuildMobile()
                 "mov     [eax], ecx;"
 
  "loc_6F5C43:    "                      
-                "push    offset aIssuebuildmobi ; "IssueBuildMobile";"
+                "push    offset aIssuebuildmobi ;"// "IssueBuildMobile";"
                 "sub     esp, 8;"
                 "mov     eax, esp;"
                 "mov     edi, esi;"
@@ -378,5 +379,5 @@ void IssueBuildMobile()
                 "pop     ebx;"
                 "mov     esp, ebp;"
                 "pop     ebp;"
-                "ret;"
+                "ret;");
 }
