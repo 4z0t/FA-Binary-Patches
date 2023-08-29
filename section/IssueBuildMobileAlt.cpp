@@ -1,6 +1,8 @@
 void IssueBuildMobile()
 {
     asm(
+        //retrieve arguments
+        #pragma region 
                 "push    ebp;"
                 "mov     ebp, esp;"
                 "and     esp, 0FFFFFFF8h;"
@@ -101,7 +103,8 @@ void IssueBuildMobile()
                 "add     esp, 10h;"
                 "test    edi, edi;"
                 "mov     byte ptr [esp+158h+var_4], 2;"
-                "jnz     short loc_6F5D0C;"
+                "jnz     short loc_6F5D0C;" // if Blueprint
+                // else
                 "mov     eax, [esp+158h+var_110];"
                 "cmp     eax, [esp+158h+var_104];"
                 "jz      short loc_6F5CB7;"
@@ -137,10 +140,12 @@ void IssueBuildMobile()
                 "pop     ebx;"
                 "mov     esp, ebp;"
                 "pop     ebp;"
-                "retn;"
+                "ret;"
 
+#pragma endregion
 
  "loc_6F5D0C:  " 
+                // stuff with global variables
                 "mov     eax, 1;"
                 "test    byte ptr dword_10C7AB0, al;"
                 "jnz     short loc_6F5D3F;"
@@ -158,49 +163,59 @@ void IssueBuildMobile()
                 "movss   [esp+158h+var_12C], xmm0;"
                 "movss   xmm0, dword_10C7AAC;"
                 "xor     edi, edi;"
-                "cmp     ebx, [esp+158h+var_C4];"
+                 // check for start of while loop to pick unit
+                "cmp     ebx, [esp+158h+var_C4];" 
                 "movss   [esp+158h+var_128], xmm0;"
                 "jz      loc_6F5FE0;"
-                "nop;"
+//do{
 
+// if ( *v10 )
+//   v12 = *v10 - 8;
+// else
+//   v12 = 0;
+///{
  "loc_6F5D80:"  
                 "mov     ecx, [ebx];"
                 "test    ecx, ecx;"
                 "jz      short loc_6F5D8B;"
                 "add     ecx, 0FFFFFFF8h;"
                 "jmp     short loc_6F5D8D;"
-
-
  "loc_6F5D8B:    "
                 "xor     ecx, ecx;"
-
+///}
  "loc_6F5D8D:  "
                 "mov     eax, [ecx];"
                 "mov     edx, [eax+14h];"
-                "call    edx;"
+                "call    edx;"// call for unit position
                 "movss   xmm0, dword ptr [eax];"
                 "movss   [esp+158h+var_148], xmm0;"
                 "movss   xmm0, dword ptr [eax+4];"
                 "movss   [esp+158h+var_144], xmm0;"
                 "movss   xmm0, dword ptr [eax+8];"
                 "mov     eax, [ebx];"
+
+//   if ( v16 )
+//        v17 = 0;
+//   else
+//        v17 = (void *)(v15 - 8);
+//
                 "test    eax, eax;"
                 "movss   [esp+158h+var_140], xmm0;"
                 "jz      short loc_6F5DBF;"
                 "add     eax, 0FFFFFFF8h;"
                 "jmp     short loc_6F5DC1;"
-
-
     "loc_6F5DBF:                       "
                 "xor     eax, eax;"
+    "loc_6F5DC1:                       "
+//
 
-   "loc_6F5DC1:                       "
                 "mov     ecx, [esp+158h+var_14C];"
                 "push    ecx;"
                 "mov     ecx, eax;"
                 "call    Unit__CanBuild;"
                 "test    al, al;"
                 "jz      loc_6F5EAC;"
+                //if vector is nan or ... bla bla
                 "lea     esi, [esp+158h+var_148];"
                 "call    Vector__NotNaN;"
                 "test    al, al;"
@@ -240,8 +255,9 @@ void IssueBuildMobile()
                 "addss   xmm1, xmm2;"
                 "comiss  xmm1, xmm7;"
                 "jbe     short loc_6F5EA9;"
-
+    
      "loc_6F5E75:                       "
+                //true
                 "mov     eax, [ebx];"
                 "test    eax, eax;"
                 "subss   xmm3, [esp+158h+var_13C];"
@@ -256,22 +272,24 @@ void IssueBuildMobile()
                 "jmp     short loc_6F5EAC;"
 
 
- "loc_6F5EA5:                       "
+    "loc_6F5EA5:                       "
                 "xor     edi, edi;"
                 "jmp     short loc_6F5EAC;"
 
-
- "loc_6F5EA9:                           "
-
+    "loc_6F5EA9:                           "
+            //else
                 "mov     esi, [ebp+arg_0];"
 
  "loc_6F5EAC:                        "
-
+                //increment iterator
                 "add     ebx, 4;"
                 "cmp     ebx, [esp+158h+var_C4];"
                 "jnz     loc_6F5D80;"
-                "test    edi, edi;"
+// }while(v10 != v54)
+                // if unit
+                "test    edi, edi;" 
                 "jz      loc_6F5FE0;"
+
                 "lea     edx, [esp+158h+var_F8];"
                 "mov     eax, edx;"
                 "lea     ecx, [esp+158h+var_E0];"
@@ -287,7 +305,7 @@ void IssueBuildMobile()
                 "lea     ebx, [esp+15Ch+var_148];"
                 "lea     eax, [esp+15Ch+var_F8];"
                 "mov     byte ptr [esp+15Ch+var_4], 3;"
-                "call    sub_57DDD0;"
+                "call    sub_57DDD0;" //Moho::Set::AddItem
                 "movss   xmm0, [esp+158h+var_13C];"
                 "movss   [esp+158h+var_128], xmm0;"
                 "movss   xmm0, [esp+158h+var_138];"
@@ -336,6 +354,7 @@ void IssueBuildMobile()
                 "add     esp, 4;"
 
     "loc_6F5FCB:                        "
+                //dtor for set
                 "mov     ecx, [esp+158h+var_F8];"
                 "mov     edx, [esp+158h+var_F4];"
                 "mov     [ecx+4], edx;"
@@ -343,7 +362,9 @@ void IssueBuildMobile()
                 "mov     ecx, [esp+158h+var_F8];"
                 "mov     [eax], ecx;"
 
-   "loc_6F5FE0:                      "
+   "loc_6F5FE0:  "
+                // we've done all we wanted
+                // calling dtors and etc
                 "mov     eax, [esp+158h+var_110];"
                 "cmp     eax, [esp+158h+var_104];"
                 "jz      short loc_6F6001;"
