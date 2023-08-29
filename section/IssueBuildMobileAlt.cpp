@@ -25,7 +25,7 @@ void IssueBuildMobile()
         // var_E8          = dword ptr -0E8h
         // var_E4          = dword ptr -0E4h
         // var_E0          = byte ptr -0E0h
-        // var_D0          = dword ptr -0D0h
+        // Set1          = dword ptr -0D0h
         // var_CC          = dword ptr -0CCh
         // setBegin          = dword ptr -0C8h
         // setEnd          = dword ptr -0C4h
@@ -72,7 +72,7 @@ void IssueBuildMobile()
                 "push    esi;"
                 "lea     ecx, [esp+160h+var_148];"
                 "push    ecx;"
-                "lea     edx, [esp+164h+var_D0];"
+                "lea     edx, [esp+164h+Set1];"
                 "mov     ebx, 1;"
                 "push    edx;"
                 "mov     [esp+168h+var_148], esi;"
@@ -161,11 +161,11 @@ void IssueBuildMobile()
                 "add     esp, 4;"
 
  "loc_6F5CD4: "
-                "mov     edx, [esp+158h+var_D0];"
+                "mov     edx, [esp+158h+Set1];"
                 "mov     eax, [esp+158h+var_CC];"
                 "mov     [edx+4], eax;"
                 "mov     ecx, [esp+158h+var_CC];"
-                "mov     edx, [esp+158h+var_D0];"
+                "mov     edx, [esp+158h+Set1];"
                 "mov     [ecx], edx;"
                 "xor     eax, eax;"
                 "mov     ecx, [esp+158h+var_C];"
@@ -331,7 +331,7 @@ void IssueBuildMobile()
                 "mov     [esp+158h+var_F4], edx;"
                 "mov     [esp+158h+Set2], eax;"
                 "mov     edx, ecx;"
-                "lea     eax, [esp+158h+var_D0];"
+                "lea     eax, [esp+158h+Set1];"
                 "mov     [esp+158h+var_F0], ecx;"
                 "mov     [esp+158h+var_EC], edx;"
                 "mov     [esp+158h+var_E8], eax;"
@@ -421,10 +421,10 @@ void IssueBuildMobile()
                 "add     esp, 4;"
 
     "loc_6F601E:                      "
-                "mov     eax, [esp+158h+var_D0];"
+                "mov     eax, [esp+158h+Set1];"
                 "mov     ecx, [esp+158h+var_CC];"
                 "mov     [eax+4], ecx;"
-                "mov     eax, [esp+158h+var_D0];"
+                "mov     eax, [esp+158h+Set1];"
                 "mov     edx, [esp+158h+var_CC];"
                 "mov     ecx, [esp+158h+var_C];"
                 "pop     edi;"
