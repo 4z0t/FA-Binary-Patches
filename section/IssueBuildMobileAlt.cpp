@@ -1,3 +1,12 @@
+void IssueBuildMobileFix()
+{
+    asm("lea edx, [esp+0x94];"
+        "call    0x6F12C0;"
+        "jmp     0x6F5FA0;");
+}
+
+/*
+
 void IssueBuildMobile()
 {
 
@@ -37,7 +46,7 @@ void IssueBuildMobile()
         // luaState        = dword ptr  8
     asm(
         //retrieve arguments
-        #pragma region 
+        #pragma region
                 "push    ebp;"
                 "mov     ebp, esp;"
                 "and     esp, 0FFFFFFF8h;"
@@ -67,7 +76,7 @@ void IssueBuildMobile()
 
                 "add     esp, 14h;"
 
- "loc_6F5BAF:"   
+ "loc_6F5BAF:"
                 "push    offset aIssuebuildmobi ;"// "IssueBuildMobile";"
                 "push    esi;"
                 "lea     ecx, [esp+160h+var_148];"
@@ -104,18 +113,18 @@ void IssueBuildMobile()
                 "jz      short loc_6F5C3D;"
                 "mov     edi, edi;"
 
- "loc_6F5C30:    "                       
+ "loc_6F5C30:    "
                 "mov     eax, [eax];"
                 "add     eax, 4;"
                 "lea     edx, [esp+158h+var_12C];"
                 "cmp     [eax], edx;"
                 "jnz     short loc_6F5C30;"
 
- "loc_6F5C3D:    "                       
+ "loc_6F5C3D:    "
                 "mov     ecx, [esp+158h+var_128];"
                 "mov     [eax], ecx;"
 
- "loc_6F5C43:    "                      
+ "loc_6F5C43:    "
                 "push    offset aIssuebuildmobi ;"// "IssueBuildMobile";"
                 "sub     esp, 8;"
                 "mov     eax, esp;"
@@ -151,7 +160,7 @@ void IssueBuildMobile()
                 "add     esp, 4;"
                 "mov     [esp+158h+var_108], ecx;"
 
- "loc_6F5CB7:    "                   
+ "loc_6F5CB7:    "
                 "mov     [esp+158h+var_10C], eax;"
                 "mov     eax, [esp+158h+setBegin];"
                 "cmp     eax, [esp+158h+var_BC];"
@@ -179,7 +188,7 @@ void IssueBuildMobile()
 
 #pragma endregion
 
- "loc_6F5D0C:  " 
+ "loc_6F5D0C:  "
                 // stuff with global variables
                 "mov     eax, 1;"
                 "test    byte ptr dword_10C7AB0, al;"
@@ -190,7 +199,7 @@ void IssueBuildMobile()
                 "movss   dword_10C7AA8, xmm0;" //nans?
                 "movss   dword_10C7AAC, xmm0;" //nans?
 
- "loc_6F5D3F:  "  
+ "loc_6F5D3F:  "
                 "movss   xmm0, dword_10C7AA4;"
                 "mov     ebx, [esp+158h+setBegin];"
                 "movss   [esp+158h+var_130], xmm0;"
@@ -199,7 +208,7 @@ void IssueBuildMobile()
                 "movss   xmm0, dword_10C7AAC;"
                 "xor     edi, edi;"
                  // check for start of while loop to pick unit
-                "cmp     ebx, [esp+158h+setEnd];" 
+                "cmp     ebx, [esp+158h+setEnd];"
                 "movss   [esp+158h+var_128], xmm0;"
                 "jz      loc_6F5FE0;"
 //do{
@@ -209,7 +218,7 @@ void IssueBuildMobile()
 // else
 //   v12 = 0;
 ///{
- "loc_6F5D80:"  
+ "loc_6F5D80:"
                 "mov     ecx, [ebx];"
                 "test    ecx, ecx;"
                 "jz      short loc_6F5D8B;"
@@ -290,7 +299,7 @@ void IssueBuildMobile()
                 "addss   xmm1, xmm2;"
                 "comiss  xmm1, xmm7;"
                 "jbe     short loc_6F5EA9;"
-    
+
      "loc_6F5E75:                       "
                 //true
                 "mov     eax, [ebx];"
@@ -322,7 +331,7 @@ void IssueBuildMobile()
                 "jnz     loc_6F5D80;"
 // }while(v10 != v54)
                 // if unit
-                "test    edi, edi;" 
+                "test    edi, edi;"
                 "jz      loc_6F5FE0;"
 
                 "lea     edx, [esp+158h+Set2];"
@@ -437,3 +446,4 @@ void IssueBuildMobile()
                 "pop     ebp;"
                 "ret;");
 }
+//*/
