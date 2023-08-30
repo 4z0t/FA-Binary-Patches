@@ -8,7 +8,7 @@ void IssueBuildMobileFix()
         "call    0x90CA40;" // lua_toboolean
         "add esp, 8;"
         "test al, al;"
-        "jnz PICK_NEAREST;"
+        "jz PICK_NEAREST;"
         // "jz PICK_ALL;"
         // "PICK_ALL:"
         "lea edx, [esp+0x94];"
