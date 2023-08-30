@@ -9,8 +9,6 @@ void IssueBuildMobileFix()
         "add esp, 8;"
         "test al, al;"
         "jz PICK_NEAREST;"
-        // "jz PICK_ALL;"
-        // "PICK_ALL:"
         "lea edx, [esp+0x94];"
         "jmp UNIT_ISSUE;"
         "PICK_NEAREST:"
