@@ -1,6 +1,21 @@
 void IssueBuildMobileFix()
 {
-    asm("lea edx, [esp+0x94];"
+    asm(
+        "mov     esi, [ebp+0x8];"
+        "mov     esi, [esi];"
+        "push    5;"
+        "push    esi;"
+        "call    0x90CA40;" // lua_toboolean
+        "add esp, 8;"
+        "test al, al;"
+        "jnz PICK_NEAREST;"
+        // "jz PICK_ALL;"
+        // "PICK_ALL:"
+        "lea edx, [esp+0x94];"
+        "jmp UNIT_ISSUE;"
+        "PICK_NEAREST:"
+        "lea edx, [esp+0x6C];"
+        "UNIT_ISSUE:"
         "call    0x6F12C0;"
         "jmp     0x6F5FA0;");
 }
