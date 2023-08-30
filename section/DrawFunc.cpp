@@ -240,6 +240,8 @@ int LuaDrawCircle(lua_State *l)
     return 0;
 }
 
+extern bool CustomWorldRendering;
+
 // this world view?
 void __thiscall CustomDraw(void *_this, void *batcher)
 {
@@ -250,6 +252,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     // void *map = IWldTerrainRes::GetMap(terrain);
     // if (!map)
     //     return;
+    if(!CustomWorldRendering) return;
 
     LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
     lua_State *l = state->m_state;

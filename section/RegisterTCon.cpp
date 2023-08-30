@@ -3,15 +3,15 @@
 
 struct ConDescReg
 {
-	uintptr_t vftable = 0x0E01700/*Moho::CConCommand::`vftable'*/;
-	const char *name;
-	const char *description;
-	void *value;
+    uintptr_t vftable = 0x0E01700 /*Moho::CConCommand::`vftable'*/;
+    const char *name;
+    const char *description;
+    void *value;
 };
 VALIDATE_SIZE(ConDescReg, 0x10)
 
-using TConFunction = void(*)(vector<string>*);
-template<typename T>
+using TConFunction = void (*)(vector<string> *);
+template <typename T>
 inline void RegisterTCon(ConDescReg *descCon)
 {
     reinterpret_cast<void(__thiscall *)(void *, ConDescReg *)>(0x41E390)(reinterpret_cast<void *(__stdcall *)()>(0x41BEB0)(), descCon);
@@ -33,20 +33,26 @@ inline void RegisterTCon(ConDescReg *descCon)
         static_assert(!std::is_same_v<T, T>, "Not supported type!");
 }
 
-ConDescReg myConFunction{0x0E01700, "name", "description", [](vector<string>* vec_) {
-        auto& vec = *vec_;
-        WarningF("Command: %s", vec[0].data());
-        if (vec.size() >= 2)
-            for (auto it = vec.begin + 1; it != vec.end; it++)
-                WarningF("param[%d]: %s", it - vec.begin, it->data());
-    }};
+ConDescReg myConFunction{0x0E01700, "name", "description", [](vector<string> *vec_)
+                         {
+                             auto &vec = *vec_;
+                             WarningF("Command: %s", vec[0].data());
+                             if (vec.size() >= 2)
+                                 for (auto it = vec.begin + 1; it != vec.end; it++)
+                                     WarningF("param[%d]: %s", it - vec.begin, it->data());
+                         }};
 
 int v;
 ConDescReg myConIntV{0x0E01700, "name2", "description", &v};
+
+
+
+bool CustomWorldRendering = false;
+ConDescReg CustomWorldRenderingVar{0x0E01700, "ui_CustomWorldRendering", "Enables custom world rendering", &CustomWorldRendering};
 
 void OnRegisterTCon()
 {
     RegisterTCon<TConFunction>(&myConFunction);
     RegisterTCon<int>(&myConIntV);
-
+    RegisterTCon<bool>(&CustomWorldRenderingVar);
 }
