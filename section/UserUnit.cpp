@@ -78,7 +78,7 @@ int GetFractionComplete(lua_State *l)
 
     // LuaObject unitObject{l->LuaState, 1};
     // void *unit = CheckUserUnit(&unitObject, l->LuaState);
-    Result r = GetCScriptObject<CUserUnit>(l, 1);
+    Result<CUserUnit> r = GetCScriptObject<CUserUnit>(l, 1);
     void *unit = r.object;
     if (unit == nullptr)
     {
