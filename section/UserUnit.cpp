@@ -1,4 +1,5 @@
 #include "include/moho.h"
+#include "include/CObject.hpp"
 
 void *CheckUserUnit(LuaObject *obj, LuaState *ls)
 {
