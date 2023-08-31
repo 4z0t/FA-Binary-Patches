@@ -1,12 +1,12 @@
-#include "include/moho.h"
 #include "include/CObject.hpp"
+#include "include/moho.h"
 
 void *CheckUserUnit(LuaObject *obj, LuaState *ls)
 {
     void *result;
     asm(
         "call 0x00822B80;"
-        :"=a" (result)
+        : "=a"(result)
         : [obj] "a"(obj), [ls] "D"(ls)
         :);
 
@@ -75,10 +75,17 @@ int GetFractionComplete(lua_State *l)
     {
         l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
-    LuaObject unitObject{l->LuaState, 1};
-    void *unit = CheckUserUnit(&unitObject, l->LuaState);
+
+    // LuaObject unitObject{l->LuaState, 1};
+    // void *unit = CheckUserUnit(&unitObject, l->LuaState);
+    Result r = GetCScriptObject<CUserUnit>(l, 1);
+    void *unit = r.object;
     if (unit == nullptr)
+    {
+        lua_pushstring(l, r.reason);
+        lua_error(l);
         return 0;
+    }
     lua_pushnumber(l, Moho::UserUnit::GetFractionComplete(unit));
     return 1;
 }

@@ -176,7 +176,6 @@ namespace IWldTerrainRes
 
 } // namespace  IWldTerrainRes
 
-#define DebugLog(_s) LogF("%s", (_s))
 
 // UI_Lua DrawRect()
 int LuaDrawRect(lua_State *l)
