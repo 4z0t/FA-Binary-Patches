@@ -345,3 +345,4 @@ int __thiscall _SetAlpha(int bitmap, float alpha)
     *(uint32_t *)(bitmap + 244) = (*(uint32_t *)(bitmap + 244) & 0x00FFFFFFu) | (alphai << 24);
     return alphai;
 }
+
