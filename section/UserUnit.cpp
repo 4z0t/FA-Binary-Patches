@@ -49,11 +49,14 @@ int GetInterpolatedPosition(lua_State *l)
     {
         l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
-    LuaObject unitObject{l->LuaState, 1};
-    // float *unit = (float *)Moho::UserUnit::GetUserUnit(&unitObject, l->LuaState);
-    float *unit = (float *)CheckUserUnit(&unitObject, l->LuaState);
+    Result<CUserUnit> r = GetCScriptObject<CUserUnit>(l, 1);
+    void *unit = r.object;
     if (unit == nullptr)
+    {
+        lua_pushstring(l, r.reason);
+        lua_error(l);
         return 0;
+    }
     float *mesh = (float *)Moho::UserUnit::GetMeshInstance(unit);
     if (mesh == nullptr)
         return 0;

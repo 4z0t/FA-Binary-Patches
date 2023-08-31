@@ -1,4 +1,5 @@
 #include "include/moho.h"
+#include "include/CObject.hpp"
 
 #define NON_GENERAL_REG(var_) [var_] "g"(var_)
 
@@ -176,7 +177,6 @@ namespace IWldTerrainRes
 
 } // namespace  IWldTerrainRes
 
-
 // UI_Lua DrawRect()
 int LuaDrawRect(lua_State *l)
 {
@@ -251,7 +251,8 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     // void *map = IWldTerrainRes::GetMap(terrain);
     // if (!map)
     //     return;
-    if(!CustomWorldRendering) return;
+    if (!CustomWorldRendering)
+        return;
 
     LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
     lua_State *l = state->m_state;
@@ -313,13 +314,15 @@ int LuaBitmapSetColorMask(lua_State *l)
     {
         l->LuaState->Error(ExpectedButGot, __FUNCTION__, 2, lua_gettop(l));
     }
-    void *bitmap = nullptr;
 
-    LuaObject unitObject{l->LuaState, 1};
-    bitmap = CheckBitmap(&unitObject, l->LuaState);
-
+    Result<CMAUIBitmap> r = GetCScriptObject<CMAUIBitmap>(l, 1);
+    void *bitmap = r.object;
     if (bitmap == nullptr)
+    {
+        lua_pushstring(l, r.reason);
+        lua_error(l);
         return 0;
+    }
     const char *s = lua_tostring(l, 2);
     uint32_t color;
     if (!Moho::TryConvertToColor(s, color))
@@ -344,4 +347,3 @@ int __thiscall _SetAlpha(int bitmap, float alpha)
     *(uint32_t *)(bitmap + 244) = (*(uint32_t *)(bitmap + 244) & 0x00FFFFFFu) | (alphai << 24);
     return alphai;
 }
-
