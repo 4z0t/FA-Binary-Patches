@@ -512,6 +512,8 @@ FDecl(0x90eb70, luaL_checknumber, float __cdecl (*)(lua_State*, int))
 FDecl(0x90ebf0, luaL_optnumber, float __cdecl (*)(lua_State*, int, float))
 FDecl(0x90c9f0, lua_tonumber, float __cdecl (*)(lua_State*, int))
 FDecl(0x90d7e0, lua_newuserdata, RRef __cdecl (*)(lua_State*, const RRef&))
+
+
 RRef lua_touserdata(lua_State *l, int index)
 {
     RRef ref;
