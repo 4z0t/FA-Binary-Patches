@@ -312,7 +312,7 @@ int LuaBitmapSetColorMask(lua_State *l)
 {
     if (lua_gettop(l) != 2)
     {
-        l->LuaState->Error(ExpectedButGot, __FUNCTION__, 2, lua_gettop(l));
+        l->LuaState->Error(s_ExpectedButGot, __FUNCTION__, 2, lua_gettop(l));
     }
 
     Result<CMAUIBitmap> r = GetCScriptObject<CMAUIBitmap>(l, 1);

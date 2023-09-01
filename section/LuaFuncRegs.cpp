@@ -1,11 +1,11 @@
 #include "include/moho.h"
-
+#include "include/strings.h"
 struct luaFuncDescReg
 {                         // 0x1C bytes
     void **RegisterFunc;  // call for register lua function
-    char *FuncName;       // lua name function
-    char *ClassName;      // lua class name. <global> if class none
-    char *FuncDesc;       // for log
+    const char *FuncName;       // lua name function
+    const char *ClassName;      // lua class name. <global> if class none
+    const char *FuncDesc;       // for log
     luaFuncDescReg *Next; // reg func of chain
     void *FuncPtr;        // code address
     void *ClassPtr;       // C++ class type address. NULL if class none
@@ -15,7 +15,7 @@ VALIDATE_SIZE(luaFuncDescReg, 0x1C)
 int SimSessionIsReplay(lua_State *L);             // End Sim chain
 luaFuncDescReg SSIRRegDesc = {0x00E45E90,         // Std register func
                               0x00E4AFBC,         // "SessionIsReplay"
-                              0x00E00D90,         // "<global>"
+                              s_Global,         // "<global>"
                               0x00E4AF84,         // "Return true if the active session is a replay session."
                               0x010B8AE8,         // Next reg desc: ArmyGetHandicap
                               SimSessionIsReplay, // Func ptr
@@ -24,7 +24,7 @@ luaFuncDescReg SSIRRegDesc = {0x00E45E90,         // Std register func
 int SimSetCommandSource(lua_State *L);
 luaFuncDescReg SSCSRegDesc = {0x00E45E90,
                               "SetCommandSource",
-                              0x00E00D90,
+                              s_Global,
                               "(targetArmyIndex, sourceHumanIndex, Set or Unset)",
                               &SSIRRegDesc,
                               SimSetCommandSource,
@@ -35,7 +35,7 @@ luaFuncDescReg SSCSRegDesc = {0x00E45E90,
 int SimGetDepositsAroundPoint(lua_State *L);
 luaFuncDescReg SGDAPRegDesc = {0x00E45E90,
                                s_GDAPName,
-                               0x00E00D90,
+                               s_Global,
                                s_GDAPDesc,
                                &SSCSRegDesc,
                                SimGetDepositsAroundPoint,
@@ -46,7 +46,7 @@ luaFuncDescReg SGDAPRegDesc = {0x00E45E90,
 int GetTimeForProfile(lua_State *L);
 luaFuncDescReg SGTFPRegDesc = {0x00E45E90,
                                s_GTFPName,
-                               0x00E00D90,
+                               s_Global,
                                s_GTFPDesc,
                                &SGDAPRegDesc,
                                GetTimeForProfile,
@@ -54,7 +54,7 @@ luaFuncDescReg SGTFPRegDesc = {0x00E45E90,
 
 luaFuncDescReg SGMWPRegDesc = {0x00E45E90,
                                0x00E451A4, // "GetMouseWorldPos"
-                               0x00E00D90,
+                               s_Global,
                                0x00E45188,
                                &SGTFPRegDesc,
                                0x00842BB0,
@@ -63,7 +63,7 @@ luaFuncDescReg SGMWPRegDesc = {0x00E45E90,
 int SimSetFocusArmy(lua_State *L);             // Sim chain entry
 luaFuncDescReg SSFARegDesc = {0x00E45E90,      // Std register func
                               0x00E43408,      // "SetFocusArmy"
-                              0x00E00D90,      // "<global>"
+                              s_Global,      // "<global>"
                               0x00E451FC,      // "SetFocusArmy(armyIndex or -1)"
                               &SGMWPRegDesc,   // Next reg desc
                               SimSetFocusArmy, // Func ptr
@@ -71,7 +71,7 @@ luaFuncDescReg SSFARegDesc = {0x00E45E90,      // Std register func
 
 luaFuncDescReg UGTFPRegDesc = {0x00E45E90, // UI chain end
                                s_GTFPName,
-                               0x00E00D90,
+                               s_Global,
                                s_GTFPDesc,
                                0x010C3CA4, // Next reg desc: SetFocusArmy
                                GetTimeForProfile,
@@ -80,7 +80,7 @@ luaFuncDescReg UGTFPRegDesc = {0x00E45E90, // UI chain end
 int SetInvertMidMouseButton(lua_State *L);
 luaFuncDescReg USIMMBRegDesc = {0x00E45E90,
                                 "SetInvertMidMouseButton",
-                                0x00E00D90,
+                                s_Global,
                                 "(bool)",
                                 &UGTFPRegDesc,
                                 SetInvertMidMouseButton,
@@ -89,7 +89,7 @@ luaFuncDescReg USIMMBRegDesc = {0x00E45E90,
 int GetInterpolatedPosition(lua_State *L);
 luaFuncDescReg UUserUnitGetInterpolatedPosition = {0x00E4DA64,
                                                    "GetInterpolatedPosition",
-                                                   "UserUnit",
+                                                   s_UserUnit,
                                                    "UserUnit:GetGetInterpolatedPosition()",
                                                    &USIMMBRegDesc,
                                                    GetInterpolatedPosition,
@@ -98,7 +98,7 @@ luaFuncDescReg UUserUnitGetInterpolatedPosition = {0x00E4DA64,
 int GetFractionComplete(lua_State *l);
 luaFuncDescReg UUserUnitGetFractionComplete = {0x00E4DA64,
                                                "GetFractionComplete",
-                                               "UserUnit",
+                                               s_UserUnit,
                                                "UserUnit:GetFractionComplete()",
                                                &UUserUnitGetInterpolatedPosition,
                                                GetFractionComplete,
@@ -107,7 +107,7 @@ luaFuncDescReg UUserUnitGetFractionComplete = {0x00E4DA64,
 int LuaDrawRect(lua_State *l);
 luaFuncDescReg DrawRectDesc = {0x00E45E90, // UI chain entry
                                "DrawRect",
-                               0x00E00D90,
+                               s_Global,
                                "DrawRect(x,y,z,color)",
                                &UUserUnitGetFractionComplete, // Next reg desc
                                LuaDrawRect,
@@ -116,7 +116,7 @@ luaFuncDescReg DrawRectDesc = {0x00E45E90, // UI chain entry
 int LuaDrawCircle(lua_State *l);
 luaFuncDescReg DrawCircleDesc = {0x00E45E90, // UI chain entry
                                  "DrawCircle",
-                                 0x00E00D90,
+                                 s_Global,
                                  "DrawCircle(x,y,z,r,color)",
                                  &DrawRectDesc, // Next reg desc
                                  LuaDrawCircle,
@@ -124,14 +124,14 @@ luaFuncDescReg DrawCircleDesc = {0x00E45E90, // UI chain entry
 int LuaBitmapSetColorMask(lua_State *l);
 luaFuncDescReg BitmapSetColorMaskDesc = {0x00E37C14,
                                          "SetColorMask",
-                                         "CMauiBitmap",
+                                         s_CMauiBitmap,
                                          "Bitmap:SetColorMask(color)",
                                          &DrawCircleDesc,
                                          LuaBitmapSetColorMask,
                                          0x00F8D7DC};
 luaFuncDescReg UGDAPRegDesc = {0x00E45E90, // UI chain entry
                                s_GDAPName,
-                               0x00E00D90,
+                               s_Global,
                                s_GDAPDesc,
                                &BitmapSetColorMaskDesc, // Next reg desc
                                SimGetDepositsAroundPoint,

@@ -47,7 +47,7 @@ int GetInterpolatedPosition(lua_State *l)
 {
     if (lua_gettop(l) != 1)
     {
-        l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
+        l->LuaState->Error(s_ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
     Result<CUserUnit> r = GetCScriptObject<CUserUnit>(l, 1);
     void *unit = r.object;
@@ -76,7 +76,7 @@ int GetFractionComplete(lua_State *l)
 {
     if (lua_gettop(l) != 1)
     {
-        l->LuaState->Error(ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
+        l->LuaState->Error(s_ExpectedButGot, __FUNCTION__, 1, lua_gettop(l));
     }
 
     // LuaObject unitObject{l->LuaState, 1};
