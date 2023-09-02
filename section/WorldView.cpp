@@ -83,15 +83,23 @@ void PushVector(lua_State *l, Vector3f v)
     lua_rawseti(l, -2, 3);
 }
 
+Vector3f ProjectVec(Vector3f v)
+{
+    return v;
+}
+
 void ProjectVectors(lua_State *l, int index, void *camera)
 {
-
-    lua_pushvalue(l, index);
+    lua_newtable(l); // result table
+    lua_pushvalue(l, index); // input vectors
     lua_pushnil(l);
-    while (lua_next(l, -2)) // -1 = value, -2 =  key, -3 = table
+    while (lua_next(l, -2)) // -1 = value, -2 =  key, -3 = table, -4 = result table
     {
         Vector3f v = ToVector(l, -1);
-        
+        Vector3f p = ProjectVec(v);
+        lua_pushvalue(l, -2); // key
+        PushVector(l, p); // value
+        lua_rawset(l, -6);
         lua_pop(l, 1);
     }
 
