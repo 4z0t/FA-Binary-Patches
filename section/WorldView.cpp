@@ -85,9 +85,10 @@ void PushVector(lua_State *l, Vector3f v)
 
 void ProjectVectors(lua_State *l, int index, void *camera)
 {
+
     lua_pushvalue(l, index);
     lua_pushnil(l);
-    while (lua_next(l, -2))
+    while (lua_next(l, -2)) // -1 = value, -2 =  key, -3 = table
     {
         Vector3f v = ToVector(l, -1);
         
