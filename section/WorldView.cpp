@@ -69,14 +69,11 @@ Vector3f ToVector(lua_State *l, int index)
     lua_pushvalue(l, index);
     lua_rawgeti(l, -1, 1);
     res.x = lua_tonumber(l, -1);
-    lua_pop(l, 1);
-    lua_rawgeti(l, -1, 2);
+    lua_rawgeti(l, -2, 2);
     res.y = lua_tonumber(l, -1);
-    lua_pop(l, 1);
-    lua_rawgeti(l, -1, 3);
+    lua_rawgeti(l, -3, 3);
     res.z = lua_tonumber(l, -1);
-    lua_pop(l, 1);
-    lua_pop(l, 1);
+    lua_pop(l, 4);
     return res;
 }
 
