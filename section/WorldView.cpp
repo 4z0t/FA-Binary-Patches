@@ -79,8 +79,8 @@ Vector3f ToVector(lua_State *l, int index)
 
 void PushVector(lua_State *l, Vector3f v)
 {
-    //lua_createtable(l, 3, 0);
-    lua_newtable(l); 
+    // lua_createtable(l, 3, 0);
+    lua_newtable(l);
     lua_pushnumber(l, v.x);
     lua_rawseti(l, -2, 1);
     lua_pushnumber(l, v.y);
@@ -89,14 +89,37 @@ void PushVector(lua_State *l, Vector3f v)
     lua_rawseti(l, -2, 3);
 }
 
-Vector3f ProjectVec(Vector3f v)
+void PushVector(lua_State *l, Vector2f v)
 {
-    LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
-
-    return v;
+    // lua_createtable(l, 3, 0);
+    lua_newtable(l);
+    lua_pushnumber(l, v.x);
+    lua_rawseti(l, -2, 1);
+    lua_pushnumber(l, v.z);
+    lua_rawseti(l, -2, 2);
 }
 
-void ProjectVectors(lua_State *l, int index, void *camera)
+void Project(float *camera, Vector3f *v, Vector2f *result)
+{
+    asm(
+        "call 0x471080;"
+        :
+        : "a"(result),
+          "d"(v),
+          "c"(camera)
+        //: "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6", "xmm7"
+    );
+}
+
+Vector2f ProjectVec(Vector3f v, float *camera)
+{
+    LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
+    Vector2f res;
+    Project(camera, &v, &res);
+    return res;
+}
+
+void ProjectVectors(lua_State *l, int index, float *camera)
 {
     lua_newtable(l);         // result table
     lua_pushvalue(l, index); // input vectors
@@ -104,7 +127,7 @@ void ProjectVectors(lua_State *l, int index, void *camera)
     while (lua_next(l, -2)) // -1 = value, -2 =  key, -3 = table, -4 = result table
     {
         Vector3f v = ToVector(l, -1);
-        Vector3f p = ProjectVec(v);
+        Vector2f p = ProjectVec(v, camera);
         lua_pushvalue(l, -2); // key
         PushVector(l, p);     // value
         lua_rawset(l, -6);
@@ -130,9 +153,11 @@ int ProjectMultiple(lua_State *l)
         return 0;
     }
 
-    // void *v = (void *)((int)worldview + 284);
-    // void *camera = reinterpret_cast<void *(__thiscall *)(void *)>(*(int *)v + 12)(v);
-    ProjectVectors(l, 2, nullptr);
+    void *camera = (void *)(*(int(__thiscall **)(int))(*(int *)((int)worldview + 284) + 12))((int)worldview + 284);
+    if (camera == nullptr)
+        return 0;
+    float *geomcamera = (float *)(*(int(__thiscall **)(void *))(*(int *)camera + 8))(camera);
+    ProjectVectors(l, 2, geomcamera);
     return 1;
 }
 
