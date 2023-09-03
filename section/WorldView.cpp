@@ -99,7 +99,7 @@ void PushVector(lua_State *l, Vector2f v)
     lua_rawseti(l, -2, 2);
 }
 
-void Project(float *camera, Vector3f *v, Vector2f *result)
+void Project(float *camera, const Vector3f *v, Vector2f *result)
 {
     asm(
         "call 0x471080;"
@@ -111,9 +111,9 @@ void Project(float *camera, Vector3f *v, Vector2f *result)
     );
 }
 
-Vector2f ProjectVec(Vector3f v, float *camera)
+Vector2f ProjectVec(const Vector3f& v, float *camera)
 {
-    LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
+    //LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
     Vector2f res;
     Project(camera, &v, &res);
     return res;
@@ -161,6 +161,9 @@ int ProjectMultiple(lua_State *l)
     return 1;
 }
 
+
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:GetScreenPos(GetSelectedUnits()[1]))
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:ProjectMultiple({{1,2,3}}))
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:ProjectMultiple({GetSelectedUnits()[1]:GetPosition()}))
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple())
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple({},{}))
