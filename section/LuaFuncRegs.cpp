@@ -1,21 +1,21 @@
 #include "include/moho.h"
 #include "include/strings.h"
 struct luaFuncDescReg
-{                         // 0x1C bytes
-    void **RegisterFunc;  // call for register lua function
-    const char *FuncName;       // lua name function
-    const char *ClassName;      // lua class name. <global> if class none
-    const char *FuncDesc;       // for log
-    luaFuncDescReg *Next; // reg func of chain
-    void *FuncPtr;        // code address
-    void *ClassPtr;       // C++ class type address. NULL if class none
+{                          // 0x1C bytes
+    void **RegisterFunc;   // call for register lua function
+    const char *FuncName;  // lua name function
+    const char *ClassName; // lua class name. <global> if class none
+    const char *FuncDesc;  // for log
+    luaFuncDescReg *Next;  // reg func of chain
+    void *FuncPtr;         // code address
+    void *ClassPtr;        // C++ class type address. NULL if class none
 };
 VALIDATE_SIZE(luaFuncDescReg, 0x1C)
 
 int SimSessionIsReplay(lua_State *L);             // End Sim chain
 luaFuncDescReg SSIRRegDesc = {0x00E45E90,         // Std register func
                               0x00E4AFBC,         // "SessionIsReplay"
-                              s_Global,         // "<global>"
+                              s_Global,           // "<global>"
                               0x00E4AF84,         // "Return true if the active session is a replay session."
                               0x010B8AE8,         // Next reg desc: ArmyGetHandicap
                               SimSessionIsReplay, // Func ptr
@@ -63,7 +63,7 @@ luaFuncDescReg SGMWPRegDesc = {0x00E45E90,
 int SimSetFocusArmy(lua_State *L);             // Sim chain entry
 luaFuncDescReg SSFARegDesc = {0x00E45E90,      // Std register func
                               0x00E43408,      // "SetFocusArmy"
-                              s_Global,      // "<global>"
+                              s_Global,        // "<global>"
                               0x00E451FC,      // "SetFocusArmy(armyIndex or -1)"
                               &SGMWPRegDesc,   // Next reg desc
                               SimSetFocusArmy, // Func ptr
@@ -129,10 +129,21 @@ luaFuncDescReg BitmapSetColorMaskDesc = {0x00E37C14,
                                          &DrawCircleDesc,
                                          LuaBitmapSetColorMask,
                                          0x00F8D7DC};
+
+int ProjectMultiple(lua_State *l);
+
+luaFuncDescReg WorldViewProjectMultipleDesc = {0x00E491E8,
+                                               "ProjectMultiple",
+                                               "CUIWorldView",
+                                               "WorldView:ProjectMultiple(vectors)",
+                                               &BitmapSetColorMaskDesc,
+                                               ProjectMultiple,
+                                               0x00F8D88C};
+
 luaFuncDescReg UGDAPRegDesc = {0x00E45E90, // UI chain entry
                                s_GDAPName,
                                s_Global,
                                s_GDAPDesc,
-                               &BitmapSetColorMaskDesc, // Next reg desc
+                               &WorldViewProjectMultipleDesc, // Next reg desc
                                SimGetDepositsAroundPoint,
                                0x00000000};

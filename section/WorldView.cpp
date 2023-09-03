@@ -1,6 +1,6 @@
 
-#include "include/moho.h"
 #include "include/CObject.hpp"
+#include "include/moho.h"
 
 void __lua_createtable(/*lua_State *l, int narr, int nhash*/)
 {
@@ -53,28 +53,37 @@ void __lua_createtable(/*lua_State *l, int narr, int nhash*/)
         "pop     esi;"
         "ret;");
 }
-inline void lua_createtable(lua_State *l, int narr, int nhash = 0)
+inline void lua_createtable(lua_State *l, int narr, int nhash)
 {
     reinterpret_cast<void (*)(lua_State *, int, int)>(&__lua_createtable)(l, narr, nhash);
 }
 
 Vector3f ToVector(lua_State *l, int index)
 {
-    Vector3f res;
+    Vector3f res{0, 0, 0};
+    if (!lua_istable(l, index))
+    {
+        DebugLog("Not vector");
+        return res;
+    }
     lua_pushvalue(l, index);
     lua_rawgeti(l, -1, 1);
     res.x = lua_tonumber(l, -1);
+    lua_pop(l, 1);
     lua_rawgeti(l, -1, 2);
     res.y = lua_tonumber(l, -1);
+    lua_pop(l, 1);
     lua_rawgeti(l, -1, 3);
     res.z = lua_tonumber(l, -1);
+    lua_pop(l, 1);
     lua_pop(l, 1);
     return res;
 }
 
 void PushVector(lua_State *l, Vector3f v)
 {
-    lua_createtable(l, 3);
+    //lua_createtable(l, 3, 0);
+    lua_newtable(l); 
     lua_pushnumber(l, v.x);
     lua_rawseti(l, -2, 1);
     lua_pushnumber(l, v.y);
@@ -85,12 +94,14 @@ void PushVector(lua_State *l, Vector3f v)
 
 Vector3f ProjectVec(Vector3f v)
 {
+    LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
+
     return v;
 }
 
 void ProjectVectors(lua_State *l, int index, void *camera)
 {
-    lua_newtable(l); // result table
+    lua_newtable(l);         // result table
     lua_pushvalue(l, index); // input vectors
     lua_pushnil(l);
     while (lua_next(l, -2)) // -1 = value, -2 =  key, -3 = table, -4 = result table
@@ -98,7 +109,7 @@ void ProjectVectors(lua_State *l, int index, void *camera)
         Vector3f v = ToVector(l, -1);
         Vector3f p = ProjectVec(v);
         lua_pushvalue(l, -2); // key
-        PushVector(l, p); // value
+        PushVector(l, p);     // value
         lua_rawset(l, -6);
         lua_pop(l, 1);
     }
@@ -122,8 +133,12 @@ int ProjectMultiple(lua_State *l)
         return 0;
     }
 
-    void *v = (void *)((int)worldview + 284);
-    void *camera = reinterpret_cast<void *(__thiscall *)(void *)>(*(int *)v + 12)(v);
-
+    // void *v = (void *)((int)worldview + 284);
+    // void *camera = reinterpret_cast<void *(__thiscall *)(void *)>(*(int *)v + 12)(v);
+    ProjectVectors(l, 2, nullptr);
     return 1;
 }
+
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:ProjectMultiple({{1,2,3}}))
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple())
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple({},{}))
