@@ -2,27 +2,24 @@
 #include "include/CObject.hpp"
 #include "include/moho.h"
 
-void __lua_createtable(/*lua_State *l, int narr, int nhash*/)
+#define NON_GENERAL_REG(var_) [var_] "g"(var_)
+void lua_createtable(lua_State *l, int narr, int nhash)
 {
-    asm( // copied from lua_newtable
-        "push    esi;"
-        "mov     esi, [esp+0x8];" // lua_State
+    asm(                     // copied from lua_newtable
+        "mov     esi, %[l];" // lua_State
         "mov     eax, [esi+0x10];"
         "mov     ecx, [eax+0x2C];"
         "cmp     ecx, [eax+0x24];"
-        "mov  edx, [esp+0x0C];" // push narr
-        "mov  ecx, [esp+0x10];" // push nhash
-        "push    edi;"
-        "jb      short loc_90D130;"
+        "jb      short loc__90D130;"
         "cmp     dword ptr [eax+0x28], 0;"
-        "jnz     short loc_90D130;"
+        "jnz     short loc__90D130;"
         "push    esi;"
         "call    0x915D90;"
         "add     esp, 4;"
-        "loc_90D130: ;"
+        "loc__90D130: ;"
         "mov     edi, [esi+8];"
-        "push    ecx;" // nhash
-        "push    edx;" // narr
+        "push    %[nhash];"
+        "push    %[narr];"
         "push    esi;"
         "call    0x00927320;" // luaH_new
         "movzx   edx, byte ptr [eax+4];"
@@ -32,30 +29,25 @@ void __lua_createtable(/*lua_State *l, int narr, int nhash*/)
         "mov     ecx, [esi+0x14];"
         "add     esp, 0x0C;"
         "cmp     eax, [ecx+4];"
-        "jb      short loc_90D173;"
+        "jb      short loc__90D173;"
         "mov     edx, [esi+0x18];"
         "sub     edx, eax;"
         "mov     edi, 8;"
         "cmp     edx, edi;"
-        "jg      short loc_90D16D;"
+        "jg      short loc__90D16D;"
         "push    1;"
         "push    esi;"
         "call    0x913990;"
         "add     esp, 8;"
-        "loc_90D16D:;"
+        "loc__90D16D:;"
         "add     [esi+8], edi;"
-        "pop     edi;"
-        "pop     esi;"
-        "ret;"
-        "loc_90D173:;"
+        "jmp RETURN;"
+        "loc__90D173:;"
         "add     dword ptr [esi+8], 8;"
-        "pop     edi;"
-        "pop     esi;"
-        "ret;");
-}
-inline void lua_createtable(lua_State *l, int narr, int nhash)
-{
-    reinterpret_cast<void (*)(lua_State *, int, int)>(&__lua_createtable)(l, narr, nhash);
+        "RETURN:"
+        :
+        : NON_GENERAL_REG(l), NON_GENERAL_REG(narr), NON_GENERAL_REG(nhash)
+        : "edx", "ecx", "eax", "edi", "esi");
 }
 
 Vector3f ToVector(lua_State *l, int index)
@@ -79,8 +71,8 @@ Vector3f ToVector(lua_State *l, int index)
 
 void PushVector(lua_State *l, Vector3f v)
 {
-    // lua_createtable(l, 3, 0);
-    lua_newtable(l);
+    lua_createtable(l, 3, 0);
+    // lua_newtable(l);
     lua_pushnumber(l, v.x);
     lua_rawseti(l, -2, 1);
     lua_pushnumber(l, v.y);
@@ -91,8 +83,8 @@ void PushVector(lua_State *l, Vector3f v)
 
 void PushVector(lua_State *l, Vector2f v)
 {
-    // lua_createtable(l, 3, 0);
-    lua_newtable(l);
+    lua_createtable(l, 2, 0);
+    // lua_newtable(l);
     lua_pushnumber(l, v.x);
     lua_rawseti(l, -2, 1);
     lua_pushnumber(l, v.z);
@@ -111,9 +103,9 @@ void Project(float *camera, const Vector3f *v, Vector2f *result)
     );
 }
 
-Vector2f ProjectVec(const Vector3f& v, float *camera)
+Vector2f ProjectVec(const Vector3f &v, float *camera)
 {
-    //LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
+    // LogF("%.3f\t%.3f\t%.3f", v.x, v.y, v.z);
     Vector2f res;
     Project(camera, &v, &res);
     return res;
@@ -161,8 +153,8 @@ int ProjectMultiple(lua_State *l)
     return 1;
 }
 
-
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:GetScreenPos(GetSelectedUnits()[1]))
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple(import("/lua/maui/text.lua").Text(GetFrame(0)),{{1,2,3}}))
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:ProjectMultiple({{1,2,3}}))
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:ProjectMultiple({GetSelectedUnits()[1]:GetPosition()}))
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple())
