@@ -3,7 +3,7 @@
 #include "include/moho.h"
 
 #define NON_GENERAL_REG(var_) [var_] "g"(var_)
-void lua_createtable(lua_State *l, int narr, int nhash)
+void lua_createtable(lua_State *l, int narr, int nhash = 0)
 {
     asm(                     // copied from lua_newtable
         "mov     esi, %[l];" // lua_State
@@ -71,7 +71,7 @@ Vector3f ToVector(lua_State *l, int index)
 
 void PushVector(lua_State *l, Vector3f v)
 {
-    lua_createtable(l, 3, 0);
+    lua_createtable(l, 3);
     // lua_newtable(l);
     lua_pushnumber(l, v.x);
     lua_rawseti(l, -2, 1);
@@ -83,7 +83,7 @@ void PushVector(lua_State *l, Vector3f v)
 
 void PushVector(lua_State *l, Vector2f v)
 {
-    lua_createtable(l, 2, 0);
+    lua_createtable(l, 2);
     // lua_newtable(l);
     lua_pushnumber(l, v.x);
     lua_rawseti(l, -2, 1);
