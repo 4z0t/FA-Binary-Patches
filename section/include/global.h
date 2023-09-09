@@ -65,6 +65,11 @@ Get debugging info about a Lua call:
 #define g_ExeVersion1			GDecl(0x876666, const int)
 #define g_ExeVersion2			GDecl(0x87612d, const int)
 #define g_ExeVersion3			GDecl(0x4d3d40, const int)
+#ifdef __GETADDR
+#define ADDR(addr) {}
+#else
+#define ADDR(addr)
+#endif
 
 FDecl(0x9C4940, AbortF,		void (*)(wchar_t *fmt, ...))
 FDecl(0x937CB0, LogF,		int (*)(const char *fmt, ...))

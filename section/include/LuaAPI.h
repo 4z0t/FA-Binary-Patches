@@ -450,18 +450,13 @@ VALIDATE_SIZE(Table, 0x24)
       const char* CheckString(int narg) {
         return ((__thiscall const char* (*)(LuaState*, int))0x912d10)(this, narg);
       }
-      int ArgError(int narg, const char* msg) {
-        return ((__thiscall int (*)(LuaState*, int, const char*))0x90bf70)(this, narg, msg);
-      }
-      __attribute__((noinline)) __cdecl int Error(const char* fmt, ...) {
-        asm("jmp 0x90c1d0;");
-      }
-      lua_State* GetActiveCState() {
-        return ((__thiscall lua_State* (*)(LuaState*))0x90bef0)(this);
-      }
-      void CheckAny(int narg) {
-        ((__thiscall void (*)(LuaState*, int))0x923f20)(this, narg);
-      }
+      int __thiscall ArgError(int narg, const char* msg) ADDR(0x90bf70);
+  
+      int __cdecl Error(const char* fmt, ...) ADDR(0x90c1d0);
+
+      lua_State * __thiscall  GetActiveCState() ADDR(0x90bef0);
+
+      void __thiscall CheckAny(int narg) ADDR(0x923f20);
 
     //private
       void Init(enum StandardLibraries libs) {
@@ -480,8 +475,22 @@ VALIDATE_SIZE(Table, 0x24)
   };
   VALIDATE_SIZE(LuaState, 0x34)
 
+
+namespace Moho
+{
+  namespace KillMe
+  {
+      void __stdcall Func(lua_State*l) ADDR(0x696969);
+  } // namespace KillMe
+  
+} // namespace Moho
+
+
 FDecl(0x90a6b0, LuaPlusH_next, bool __cdecl (*)(LuaState*, const LuaObject*, LuaObject*, LuaObject*))
-FDecl(0x90ca40, lua_toboolean, bool __cdecl (*)(lua_State*, int))
+//FDecl(0x90ca40, lua_toboolean, bool __cdecl (*)(lua_State*, int))
+
+bool __cdecl lua_toboolean(lua_State*l, int index) ADDR(0x90ca40);
+
 FDecl(0x90c340, negindex, TObject* __cdecl (*)(lua_State*, int))
 FDecl(0x90e260, luaL_prepbuffer, char* __cdecl (*)(luaL_Buffer*))
 FDecl(0x90eaa0, luaL_checklstring, const char* __cdecl (*)(lua_State*, int, unsigned int*))
