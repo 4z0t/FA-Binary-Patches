@@ -33,7 +33,7 @@ int GetInterpolatedPosition(lua_State *l)
     if (lua_gettop(l) != 1)
     {
         // l->LuaState->Error("%s\n  expected %d args, but got %d", __FUNCTION__, 1, lua_gettop(l));
-        lua_pushstring(l, "Хуйло не так вызвал");
+        lua_pushstring(l, "Error");
         lua_error(l);
     }
     LuaObject unitObject{l->LuaState, 1};
@@ -58,7 +58,7 @@ int GetFractionComplete(lua_State *l)
     if (lua_gettop(l) != 1)
     {
         // l->LuaState->Error("%s\n  expected %d args, but got %d", __FUNCTION__, 1, lua_gettop(l));
-        lua_pushstring(l, "Хуйло не так вызвал");
+        lua_pushstring(l, "Error");
         lua_error(l);
     }
     LuaObject unitObject{l->LuaState, 1};
