@@ -210,42 +210,29 @@ VALIDATE_SIZE(Table, 0x24)
         ((__thiscall void (*)(LuaObject*, LuaObject*, const char*))0x908f60)(this, &out, key);
         return out;
       }
-      bool GetBoolean() {
-        return ((__thiscall bool (*)(LuaObject*))0x907c90)(this);
-      }
-      bool IsBoolean() {
-        return ((__thiscall bool (*)(LuaObject*))0x9078d0)(this);
-      }
-      bool IsConvertibleToString() {
-        return ((__thiscall bool (*)(LuaObject*))0x9077c0)(this);
-      }
-      bool IsFunction() {
-        return ((__thiscall bool (*)(LuaObject*))0x907810)(this);
-      }
-      bool IsInteger() {
-        return ((__thiscall bool (*)(LuaObject*))0x907350)(this);
-      }
-      bool IsNil() {
-        return ((__thiscall bool (*)(LuaObject*))0x9072f0)(this);
-      }
-      bool IsNumber() {
-        return ((__thiscall bool (*)(LuaObject*))0x907360)(this);
-      }
-      bool IsString() {
-        return ((__thiscall bool (*)(LuaObject*))0x907370)(this);
-      }
-      bool IsTable() {
-        return ((__thiscall bool (*)(LuaObject*))0x907310)(this);
-      }
-      bool IsUserData() {
-        return ((__thiscall bool (*)(LuaObject*))0x907320)(this);
-      }
-      void Clone(LuaObject* out) {
-        ((__thiscall void (*)(LuaObject*,  LuaObject*))0x90a180)(this, out);
-      }
-      void CreateTable(LuaObject* out, const char* key, int narray, int lnhash) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*, const char*, int, int))0x908c10)(this, out, key, narray, lnhash);
-      }
+      bool __thiscall GetBoolean() ADDR(0x907c90);
+      
+      bool __thiscall IsBoolean() ADDR(0x9078d0);
+      
+      bool __thiscall IsConvertibleToString() ADDR(0x9077c0);
+      
+      bool __thiscall IsFunction() ADDR(0x907810);
+      
+      bool __thiscall IsInteger() ADDR(0x907350);
+      
+      bool __thiscall IsNil() ADDR(0x9072f0);
+      
+      bool __thiscall IsNumber() ADDR(0x907360);
+      
+      bool __thiscall IsString() ADDR(0x907370);
+      
+      bool __thiscall IsTable() ADDR(0x907310);
+      
+      bool __thiscall IsUserData() ADDR(0x907320);
+      
+      void __thiscall Clone(LuaObject* out) ADDR(0x90a180);
+
+      void __thiscall CreateTable(LuaObject* out, const char* key, int narray, int lnhash) ADDR(0x908c10);
       void CreateTable(LuaObject* out, int key, int narray, int lnhash) {
         ((__thiscall void (*)(LuaObject*, LuaObject*, int, int, int))0x908ca0)(this, out, key, narray, lnhash);
       }
@@ -312,15 +299,13 @@ VALIDATE_SIZE(Table, 0x24)
       int GetTableCount() {
         return ((__thiscall int (*)(LuaObject*))0x90a410)(this);
       }
-      int IsPassed() {
-        return ((__thiscall int (*)(LuaObject*))0x907440)(this);
-      }
+      int __thiscall IsPassed() ADDR(0x907440);
+
       int Type() {
         return ((__thiscall int (*)(LuaObject*))0x9076d0)(this);
       }
-      lua_State* GetActiveCState() {
-        return ((__thiscall lua_State* (*)(LuaObject*))0x9072c0)(this);
-      }
+      lua_State* __thiscall GetActiveCState() ADDR(0x9072c0);
+
       void AssignBoolean(LuaState* state, bool value) {
         ((__thiscall void (*)(LuaObject*, LuaState*, bool))0x909600)(this, state, value);
       }
@@ -360,9 +345,8 @@ VALIDATE_SIZE(Table, 0x24)
       void SetBoolean(const char* key, bool value) {
         ((__thiscall void (*)(LuaObject*, const char*, bool))0x9080c0)(this, key, value);
       }
-      void SetInteger(const char* key, int value) {
-        ((__thiscall void (*)(LuaObject*, const char*, int))0x9081f0)(this, key, value);
-      }
+      void __thiscall SetInteger(const char* key, int value) ADDR(0x9081f0);
+
       void SetInteger(int key, int value) {
         ((__thiscall void (*)(LuaObject*, int, int))0x908240)(this, key, value);
       }
@@ -378,9 +362,8 @@ VALIDATE_SIZE(Table, 0x24)
       void SetNil(int key) {
         ((__thiscall void (*)(LuaObject*, int))0x907ff0)(this, key);
       }
-      void SetNumber(const char* key, float value) {
-        ((__thiscall void (*)(LuaObject*, const char*, float))0x908320)(this, key, value);
-      }
+      void __thiscall SetNumber(const char* key, float value) ADDR(0x908320);
+
       void SetNumber(int key, float value) {
         ((__thiscall void (*)(LuaObject*, int, float))0x908370)(this, key, value);
       }
@@ -393,12 +376,10 @@ VALIDATE_SIZE(Table, 0x24)
       void SetObject(int key, const LuaObject* value) {
         ((__thiscall void (*)(LuaObject*, int, const LuaObject*))0x9087a0)(this, key, value);
       }
-      void SetString(const char* key, const char* value) {
-        ((__thiscall void (*)(LuaObject*, const char*, const char*))0x908450)(this, key, value);
-      }
-      void SetString(int key, const char* value) {
-        ((__thiscall void (*)(LuaObject*, int, const char*))0x9084e0)(this, key, value);
-      }
+      void __thiscall SetString(const char* key, const char* value)  ADDR(0x908450);
+      
+      void __thiscall SetStringI(int key, const char* value) ADDR(0x9084e0);
+
       void TypeError(const char* msg) {
         ((__thiscall void (*)(LuaObject*, const char*))0x9072d0)(this, msg);
       }
@@ -444,9 +425,8 @@ VALIDATE_SIZE(Table, 0x24)
       void GetGlobals(LuaObject* out) {
         ((__thiscall void (*)(LuaState*, LuaObject*))0x90a690)(this, out);
       }
-      LuaState* GetActiveState() {
-        return ((__thiscall LuaState* (*)(LuaState*))0x90bee0)(this);
-      }
+      LuaState* __thiscall GetActiveState() ADDR(0x90bee0);
+
       const char* CheckString(int narg) {
         return ((__thiscall const char* (*)(LuaState*, int))0x912d10)(this, narg);
       }
@@ -476,19 +456,7 @@ VALIDATE_SIZE(Table, 0x24)
   VALIDATE_SIZE(LuaState, 0x34)
 
 
-namespace Moho
-{
-  namespace KillMe
-  {
-      void __stdcall Func(lua_State*l) ADDR(0x696969);
-  } // namespace KillMe
-  
-} // namespace Moho
-
-
-FDecl(0x90a6b0, LuaPlusH_next, bool __cdecl (*)(LuaState*, const LuaObject*, LuaObject*, LuaObject*))
-//FDecl(0x90ca40, lua_toboolean, bool __cdecl (*)(lua_State*, int))
-
+bool __cdecl LuaPlusH_next(LuaState*, const LuaObject*, LuaObject*, LuaObject*) ADDR(0x90a6b0);
 bool __cdecl lua_toboolean(lua_State*l, int index) ADDR(0x90ca40);
 
 FDecl(0x90c340, negindex, TObject* __cdecl (*)(lua_State*, int))
@@ -497,7 +465,8 @@ FDecl(0x90eaa0, luaL_checklstring, const char* __cdecl (*)(lua_State*, int, unsi
 FDecl(0x90eb10, luaL_optlstring, const char* __cdecl (*)(lua_State*, int, const char*, unsigned int*))
 FDecl(0x912680, lua_getlocal, const char* __cdecl (*)(lua_State*, const lua_Debug*, int))
 FDecl(0x90d9a0, lua_getupvalue, const char* __cdecl (*)(lua_State*, int, int))
-FDecl(0x90ce90, lua_pushfstring, const char* __cdecl (*)(lua_State*, const char*, ...))
+//FDecl(0x90ce90, lua_pushfstring, const char* __cdecl (*)(lua_State*, const char*, ...))
+const char* __cdecl lua_pushfstring(lua_State*, const char*, ...) ADDR(0x90ce90);
 FDecl(0x90ce50, lua_pushvfstring, const char* __cdecl (*)(lua_State*, const char*, char*))
 FDecl(0x9126f0, lua_setlocal, const char* __cdecl (*)(lua_State*, const lua_Debug*, int))
 FDecl(0x90da00, lua_setupvalue, const char* __cdecl (*)(lua_State*, int, int))
@@ -505,12 +474,14 @@ FDecl(0x90ca90, lua_tostring, const char* __cdecl (*)(lua_State*, int))
 FDecl(0x90c780, lua_typename, const char* __cdecl (*)(lua_State*, int))
 FDecl(0x90eb70, luaL_checknumber, float __cdecl (*)(lua_State*, int))
 FDecl(0x90ebf0, luaL_optnumber, float __cdecl (*)(lua_State*, int, float))
-FDecl(0x90c9f0, lua_tonumber, float __cdecl (*)(lua_State*, int))
-FDecl(0x90d7e0, lua_newuserdata, void __cdecl (*)(RRef *ret, lua_State*, const RType*))
-RRef lua_touserdata(lua_State *l, int index)
+//FDecl(0x90c9f0, lua_tonumber, float __cdecl (*)(lua_State*, int))
+float __cdecl lua_tonumber(lua_State*, int) ADDR(0x90c9f0);
+void __cdecl lua_newuserdata(RRef *ret, lua_State*, const RType*) ADDR(0x90d7e0);
+RRef* __cdecl lua_touserdata(RRef*, lua_State*, int) ADDR(0x90cbb0);
+inline RRef lua_touserdata(lua_State *l, int index)
 {
     RRef ref;
-    reinterpret_cast<void*(__cdecl*)(RRef*, lua_State*, int)>(0x90cbb0)(&ref, l, index);
+    lua_touserdata(&ref, l, index);
     return ref;
 }
 FDecl(0x90e900, luaL_argerror, int __cdecl (*)(lua_State*, int, const char*))

@@ -23,6 +23,12 @@ Get debugging info about a Lua call:
 */
 #define DebugLog(_s) LogF("%s", (_s))
 
+#ifdef __GETADDR
+#define ADDR(addr) {}
+#else
+#define ADDR(addr)
+#endif
+
 #define GDecl(addr, type) \
   (*(type*)addr)
 
@@ -34,6 +40,7 @@ Get debugging info about a Lua call:
 
 #define VALIDATE_SIZE(struc, size) \
   static_assert(sizeof(struc) == size, "Invalid structure size of " #struc);
+
 
 #define g_CSimDriver			GDecl(0x10C4F50, CSimDriver*)
 #define g_SWldSessionInfo		GDecl(0x10C4F58, SWldSessionInfo*)
@@ -65,14 +72,11 @@ Get debugging info about a Lua call:
 #define g_ExeVersion1			GDecl(0x876666, const int)
 #define g_ExeVersion2			GDecl(0x87612d, const int)
 #define g_ExeVersion3			GDecl(0x4d3d40, const int)
-#ifdef __GETADDR
-#define ADDR(addr) {}
-#else
-#define ADDR(addr)
-#endif
+
+;
 
 FDecl(0x9C4940, AbortF,		void (*)(wchar_t *fmt, ...))
-FDecl(0x937CB0, LogF,		int (*)(const char *fmt, ...))
+int LogF(const char *fmt, ...) ADDR(0x937CB0);
 FDecl(0x937D30, WarningF,	int (*)(const char *fmt, ...))
 FDecl(0x937C30, SpewF,		int (*)(const char *fmt, ...))
 FDecl(0x41C990, ConsoleLogF,	int (*)(const char *fmt, ...))
