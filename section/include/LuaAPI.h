@@ -135,7 +135,7 @@ typedef struct {
     9 - Thread
   */
 } TObject;
-VALIDATE_SIZE(TObject, 8)
+VALIDATE_SIZE(TObject, 8);
 
 typedef unsigned char lu_byte;
 class Table
@@ -154,7 +154,7 @@ public:
     int pad4;
     int sizearray; /* size of `array' array */
 };
-VALIDATE_SIZE(Table, 0x24)
+VALIDATE_SIZE(Table, 0x24);
 
 //namespace gpg
   class RRef {public: void* d; void* t;};
@@ -168,7 +168,7 @@ VALIDATE_SIZE(Table, 0x24)
       LuaState* m_state;
       int m_stackIndex;
   };
-  VALIDATE_SIZE(LuaStackObject, 8)
+  VALIDATE_SIZE(LuaStackObject, 8);
 
   class LuaObject
   {// 0x14 bytes
@@ -285,7 +285,7 @@ VALIDATE_SIZE(Table, 0x24)
       LuaState* m_state;
       TObject m_object;
   };
-  VALIDATE_SIZE(LuaObject, 0x14)
+  VALIDATE_SIZE(LuaObject, 0x14);
 
   class LuaState
   {// 0x34 bytes
@@ -323,7 +323,7 @@ VALIDATE_SIZE(Table, 0x24)
         LuaObject* m_prev;  // only valid when in used list
       } m_headObject,  m_tailObject;
   };
-  VALIDATE_SIZE(LuaState, 0x34)
+  VALIDATE_SIZE(LuaState, 0x34);
 
 
 

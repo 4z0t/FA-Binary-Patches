@@ -15,7 +15,7 @@ struct luaFuncDescReg
 	void *FuncPtr;        // code address
 	void *ClassPtr;       // C++ class type address. NULL if class none
 };
-VALIDATE_SIZE(luaFuncDescReg, 0x1C)
+VALIDATE_SIZE(luaFuncDescReg, 0x1C);
 
 // Probably from visual c++ 9
 struct vtable;
@@ -58,7 +58,7 @@ struct string
 		return size == 0xF ? &str : (const char*)str;
 	}
 };
-VALIDATE_SIZE(string, 0x1C)
+VALIDATE_SIZE(string, 0x1C);
 
 template<typename T>
 struct vector
@@ -69,7 +69,7 @@ struct vector
 	T operator[](int i) { return begin[i]; }
 	size_t size() { return begin ? end - begin : 0; }
 };
-VALIDATE_SIZE(vector<unk_t>, 0x10)
+VALIDATE_SIZE(vector<unk_t>, 0x10);
 
 template<typename T>
 struct list
@@ -79,7 +79,7 @@ struct list
 	T operator[](int i) { return begin[i]; }
 	size_t size() { return begin ? end - begin : 0; }
 };
-VALIDATE_SIZE(list<unk_t>, 0xC)
+VALIDATE_SIZE(list<unk_t>, 0xC);
 
 template<typename T>
 struct linked_list
@@ -109,7 +109,7 @@ struct moho_set
 		return *itemPtr & (1 << (item & 0x1F));
 	}
 };
-VALIDATE_SIZE(moho_set, 0x20)
+VALIDATE_SIZE(moho_set, 0x20);
 
 typedef int SOCKET;
 // GPGCore
@@ -422,7 +422,7 @@ struct Deposit
 	int X1,Z1,X2,Z2; // Rect
 	int Type; // 1 - Mass, 2 - Energy
 };
-VALIDATE_SIZE(Deposit, 0x14);
+VALIDATE_SIZE(Deposit, 0x14);;
 
 struct CSimResources // : ISimResources // : IResources
 {//0x007444EF, 0x1C bytes
@@ -436,7 +436,7 @@ struct CSimResources // : ISimResources // : IResources
 	// at 0x10
 	list<Deposit> deposits;
 };
-VALIDATE_SIZE(CSimResources, 0x1C)
+VALIDATE_SIZE(CSimResources, 0x1C);
 
 struct SWldSessionInfo
 {	// 0x30 bytes
@@ -1000,7 +1000,7 @@ struct Sim // : ICommandSink
 	int focusArmyIndex; // Focused army, -1 = observer
 	uint8_t pad11[0x6C];
 };
-VALIDATE_SIZE(Sim, 0xAF8)
+VALIDATE_SIZE(Sim, 0xAF8);
 
 struct CWldSession
 {//0x0089318A, 0x508 bytes
@@ -1068,7 +1068,7 @@ struct CWldSession
 	bool relationsArmyColors;
 	uint8_t pad6[0x1C];
 };
-VALIDATE_SIZE(CWldSession, 0x508)
+VALIDATE_SIZE(CWldSession, 0x508);
 
 struct CSimDriver // : ISTIDriver
 {//0x0073B59E, 0x230 bytes
