@@ -242,9 +242,7 @@ VALIDATE_SIZE(Table, 0x24)
       void PushStack(lua_State* L) {
         ((__thiscall void (*)(LuaObject*, lua_State*))0x907d10)(this, L);
       }
-      LuaState* GetActiveState() {
-        return ((__thiscall LuaState* (*)(LuaObject*))0x9072b0)(this);
-      }
+      LuaState* __thiscall GetActiveState() ADDR(0x9072b0);
       const char* GetString() {
         return ((__thiscall const char* (*)(LuaObject*))0x907a90)(this);
       }
@@ -392,22 +390,12 @@ VALIDATE_SIZE(Table, 0x24)
     public:
       enum StandardLibraries {LIB_NONE, LIB_BASE, LIB_OSIO};
 
-     __thiscall LuaState(enum StandardLibraries libs)ADDR(0x90ac10);
-      LuaState(LuaState* parentState) {
-        ((__thiscall LuaState* (*)(LuaState*, LuaState*))0x90a520)(this, parentState);
-      }
-      LuaState(int Unused) {
-        ((__thiscall LuaState* (*)(LuaState*, int))0x90a5d0)(this, Unused);
-      }
-      ~LuaState() {
-        ((__thiscall void (*)(LuaState*))0x90a600)(this);
-      }
-      void GetGlobal(LuaObject* out, const char* key) {
-        ((__thiscall void (*)(LuaState*, LuaObject*, const char*))0x4579d0)(this, out, key);
-      }
-      void GetGlobals(LuaObject* out) {
-        ((__thiscall void (*)(LuaState*, LuaObject*))0x90a690)(this, out);
-      }
+      __thiscall LuaState(enum StandardLibraries libs)ADDR(0x90ac10);
+      __thiscall LuaState(LuaState* parentState) ADDR(0x90a520);
+      __thiscall LuaState(int Unused) ADDR(0x90a5d0);
+      __thiscall ~LuaState() ADDR(0x90a600);
+      void __thiscall GetGlobal(LuaObject* out, const char* key) ADDR(0x4579d0);
+      void __thiscall GetGlobals(LuaObject* out) ADDR(0x90a690);
       LuaState* __thiscall GetActiveState() ADDR(0x90bee0);
 
       const char* __thiscall CheckString(int narg) ADDR(0x912d10);
