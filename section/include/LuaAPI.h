@@ -329,10 +329,8 @@ VALIDATE_SIZE(Table, 0x24)
         ((__thiscall void (*)(LuaObject*, const char*, bool))0x9080c0)(this, key, value);
       }
       void __thiscall SetInteger(const char* key, int value) ADDR(0x9081f0);
+      void __thiscall SetInteger(int key, int value) ADDR(0x908240);
 
-      void SetInteger(int key, int value) {
-        ((__thiscall void (*)(LuaObject*, int, int))0x908240)(this, key, value);
-      }
       void SetMetaTable(const LuaObject* value) {
         ((__thiscall void (*)(LuaObject*, const LuaObject*))0x907e00)(this, value);
       }
@@ -346,21 +344,11 @@ VALIDATE_SIZE(Table, 0x24)
         ((__thiscall void (*)(LuaObject*, int))0x907ff0)(this, key);
       }
       void __thiscall SetNumber(const char* key, float value) ADDR(0x908320);
-
-      void SetNumber(int key, float value) {
-        ((__thiscall void (*)(LuaObject*, int, float))0x908370)(this, key, value);
-      }
-      void SetObject(const LuaObject* key, const LuaObject* value) {
-        ((__thiscall void (*)(LuaObject*, const LuaObject*, const LuaObject*))0x908810)(this, key, value);
-      }
-      void SetObject(const char* key, const LuaObject* value) {
-        ((__thiscall void (*)(LuaObject*, const char*, const LuaObject*))0x908760)(this, key, value);
-      }
-      void SetObject(int key, const LuaObject* value) {
-        ((__thiscall void (*)(LuaObject*, int, const LuaObject*))0x9087a0)(this, key, value);
-      }
+      void __thiscall SetNumber(int key, float value) ADDR(0x908370);
+      void __thiscall SetObject(const LuaObject* key, const LuaObject* value) ADDR(0x908810);
+      void __thiscall SetObject(const char* key, const LuaObject* value) ADDR(0x908760);
+      void __thiscall SetObject(int key, const LuaObject* value) ADDR(0x9087a0);
       void __thiscall SetString(const char* key, const char* value)  ADDR(0x908450);
-      
       void __thiscall SetString(int key, const char* value) ADDR(0x9084e0);
 
       void TypeError(const char* msg) {
