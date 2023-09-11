@@ -75,7 +75,7 @@ Get debugging info about a Lua call:
 
 ;
 
-FDecl(0x9C4940, AbortF,		void (*)(wchar_t *fmt, ...))
+void AbortF(wchar_t *fmt, ...) ADDR(0x9C4940);
 int LogF(const char *fmt, ...) ADDR(0x937CB0);
 FDecl(0x937D30, WarningF,	int (*)(const char *fmt, ...))
 FDecl(0x937C30, SpewF,		int (*)(const char *fmt, ...))

@@ -173,27 +173,14 @@ VALIDATE_SIZE(Table, 0x24)
   class LuaObject
   {// 0x14 bytes
     public:
-      LuaObject() {
-        ((__thiscall LuaObject* (*)(LuaObject*))0x9072a0)(this);
-      }
-      LuaObject(LuaState* state) {
-        ((__thiscall LuaObject* (*)(LuaObject*, LuaState*))0x908970)(this, state);
-      }
-      LuaObject(LuaState* state, int index) {
-        ((__thiscall LuaObject* (*)(LuaObject*, LuaState*, int))0x9089c0)(this, state, index);
-      }
-      LuaObject(const LuaObject* obj) {
-        ((__thiscall LuaObject* (*)(LuaObject*, const LuaObject*))0x908a40)(this, obj);
-      }
-      LuaObject(const LuaStackObject* stack) {
-        ((__thiscall LuaObject* (*)(LuaObject*, const LuaStackObject*))0x908a70)(this, stack);
-      }
-      LuaObject(LuaState* state, const TObject* obj) {
-        ((__thiscall LuaObject* (*)(LuaObject*, LuaState*, const TObject*))0x9089f0)(this, state, obj);
-      }
-      ~LuaObject() {
-        ((__thiscall void (*)(LuaObject*))0x9075d0)(this);
-      }
+      __thiscall LuaObject() ADDR(0x9072a0);
+      __thiscall LuaObject(LuaState* state)    ADDR(0x908970);
+      __thiscall LuaObject(LuaState* state, int index) ADDR(0x9089c0);
+      __thiscall LuaObject(const LuaObject* obj) ADDR(0x908a40);
+      __thiscall LuaObject(const LuaStackObject* stack) ADDR(0x908a70);
+      __thiscall LuaObject(LuaState* state, const TObject* obj) ADDR(0x9089f0);
+      __thiscall ~LuaObject() ADDR(0x9075d0);
+
       LuaObject* operator=(const LuaObject* obj) {
         return ((__thiscall LuaObject* (*)(LuaObject*, const LuaObject*))0x908ab0)(this, obj);
       }
@@ -233,9 +220,7 @@ VALIDATE_SIZE(Table, 0x24)
       void __thiscall Clone(LuaObject* out) ADDR(0x90a180);
 
       void __thiscall CreateTable(LuaObject* out, const char* key, int narray, int lnhash) ADDR(0x908c10);
-      void CreateTable(LuaObject* out, int key, int narray, int lnhash) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*, int, int, int))0x908ca0)(this, out, key, narray, lnhash);
-      }
+      void __thiscall CreateTable(LuaObject* out, int key, int narray, int lnhash) ADDR(0x908ca0);
       void GetByIndex(LuaObject* out, int index) {
         ((__thiscall void (*)(LuaObject*, LuaObject*, int))0x908df0)(this, out, index);
       }
@@ -378,7 +363,7 @@ VALIDATE_SIZE(Table, 0x24)
       }
       void __thiscall SetString(const char* key, const char* value)  ADDR(0x908450);
       
-      void __thiscall SetStringI(int key, const char* value) ADDR(0x9084e0);
+      void __thiscall SetString(int key, const char* value) ADDR(0x9084e0);
 
       void TypeError(const char* msg) {
         ((__thiscall void (*)(LuaObject*, const char*))0x9072d0)(this, msg);
@@ -407,9 +392,7 @@ VALIDATE_SIZE(Table, 0x24)
     public:
       enum StandardLibraries {LIB_NONE, LIB_BASE, LIB_OSIO};
 
-      LuaState(enum StandardLibraries libs) {
-        ((__thiscall LuaState* (*)(LuaState*, enum StandardLibraries))0x90ac10)(this, libs);
-      }
+     __thiscall LuaState(enum StandardLibraries libs)ADDR(0x90ac10);
       LuaState(LuaState* parentState) {
         ((__thiscall LuaState* (*)(LuaState*, LuaState*))0x90a520)(this, parentState);
       }
@@ -427,9 +410,8 @@ VALIDATE_SIZE(Table, 0x24)
       }
       LuaState* __thiscall GetActiveState() ADDR(0x90bee0);
 
-      const char* CheckString(int narg) {
-        return ((__thiscall const char* (*)(LuaState*, int))0x912d10)(this, narg);
-      }
+      const char* __thiscall CheckString(int narg) ADDR(0x912d10);
+
       int __thiscall ArgError(int narg, const char* msg) ADDR(0x90bf70);
   
       int __cdecl Error(const char* fmt, ...) ADDR(0x90c1d0);
@@ -439,9 +421,7 @@ VALIDATE_SIZE(Table, 0x24)
       void __thiscall CheckAny(int narg) ADDR(0x923f20);
 
     //private
-      void Init(enum StandardLibraries libs) {
-        ((__thiscall void (*)(LuaState*, enum StandardLibraries))0x90aad0)(this, libs);
-      }
+      void __thiscall Init(enum StandardLibraries libs) ADDR(0x90aad0);
 
       lua_State* m_state;
       void* ForMultipleThreads;
@@ -454,6 +434,7 @@ VALIDATE_SIZE(Table, 0x24)
       } m_headObject,  m_tailObject;
   };
   VALIDATE_SIZE(LuaState, 0x34)
+
 
 
 bool __cdecl LuaPlusH_next(LuaState*, const LuaObject*, LuaObject*, LuaObject*) ADDR(0x90a6b0);

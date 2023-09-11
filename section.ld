@@ -1,5 +1,6 @@
 OUTPUT_FORMAT(pei-i386)
 OUTPUT(section.pe)
+INCLUDE symbols.ld
 
 _atexit = 0xA8211E;
 
