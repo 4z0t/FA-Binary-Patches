@@ -221,126 +221,51 @@ VALIDATE_SIZE(Table, 0x24)
 
       void __thiscall CreateTable(LuaObject* out, const char* key, int narray, int lnhash) ADDR(0x908c10);
       void __thiscall CreateTable(LuaObject* out, int key, int narray, int lnhash) ADDR(0x908ca0);
-      void GetByIndex(LuaObject* out, int index) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*, int))0x908df0)(this, out, index);
-      }
-      void GetByName(LuaObject* out, const char* name) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*, const char*))0x90a160)(this, out, name);
-      }
-      void GetByObject(LuaObject* out, const LuaObject* obj) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*, const LuaObject*))0x908e70)(this, out, obj);
-      }
-      void GetMetaTable(LuaObject* out) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*))0x908ba0)(this, out);
-      }
-      void Lookup(LuaObject* out, const char* key) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*, const char*))0x9093b0)(this, out, key);
-      }
-      void PushStack(LuaStackObject* out, LuaState* state) {
-        ((__thiscall void (*)(LuaObject*, LuaStackObject*, LuaState*))0x907d80)(this, out, state);
-      }
-      void PushStack(lua_State* L) {
-        ((__thiscall void (*)(LuaObject*, lua_State*))0x907d10)(this, L);
-      }
+      void __thiscall GetByIndex(LuaObject* out, int index) ADDR(0x908df0);
+      void __thiscall GetByName(LuaObject* out, const char* name) ADDR(0x90a160);
+      void __thiscall GetByObject(LuaObject* out, const LuaObject* obj) ADDR(0x908e70);
+      void __thiscall GetMetaTable(LuaObject* out) ADDR(0x908ba0);
+      void __thiscall Lookup(LuaObject* out, const char* key) ADDR(0x9093b0);
+      void __thiscall PushStack(LuaStackObject* out, LuaState* state) ADDR(0x907d80);
+      void __thiscall PushStack(lua_State* L) ADDR(0x907d10);
       LuaState* __thiscall GetActiveState() ADDR(0x9072b0);
-      const char* GetString() {
-        return ((__thiscall const char* (*)(LuaObject*))0x907a90)(this);
-      }
-      const char* ToString() {
-        return ((__thiscall const char* (*)(LuaObject*))0x9073e0)(this);
-      }
-      const char* TypeName() {
-        return ((__thiscall const char* (*)(LuaObject*))0x908b50)(this);
-      }
-      lua_Number GetNumber() {
-        return ((__thiscall float (*)(LuaObject*))0x907970)(this);
-      }
-      lua_Number GetDouble() { //Same as GetNumber
-        return ((__thiscall float (*)(LuaObject*))0x907a30)(this);
-      }
-      lua_Number ToNumber() {
-        return ((__thiscall float (*)(LuaObject*))0x9073b0)(this);
-      }
-      void AssignNewUserData(RRef* out, LuaState* state, const RRef* rRef) {
-        ((__thiscall void (*)(LuaObject*, RRef*, LuaState*, const RRef*))0x909840)(this, out, state, rRef);
-      }
-      void AssignNewUserData(RRef* out, LuaState* state, const RType* rType) {
-        ((__thiscall void (*)(LuaObject*, RRef*, LuaState*, const RType*))0x9097d0)(this, out, state, rType);
-      }
-      void GetUserData(RRef* out) {
-        ((__thiscall void (*)(LuaObject*, RRef*))0x907bc0)(this, out);
-      }
-      int GetCount() {
-        return ((__thiscall int (*)(LuaObject*))0x907f50)(this);
-      }
-      int GetInteger() {
-        return ((__thiscall int (*)(LuaObject*))0x907910)(this);
-      }
-      int GetN() {
-        return ((__thiscall int (*)(LuaObject*))0x907e50)(this);
-      }
-      int GetTableCount() {
-        return ((__thiscall int (*)(LuaObject*))0x90a410)(this);
-      }
+      const char*__thiscall GetString() ADDR(0x907a90);
+      const char* __thiscall ToString() ADDR(0x9073e0);
+      const char* __thiscall TypeName() ADDR(0x908b50);
+      lua_Number __thiscall GetNumber() ADDR(0x907970);
+      lua_Number __thiscall GetDouble() ADDR(0x907a30);
+      lua_Number __thiscall ToNumber() ADDR(0x9073b0);
+      void __thiscall AssignNewUserData(RRef* out, LuaState* state, const RRef* rRef) ADDR(0x909840);
+      void __thiscall AssignNewUserData(RRef* out, LuaState* state, const RType* rType) ADDR(0x9097d0);
+      void __thiscall  GetUserData(RRef* out) ADDR(0x907bc0);
+      int __thiscall GetCount() ADDR(0x907f50);
+      int __thiscall GetInteger() ADDR(0x907910);
+      int __thiscall GetN() ADDR(0x907e50);
+      int __thiscall GetTableCount() ADDR(0x90a410);
       int __thiscall IsPassed() ADDR(0x907440);
 
-      int Type() {
-        return ((__thiscall int (*)(LuaObject*))0x9076d0)(this);
-      }
+      int __thiscall Type() ADDR(0x9076d0);
       lua_State* __thiscall GetActiveCState() ADDR(0x9072c0);
 
-      void AssignBoolean(LuaState* state, bool value) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, bool))0x909600)(this, state, value);
-      }
-      void AssignInteger(LuaState* state, int value) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, int))0x909650)(this, state, value);
-      }
-      void AssignNewTable(LuaState* state, int narray, int lnhash) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, int, int))0x909940)(this, state, narray, lnhash);
-      }
-      void AssignNil(LuaState* state) {
-        ((__thiscall void (*)(LuaObject*, LuaState*))0x9095c0)(this, state);
-      }
-      void AssignNumber(LuaState* state, float value) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, float))0x9096a0)(this, state, value);
-      }
-      void AssignString(LuaState* state, const char* value) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, const char*))0x909750)(this, state, value);
-      }
-      void AssignTObject(LuaState* state, const TObject* value) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, const TObject*))0x9099b0)(this, state, value);
-      }
-      void AssignThread(LuaState* state) {
-        ((__thiscall void (*)(LuaObject*, LuaState*))0x9096f0)(this, state);
-      }
+      void __thiscall AssignBoolean(LuaState* state, bool value) ADDR(0x909600);
+      void __thiscall AssignInteger(LuaState* state, int value) ADDR(0x909650);
+      void __thiscall AssignNewTable(LuaState* state, int narray, int lnhash) ADDR(0x909940);
+      void __thiscall AssignNil(LuaState* state) ADDR(0x9095c0);
+      void __thiscall AssignNumber(LuaState* state, float value)ADDR(0x9096a0);
+      void __thiscall AssignString(LuaState* state, const char* value) ADDR(0x909750);
+      void __thiscall AssignTObject(LuaState* state, const TObject* value) ADDR(0x9099b0);
+      void __thiscall AssignThread(LuaState* state) ADDR(0x9096f0);
       void __thiscall Insert(LuaObject* value) ADDR(0x909af0);
-      void Insert(int key, LuaObject* value) {
-        ((__thiscall void (*)(LuaObject*, int, LuaObject*))0x909ce0)(this, key, value);
-      }
-      void Register(const char* name, lua_CFunction func, int nupvalues) {
-        ((__thiscall void (*)(LuaObject*, const char*, lua_CFunction, int))0x907630)(this, name, func, nupvalues);
-      }
-      void Reset() {
-        ((__thiscall void (*)(LuaObject*))0x9075f0)(this);
-      }
-      void SetBoolean(const char* key, bool value) {
-        ((__thiscall void (*)(LuaObject*, const char*, bool))0x9080c0)(this, key, value);
-      }
+      void __thiscall Insert(int key, LuaObject* value)ADDR(0x909ce0); 
+      void __thiscall Register(const char* name, lua_CFunction func, int nupvalues)ADDR(0x907630);
+      void __thiscall Reset()ADDR(0x9075f0);
+      void __thiscall SetBoolean(const char* key, bool value)ADDR(0x9080c0);
       void __thiscall SetInteger(const char* key, int value) ADDR(0x9081f0);
       void __thiscall SetInteger(int key, int value) ADDR(0x908240);
-
-      void SetMetaTable(const LuaObject* value) {
-        ((__thiscall void (*)(LuaObject*, const LuaObject*))0x907e00)(this, value);
-      }
-      void SetN(int n) {
-        ((__thiscall void (*)(LuaObject*, int))0x907ed0)(this, n);
-      }
-      void SetNil(const char* key) {
-        ((__thiscall void (*)(LuaObject*, const char*))0x907fa0)(this, key);
-      }
-      void SetNil(int key) {
-        ((__thiscall void (*)(LuaObject*, int))0x907ff0)(this, key);
-      }
+      void __thiscall SetMetaTable(const LuaObject* value) ADDR(0x907e00);
+      void __thiscall SetN(int n) ADDR(0x907ed0);
+      void __thiscall SetNil(const char* key) ADDR(0x907fa0);
+      void __thiscall SetNil(int key) ADDR(0x907ff0);
       void __thiscall SetNumber(const char* key, float value) ADDR(0x908320);
       void __thiscall SetNumber(int key, float value) ADDR(0x908370);
       void __thiscall SetObject(const LuaObject* key, const LuaObject* value) ADDR(0x908810);
@@ -348,21 +273,12 @@ VALIDATE_SIZE(Table, 0x24)
       void __thiscall SetObject(int key, const LuaObject* value) ADDR(0x9087a0);
       void __thiscall SetString(const char* key, const char* value)  ADDR(0x908450);
       void __thiscall SetString(int key, const char* value) ADDR(0x9084e0);
-
-      void TypeError(const char* msg) {
-        ((__thiscall void (*)(LuaObject*, const char*))0x9072d0)(this, msg);
-      }
+      void __thiscall TypeError(const char* msg) ADDR(0x9072d0);
 
     //private
-      void AddToUsedList(LuaState* state) {
-        ((__thiscall void (*)(LuaObject*, LuaState*))0x908890)(this, state);
-      }
-      void AddToUsedList(LuaState* state, const TObject* obj) {
-        ((__thiscall void (*)(LuaObject*, LuaState*, const TObject*))0x9088e0)(this, state, obj);
-      }
-      void SetTableHelper(const char* key, const TObject* value) {
-        ((__thiscall void (*)(LuaObject*, const char*, const TObject*))0x9074b0)(this, key, value);
-      }
+      void __thiscall AddToUsedList(LuaState* state) ADDR(0x908890);
+      void __thiscall AddToUsedList(LuaState* state, const TObject* obj) ADDR(0x9088e0);
+      void __thiscall SetTableHelper(const char* key, const TObject* value) ADDR(0x9074b0);
 
       LuaObject* m_next;
       LuaObject* m_prev;
@@ -413,7 +329,6 @@ VALIDATE_SIZE(Table, 0x24)
 
 bool __cdecl LuaPlusH_next(LuaState*, const LuaObject*, LuaObject*, LuaObject*) ADDR(0x90a6b0);
 bool __cdecl lua_toboolean(lua_State*l, int index) ADDR(0x90ca40);
-
 TObject* __cdecl negindex(lua_State*, int)ADDR(0x90c340);
 char* __cdecl luaL_prepbuffer(luaL_Buffer*)ADDR(0x90e260);
 const char* __cdecl luaL_checklstring(lua_State*, int, unsigned int*) ADDR(0x90eaa0);
@@ -459,7 +374,6 @@ int __cdecl lua_getinfo(lua_State*, const char*, lua_Debug*) ADDR(0x9132f0);
 int __cdecl lua_getmetatable(lua_State*, int) ADDR(0x90d180);
 int __cdecl lua_getn(lua_State*, int) ADDR(0x90ad30);
 int __cdecl lua_getstack(lua_State*, int, lua_Debug*) ADDR(0x9125e0);
-
 int __cdecl lua_gettop(lua_State*) ADDR(0x90c590);
 int __cdecl lua_isnumber(lua_State*, int) ADDR(0x90c7a0);
 int __cdecl lua_isstring(lua_State*, int) ADDR(0x90c800);
