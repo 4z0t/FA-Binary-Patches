@@ -92,8 +92,7 @@ FDecl(0xA89190, FAmemcpy,	void* (*)(void *dest, const void *src, size_t count))
 FDecl(0x452FC0, FAsqrtf,	float (*)(float arg))
 FDecl(0xA94450, FAstrlen,	size_t (*)(const char *str))
 FDecl(0xAA549E, FAstrcmp,	int (*)(const char *str1, const char *str2))
-FDecl(0xA82F32, FAsprintf_s,	int (*)(char *Buffer, size_t BufferCount, const char *Format, ...))
-
+int FAsprintf_s(char *Buffer, size_t BufferCount, const char *Format, ...) ADDR(0xA82F32);
 FDecl(0x405550, InitString,	__thiscall void (*)(void *this_, const char *str))
 FDecl(0x4059E0, AssignString,	__thiscall void (*)(void *this_, const char *str, size_t size))
 

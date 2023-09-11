@@ -313,9 +313,7 @@ VALIDATE_SIZE(Table, 0x24)
       void AssignThread(LuaState* state) {
         ((__thiscall void (*)(LuaObject*, LuaState*))0x9096f0)(this, state);
       }
-      void Insert(LuaObject* value) {
-        ((__thiscall void (*)(LuaObject*, LuaObject*))0x909af0)(this, value);
-      }
+      void __thiscall Insert(LuaObject* value) ADDR(0x909af0);
       void Insert(int key, LuaObject* value) {
         ((__thiscall void (*)(LuaObject*, int, LuaObject*))0x909ce0)(this, key, value);
       }
@@ -416,22 +414,20 @@ VALIDATE_SIZE(Table, 0x24)
 bool __cdecl LuaPlusH_next(LuaState*, const LuaObject*, LuaObject*, LuaObject*) ADDR(0x90a6b0);
 bool __cdecl lua_toboolean(lua_State*l, int index) ADDR(0x90ca40);
 
-FDecl(0x90c340, negindex, TObject* __cdecl (*)(lua_State*, int))
-FDecl(0x90e260, luaL_prepbuffer, char* __cdecl (*)(luaL_Buffer*))
-FDecl(0x90eaa0, luaL_checklstring, const char* __cdecl (*)(lua_State*, int, unsigned int*))
-FDecl(0x90eb10, luaL_optlstring, const char* __cdecl (*)(lua_State*, int, const char*, unsigned int*))
-FDecl(0x912680, lua_getlocal, const char* __cdecl (*)(lua_State*, const lua_Debug*, int))
-FDecl(0x90d9a0, lua_getupvalue, const char* __cdecl (*)(lua_State*, int, int))
-//FDecl(0x90ce90, lua_pushfstring, const char* __cdecl (*)(lua_State*, const char*, ...))
+TObject* __cdecl negindex(lua_State*, int)ADDR(0x90c340);
+char* __cdecl luaL_prepbuffer(luaL_Buffer*)ADDR(0x90e260);
+const char* __cdecl luaL_checklstring(lua_State*, int, unsigned int*) ADDR(0x90eaa0);
+const char* __cdecl luaL_optlstring(lua_State*, int, const char*, unsigned int*) ADDR(0x90eb10);
+const char* __cdecl lua_getlocal(lua_State*, const lua_Debug*, int) ADDR(0x912680);
+const char* __cdecl lua_getupvalue(lua_State*, int, int) ADDR(0x90d9a0);
 const char* __cdecl lua_pushfstring(lua_State*, const char*, ...) ADDR(0x90ce90);
-FDecl(0x90ce50, lua_pushvfstring, const char* __cdecl (*)(lua_State*, const char*, char*))
-FDecl(0x9126f0, lua_setlocal, const char* __cdecl (*)(lua_State*, const lua_Debug*, int))
-FDecl(0x90da00, lua_setupvalue, const char* __cdecl (*)(lua_State*, int, int))
-FDecl(0x90ca90, lua_tostring, const char* __cdecl (*)(lua_State*, int))
-FDecl(0x90c780, lua_typename, const char* __cdecl (*)(lua_State*, int))
-FDecl(0x90eb70, luaL_checknumber, float __cdecl (*)(lua_State*, int))
-FDecl(0x90ebf0, luaL_optnumber, float __cdecl (*)(lua_State*, int, float))
-//FDecl(0x90c9f0, lua_tonumber, float __cdecl (*)(lua_State*, int))
+const char* __cdecl lua_pushvfstring(lua_State*, const char*, char*) ADDR(0x90ce50);
+const char* __cdecl lua_setlocal(lua_State*, const lua_Debug*, int) ADDR(0x9126f0);
+const char* __cdecl lua_setupvalue(lua_State*, int, int) ADDR(0x90da00);
+const char* __cdecl lua_tostring(lua_State*, int) ADDR(0x90ca90);
+const char* __cdecl lua_typename(lua_State*, int) ADDR(0x90c780);
+float __cdecl luaL_checknumber(lua_State*, int) ADDR(0x90eb70);
+float __cdecl luaL_optnumber(lua_State*, int, float) ADDR(0x90ebf0);
 float __cdecl lua_tonumber(lua_State*, int) ADDR(0x90c9f0);
 void __cdecl lua_newuserdata(RRef *ret, lua_State*, const RType*) ADDR(0x90d7e0);
 RRef* __cdecl lua_touserdata(RRef*, lua_State*, int) ADDR(0x90cbb0);
@@ -441,96 +437,97 @@ inline RRef lua_touserdata(lua_State *l, int index)
     lua_touserdata(&ref, l, index);
     return ref;
 }
-FDecl(0x90e900, luaL_argerror, int __cdecl (*)(lua_State*, int, const char*))
-FDecl(0x90dda0, luaL_callmeta, int __cdecl (*)(lua_State*, int, const char*))
-FDecl(0x90dbf0, luaL_error, int __cdecl (*)(lua_State*, const char*, ...))
-FDecl(0x90dc20, luaL_findstring, int __cdecl (*)(const char*, const char* const list[]))
-FDecl(0x90dd40, luaL_getmetafield, int __cdecl (*)(lua_State*, int, const char*))
-FDecl(0x90e090, luaL_getn, int __cdecl (*)(lua_State*, int))
-FDecl(0x90e760, luaL_loadbuffer, int __cdecl (*)(lua_State*, const char*, unsigned int, const char*))
-FDecl(0x90e5d0, luaL_loadfile, int __cdecl (*)(lua_State*, const char*))
-FDecl(0x90dc70, luaL_newmetatable, int __cdecl (*)(lua_State*, const char*))
-FDecl(0x90e9a0, luaL_typerror, int __cdecl (*)(lua_State*, int, const char*))
-FDecl(0x90c460, lua_checkstack, int __cdecl (*)(lua_State*, int))
-FDecl(0x90e870, lua_dobuffer, int __cdecl (*)(lua_State*, const char*, unsigned int, const char*))
-FDecl(0x90e8d0, lua_dostring, int __cdecl (*)(lua_State*, const char*))
-FDecl(0x90d6c0, lua_error, int __cdecl (*)(lua_State*))
-FDecl(0x90d660, lua_getgccount, int __cdecl (*)(lua_State*))
-FDecl(0x90d650, lua_getgcthreshold, int __cdecl (*)(lua_State*))
-FDecl(0x9125d0, lua_gethookcount, int __cdecl (*)(lua_State*))
-FDecl(0x9125c0, lua_gethookmask, int __cdecl (*)(lua_State*))
-FDecl(0x9132f0, lua_getinfo, int __cdecl (*)(lua_State*, const char*, lua_Debug*))
-FDecl(0x90d180, lua_getmetatable, int __cdecl (*)(lua_State*, int))
-FDecl(0x90ad30, lua_getn, int __cdecl (*)(lua_State*, int))
-FDecl(0x9125e0, lua_getstack, int __cdecl (*)(lua_State*, int, lua_Debug*))
-FDecl(0x90c590, lua_gettop, int __cdecl (*)(lua_State*))
-FDecl(0x90c7a0, lua_isnumber, int __cdecl (*)(lua_State*, int))
-FDecl(0x90c800, lua_isstring, int __cdecl (*)(lua_State*, int))
-FDecl(0x90c980, lua_lessthan, int __cdecl (*)(lua_State*, int, int))
-FDecl(0x90d5c0, lua_load, int __cdecl (*)(lua_State*, lua_Chunkreader, void*, const char*))
-FDecl(0x90d6d0, lua_next, int __cdecl (*)(lua_State*, int))
-FDecl(0x90d430, lua_pcall, int __cdecl (*)(lua_State*, int, int))
-FDecl(0x90c890, lua_rawequal, int __cdecl (*)(lua_State*, int, int))
-FDecl(0x914610, lua_resume, int __cdecl (*)(lua_State*, int))
-FDecl(0x90d3b0, lua_setfenv, int __cdecl (*)(lua_State*, int))
-FDecl(0x912560, lua_sethook, int __cdecl (*)(lua_State*, lua_Hook, int, int))
-FDecl(0x90d340, lua_setmetatable, int __cdecl (*)(lua_State*, int))
-FDecl(0x911ea0, lua_traceback, int __cdecl (*)(lua_State*, const char*, int))
-FDecl(0x90c740, lua_type, int __cdecl (*)(lua_State*, int))
-FDecl(0x913e40, lua_yield, int __cdecl (*)(lua_State*, int))
-FDecl(0x90fd90, luaopen_base, int __cdecl (*)(lua_State*))
-FDecl(0x9124c0, luaopen_debug, int __cdecl (*)(lua_State*))
-FDecl(0x91a4b0, luaopen_loadlib, int __cdecl (*)(lua_State*))
-FDecl(0x91a110, luaopen_math, int __cdecl (*)(lua_State*))
-FDecl(0x923690, luaopen_serialize, int __cdecl (*)(lua_State*))
-FDecl(0x926ef0, luaopen_string, int __cdecl (*)(lua_State*))
-FDecl(0x90c530, lua_newthread, lua_State* __cdecl (*)(lua_State*))
-FDecl(0x9246d0, lua_open, lua_State* __cdecl (*)())
-FDecl(0x90cc50, lua_tothread, lua_State* __cdecl (*)(lua_State*, int))
-FDecl(0x90cb10, lua_strlen, unsigned int __cdecl (*)(lua_State*, int))
-FDecl(0x9125b0, lua_gethook, lua_Hook __cdecl (*)(lua_State*))
-FDecl(0x90e2a0, luaL_addlstring, void __cdecl (*)(luaL_Buffer*, const char*, unsigned int))
-FDecl(0x90e300, luaL_addstring, void __cdecl (*)(luaL_Buffer*, const char*))
-FDecl(0x90e370, luaL_addvalue, void __cdecl (*)(luaL_Buffer*))
-FDecl(0x90e400, luaL_buffinit, void __cdecl (*)(lua_State*, luaL_Buffer*))
-FDecl(0x90ea70, luaL_checkany, void __cdecl (*)(lua_State*, int))
-FDecl(0x90dd10, luaL_checkstack, void __cdecl (*)(lua_State*, int, const char*))
-FDecl(0x90ea20, luaL_checktype, void __cdecl (*)(lua_State*, int, int))
-FDecl(0x90dcf0, luaL_getmetatable, void __cdecl (*)(lua_State*, const char*))
-FDecl(0x90de00, luaL_openlib, void __cdecl (*)(lua_State*, const char*, const luaL_reg*, int))
-FDecl(0x90e330, luaL_pushresult, void __cdecl (*)(luaL_Buffer*))
-FDecl(0x90dfb0, luaL_setn, void __cdecl (*)(lua_State*, int, int))
-FDecl(0x90db80, luaL_where, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d400, lua_call, void __cdecl (*)(lua_State*, int, int))
-FDecl(0x9243e0, lua_close, void __cdecl (*)(lua_State*))
-FDecl(0x90d740, lua_concat, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d1f0, lua_getfenv, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d000, lua_gettable, void __cdecl (*)(lua_State*, int))
-FDecl(0x90c640, lua_insert, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d110, lua_newtable, void __cdecl (*)(lua_State*))
-FDecl(0x90cf80, lua_pushboolean, void __cdecl (*)(lua_State*, int))
-FDecl(0x90ced0, lua_pushcclosure, void __cdecl (*)(lua_State*, lua_CFunction, int))
-FDecl(0x90cfc0, lua_pushlightuserdata, void __cdecl (*)(lua_State*, void*))
-FDecl(0x90cd80, lua_pushlstring, void __cdecl (*)(lua_State*, const char*, unsigned int))
-FDecl(0x90cd00, lua_pushnil, void __cdecl (*)(lua_State*))
-FDecl(0x90cd40, lua_pushnumber, void __cdecl (*)(lua_State*, float))
-FDecl(0x90cdf0, lua_pushstring, void __cdecl (*)(lua_State*, const char*))
-FDecl(0x90c6e0, lua_pushvalue, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d050, lua_rawget, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d0a0, lua_rawgeti, void __cdecl (*)(lua_State*, int, int))
-FDecl(0x90d2a0, lua_rawset, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d2f0, lua_rawseti, void __cdecl (*)(lua_State*, int, int))
-FDecl(0x90c5f0, lua_remove, void __cdecl (*)(lua_State*, int))
-FDecl(0x90c690, lua_replace, void __cdecl (*)(lua_State*, int))
-FDecl(0x90ad00, lua_setdefaultmetatable, void __cdecl (*)(lua_State*, int))
-FDecl(0x90d670, lua_setgcthreshold, void __cdecl (*)(lua_State*, int))
-FDecl(0x924060, lua_setglobaluserdata, void __cdecl (*)(lua_State*, void*))
-FDecl(0x9240b0, lua_setstateuserdata, void __cdecl (*)(lua_State*, void*))
-FDecl(0x90d260, lua_settable, void __cdecl (*)(lua_State*, int))
-FDecl(0x90c5a0, lua_settop, void __cdecl (*)(lua_State*, int))
-FDecl(0x924080, lua_setusergcfunction, void __cdecl (*)(lua_State*, userGCFunction))
-FDecl(0x90c4c0, lua_xmove, void __cdecl (*)(lua_State*, lua_State*, int))
-FDecl(0x90cc90, lua_topointer, void const* __cdecl (*)(lua_State*, int))
-FDecl(0x924050, lua_getglobaluserdata, void* __cdecl (*)(lua_State*))
-FDecl(0x9240a0, lua_getstateuserdata, void* __cdecl (*)(lua_State*))
-FDecl(0x90cc10, lua_tolightuserdata, void* __cdecl (*)(lua_State*, int))
+int __cdecl luaL_argerror(lua_State*, int, const char*) ADDR(0x90e900);
+int __cdecl luaL_callmeta(lua_State*, int, const char*) ADDR(0x90dda0);
+int __cdecl luaL_error(lua_State*, const char*, ...) ADDR(0x90dbf0);
+FDecl(0x90dc20, luaL_findstring, int __cdecl (*)(const char*, const char* const list[]));
+int __cdecl luaL_getmetafield(lua_State*, int, const char*) ADDR(0x90dd40);
+int __cdecl luaL_getn(lua_State*, int) ADDR(0x90e090);
+int __cdecl luaL_loadbuffer(lua_State*, const char*, unsigned int, const char*) ADDR(0x90e760);
+int __cdecl luaL_loadfile(lua_State*, const char*) ADDR(0x90e5d0);
+int __cdecl luaL_newmetatable(lua_State*, const char*) ADDR(0x90dc70);
+int __cdecl luaL_typerror(lua_State*, int, const char*) ADDR(0x90e9a0);
+int __cdecl lua_checkstack(lua_State*, int) ADDR(0x90c460);
+int __cdecl lua_dobuffer(lua_State*, const char*, unsigned int, const char*) ADDR(0x90e870);
+int __cdecl lua_dostring(lua_State*, const char*) ADDR(0x90e8d0);
+int __cdecl lua_error(lua_State*) ADDR(0x90d6c0);
+int __cdecl lua_getgccount(lua_State*) ADDR(0x90d660);
+int __cdecl lua_getgcthreshold(lua_State*) ADDR(0x90d650);
+int __cdecl lua_gethookcount(lua_State*) ADDR(0x9125d0);
+int __cdecl lua_gethookmask(lua_State*) ADDR(0x9125c0);
+int __cdecl lua_getinfo(lua_State*, const char*, lua_Debug*) ADDR(0x9132f0);
+int __cdecl lua_getmetatable(lua_State*, int) ADDR(0x90d180);
+int __cdecl lua_getn(lua_State*, int) ADDR(0x90ad30);
+int __cdecl lua_getstack(lua_State*, int, lua_Debug*) ADDR(0x9125e0);
+
+int __cdecl lua_gettop(lua_State*) ADDR(0x90c590);
+int __cdecl lua_isnumber(lua_State*, int) ADDR(0x90c7a0);
+int __cdecl lua_isstring(lua_State*, int) ADDR(0x90c800);
+int __cdecl lua_lessthan(lua_State*, int, int) ADDR(0x90c980);
+int __cdecl lua_load(lua_State*, lua_Chunkreader, void*, const char*) ADDR(0x90d5c0);
+int __cdecl lua_next(lua_State*, int) ADDR(0x90d6d0);
+int __cdecl lua_pcall(lua_State*, int, int) ADDR(0x90d430);
+int __cdecl lua_rawequal(lua_State*, int, int) ADDR(0x90c890);
+int __cdecl lua_resume(lua_State*, int) ADDR(0x914610);
+int __cdecl lua_setfenv(lua_State*, int) ADDR(0x90d3b0);
+int __cdecl lua_sethook(lua_State*, lua_Hook, int, int) ADDR(0x912560);
+int __cdecl lua_setmetatable(lua_State*, int) ADDR(0x90d340);
+int __cdecl lua_traceback(lua_State*, const char*, int) ADDR(0x911ea0);
+int __cdecl lua_type(lua_State*, int) ADDR(0x90c740);
+int __cdecl lua_yield(lua_State*, int) ADDR(0x913e40);
+int __cdecl luaopen_base(lua_State*) ADDR(0x90fd90);
+int __cdecl luaopen_debug(lua_State*) ADDR(0x9124c0);
+int __cdecl luaopen_loadlib(lua_State*) ADDR(0x91a4b0);
+int __cdecl luaopen_math(lua_State*) ADDR(0x91a110);
+int __cdecl luaopen_serialize(lua_State*) ADDR(0x923690);
+int __cdecl luaopen_string(lua_State*) ADDR(0x926ef0);
+lua_State* __cdecl lua_newthread(lua_State*) ADDR(0x90c530);
+lua_State* __cdecl lua_open() ADDR(0x9246d0);
+lua_State* __cdecl lua_tothread(lua_State*, int) ADDR(0x90cc50);
+unsigned int __cdecl lua_strlen(lua_State*, int) ADDR(0x90cb10);
+lua_Hook __cdecl lua_gethook(lua_State*) ADDR(0x9125b0);
+void __cdecl luaL_addlstring(luaL_Buffer*, const char*, unsigned int) ADDR(0x90e2a0);
+void __cdecl luaL_addstring(luaL_Buffer*, const char*) ADDR(0x90e300);
+void __cdecl luaL_addvalue(luaL_Buffer*) ADDR(0x90e370);
+void __cdecl luaL_buffinit(lua_State*, luaL_Buffer*) ADDR(0x90e400);
+void __cdecl luaL_checkany(lua_State*, int) ADDR(0x90ea70);
+void __cdecl luaL_checkstack(lua_State*, int, const char*) ADDR(0x90dd10);
+void __cdecl luaL_checktype(lua_State*, int, int) ADDR(0x90ea20);
+void __cdecl luaL_getmetatable(lua_State*, const char*) ADDR(0x90dcf0);
+void __cdecl luaL_openlib(lua_State*, const char*, const luaL_reg*, int) ADDR(0x90de00);
+void __cdecl luaL_pushresult(luaL_Buffer*) ADDR(0x90e330);
+void __cdecl luaL_setn(lua_State*, int, int) ADDR(0x90dfb0);
+void __cdecl luaL_where(lua_State*, int) ADDR(0x90db80);
+void __cdecl lua_call(lua_State*, int, int) ADDR(0x90d400);
+void __cdecl lua_close(lua_State*) ADDR(0x9243e0);
+void __cdecl lua_concat(lua_State*, int) ADDR(0x90d740);
+void __cdecl lua_getfenv(lua_State*, int) ADDR(0x90d1f0);
+void __cdecl lua_gettable(lua_State*, int) ADDR(0x90d000);
+void __cdecl lua_insert(lua_State*, int) ADDR(0x90c640);
+void __cdecl lua_newtable(lua_State*) ADDR(0x90d110);
+void __cdecl lua_pushboolean(lua_State*, int) ADDR(0x90cf80);
+void __cdecl lua_pushcclosure(lua_State*, lua_CFunction, int) ADDR(0x90ced0);
+void __cdecl lua_pushlightuserdata(lua_State*, void*) ADDR(0x90cfc0);
+void __cdecl lua_pushlstring(lua_State*, const char*, unsigned int) ADDR(0x90cd80);
+void __cdecl lua_pushnil(lua_State*) ADDR(0x90cd00);
+void __cdecl lua_pushnumber(lua_State*, float) ADDR(0x90cd40);
+void __cdecl lua_pushstring(lua_State*, const char*) ADDR(0x90cdf0);
+void __cdecl lua_pushvalue(lua_State*, int) ADDR(0x90c6e0);
+void __cdecl lua_rawget(lua_State*, int) ADDR(0x90d050);
+void __cdecl lua_rawgeti(lua_State*, int, int) ADDR(0x90d0a0);
+void __cdecl lua_rawset(lua_State*, int) ADDR(0x90d2a0);
+void __cdecl lua_rawseti(lua_State*, int, int) ADDR(0x90d2f0);
+void __cdecl lua_remove(lua_State*, int) ADDR(0x90c5f0);
+void __cdecl lua_replace(lua_State*, int) ADDR(0x90c690);
+void __cdecl lua_setdefaultmetatable(lua_State*, int) ADDR(0x90ad00);
+void __cdecl lua_setgcthreshold(lua_State*, int) ADDR(0x90d670);
+void __cdecl lua_setglobaluserdata(lua_State*, void*) ADDR(0x924060);
+void __cdecl lua_setstateuserdata(lua_State*, void*) ADDR(0x9240b0);
+void __cdecl lua_settable(lua_State*, int) ADDR(0x90d260);
+void __cdecl lua_settop(lua_State*, int) ADDR(0x90c5a0);
+void __cdecl lua_setusergcfunction(lua_State*, userGCFunction)ADDR(0x924080);
+void __cdecl lua_xmove(lua_State*, lua_State*, int)ADDR(0x90c4c0);
+void const* __cdecl lua_topointer(lua_State*, int)ADDR(0x90cc90);
+void* __cdecl lua_getglobaluserdata(lua_State*)ADDR(0x924050);
+void* __cdecl lua_getstateuserdata(lua_State*)ADDR(0x9240a0);
+void* __cdecl lua_tolightuserdata(lua_State*, int)ADDR(0x90cc10);
