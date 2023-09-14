@@ -252,7 +252,8 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     // void *map = IWldTerrainRes::GetMap(terrain);
     // if (!map)
     //     return;
-    if(!CustomWorldRendering) return;
+    if (!CustomWorldRendering)
+        return;
 
     LuaState *state = *(LuaState **)((int)g_CUIManager + 48);
     lua_State *l = state->m_state;
@@ -334,6 +335,12 @@ int LuaBitmapSetColorMask(lua_State *l)
     return 0;
 }
 
+void SetAlpha(int bitmap, float alpha, uint32_t alphai)
+{
+    *(float *)(bitmap + 240) = alpha;
+    *(uint32_t *)(bitmap + 244) = (*(uint32_t *)(bitmap + 244) & 0x00FFFFFFu) | (alphai << 24);
+}
+
 int __thiscall _SetAlpha(int bitmap, float alpha)
 {
     uint32_t alphai = 0xFF * alpha;
@@ -341,7 +348,23 @@ int __thiscall _SetAlpha(int bitmap, float alpha)
     {
         alphai = 0xFF;
     }
-    *(float *)(bitmap + 240) = alpha;
-    *(uint32_t *)(bitmap + 244) = (*(uint32_t *)(bitmap + 244) & 0x00FFFFFFu) | (alphai << 24);
+    SetAlpha(bitmap, alpha, alphai);
     return alphai;
+}
+
+int __fastcall NextChild(int child, int parent) asm("0x786EA0");
+
+void __thiscall _SetAlphaChildren(int bitmap, float alpha)
+{
+    uint32_t alphai = 0xFF * alpha;
+    if (alphai > 0xFF)
+    {
+        alphai = 0xFF;
+    }
+    int child = bitmap;
+    do
+    {
+        SetAlpha(child, alpha, alphai);
+        child = NextChild(child, bitmap);
+    } while (child);
 }
