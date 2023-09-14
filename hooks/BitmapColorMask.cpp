@@ -13,6 +13,4 @@ asm(
     "fstp dword ptr [esp+0x88-0x74];"
     "call "QU(_SetAlphaChildren)";"
     "jmp 0x7899FB;"
-
-
 );
