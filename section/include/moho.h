@@ -777,6 +777,7 @@ struct UnitIntel
 
 struct Unit : WeakObject
 {//0x006A5422, 0x6A8 bytes
+	using Type = ObjectType<0x10C6FC8, 0xF6A1E4>;
 	//WeakObject WeakObject;
 	// at 0x8
 	//Entity Entity; to 0x278
