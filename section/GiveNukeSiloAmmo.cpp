@@ -54,6 +54,46 @@
 //         :
 //     );
 // }
+#define NON_GENERAL_REG(var_) [var_] "g"(var_)
+
+float GetBPValue(void *entity, char *name)
+{
+    float result;
+    asm(
+        "push   %[name];"
+        "call   0x5D0540;"
+        "movss   xmm1, ds:0xE4F714;"
+        "comiss  xmm0, xmm1;"
+        "movss   %[result], xmm1;"
+        "jbe     RETURN;"
+        "movss   %[result], xmm0;"
+        "RETURN:"
+        : [result] "=m"(result)
+        : "c"(entity), NON_GENERAL_REG(name)
+        : "xmm0", "xmm1");
+    return result;
+}
+
+void SetSiloProgress(int *silo, float progress)
+{
+    LogF("%f", *(float *)(silo + 17));
+    if (*(float *)(silo + 17) < 1.0f)
+    {
+
+        int a = silo[3 * *(int *)(**((int **)silo + 9) + 8) + 2];
+        void *v;
+        if (a == 0 || (v = *(void **)(a + 76)) == 0)
+        {
+            return;
+        }
+        auto unit = *((int *)silo + 1);
+        float br = GetBPValue((int *)(unit + 8), "GetEconomyBuildRate");
+        float buildticks = (float)(*(float *)(v + 118) * 10.0) / br;
+        *(float *)(silo + 17) = buildticks;
+        LogF("%f", *(float *)(silo + 17));
+    }
+    *(int *)(silo + 18) = *(float *)(silo + 17) * progress;
+}
 
 int GiveNukeSiloAmmo(lua_State *l)
 {
@@ -76,13 +116,14 @@ int GiveNukeSiloAmmo(lua_State *l)
     if (silo == nullptr)
         return 0;
 
-    auto addsilo = (void(__thiscall **)(float *, int, int))(*(int*)silo + 28);
+    auto addsilo = (void(__thiscall **)(float *, int, int))(*(int *)silo + 28);
     int count = lua_tonumber(l, 2);
     (*addsilo)(silo, 1, count);
     if (n == 3)
     {
         float progress = lua_tonumber(l, 3);
-        *(int*)(silo + 18) = *(silo + 17) * progress;
+        *(int *)(silo + 18) = *(float *)(silo + 17) * progress;
+        //SetSiloProgress((int *)silo, progress);
     }
 
     return 0;
