@@ -116,13 +116,13 @@ namespace Moho
             return t;
         }
 
-        void __stdcall SetTexture(void *batcher, const Texture *texture)
+        void __stdcall SetTexture(void *batcher, const Texture& texture)
         {
             asm(
                 "call 0x4386A0;"
                 :
                 : "D"(batcher),
-                  "b"(texture)
+                  "b"(&texture)
                 : "edx", "ecx", "eax");
         }
 
@@ -297,7 +297,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::CPrimBatcher::Setup(batcher, "TAlphaBlendLinearSampleNoDepth");
     Moho::CPrimBatcher::SetViewProjMatrix(batcher, Moho::GetWorldCamera(_worldview));
     Moho::CPrimBatcher::Texture t = Moho::CPrimBatcher::FromSolidColor(0xFFFFFFFF);
-    Moho::CPrimBatcher::SetTexture(batcher, &t);
+    Moho::CPrimBatcher::SetTexture(batcher, t);
 
     is_in_render_world = true;
     lua_pushvalue(l, -2);
