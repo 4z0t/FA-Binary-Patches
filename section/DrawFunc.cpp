@@ -116,7 +116,7 @@ namespace Moho
             return t;
         }
 
-        void __stdcall SetTexture(void *batcher, Texture *texture)
+        void __stdcall SetTexture(void *batcher, const Texture *texture)
         {
             asm(
                 "call 0x4386A0;"
@@ -125,6 +125,8 @@ namespace Moho
                   "b"(texture)
                 : "edx", "ecx", "eax");
         }
+
+        void __stdcall Setup(void *batcher, const char *mode) asm("0x438560");
 
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix)
         {
@@ -260,10 +262,10 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     //     return;
     if (!CustomWorldRendering)
         return;
-        
+
     _worldview = _this;
 
-    if (!*(char *)((int)_worldview + 377 - 284))//check for custom render enabled (see WorldView.cpp)
+    if (!*(char *)((int)_worldview + 377 - 284)) // check for custom render enabled (see WorldView.cpp)
         return;
 
     // LogF("%p", *(int *)(0x010A6470));//gamesession
@@ -281,12 +283,10 @@ void __thiscall CustomDraw(void *_this, void *batcher)
         // WarningF("%s", "OnRenderWorld not a function");
         return;
     }
-    int *device = Moho::D3D_GetDevice();
-    Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
-    Moho::CPrimBatcher::ResetBatcher(batcher);
+
+    Moho::CPrimBatcher::Setup(batcher, "TAlphaBlendLinearSampleNoDepth");
     Moho::CPrimBatcher::SetViewProjMatrix(batcher, Moho::GetWorldCamera(_worldview));
-    Moho::CPrimBatcher::Texture t;
-    Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
+    Moho::CPrimBatcher::Texture t = Moho::CPrimBatcher::FromSolidColor(0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
 
     is_in_render_world = true;
