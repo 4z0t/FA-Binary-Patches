@@ -86,6 +86,11 @@ namespace Moho
     }
     namespace CPrimBatcher
     {
+        struct Texture
+        {
+            int a;
+            int b;
+        };
         void FlushBatcher(void *batcher)
         {
             asm(
@@ -101,13 +106,7 @@ namespace Moho
             *(char *)((int *)batcher + 285) = 0;
         }
 
-        struct Texture
-        {
-            int a;
-            int b;
-        };
-
-        void FromSolidColor(Texture *t, unsigned int color) asm("0x4478C0");
+        void __stdcall FromSolidColor(Texture *t, unsigned int color) asm("0x4478C0");
 
         Texture FromSolidColor(unsigned int color)
         {
@@ -116,7 +115,7 @@ namespace Moho
             return t;
         }
 
-        void __stdcall SetTexture(void *batcher, const Texture& texture)
+        void __stdcall SetTexture(void *batcher, const Texture &texture)
         {
             asm(
                 "call 0x4386A0;"
@@ -138,6 +137,29 @@ namespace Moho
                   NON_GENERAL_REG(matrix)
                 : "edx", "eax");
         }
+
+         struct Batcher
+        {
+            void Flush()
+            {
+                FlushBatcher(this);
+            }
+
+            void SetTexture(const Texture &texture)
+            {
+                CPrimBatcher::SetTexture(this, texture);
+            }
+
+            void Setup(const char *mode)
+            {
+                CPrimBatcher::Setup(this, mode);
+            }
+
+            void SetViewProjMatrix(void *matrix)
+            {
+                CPrimBatcher::SetViewProjMatrix(this, matrix);
+            }
+        };
     } // namespace CPrimBatcher
 
     int *D3D_GetDevice() asm("0x00430590");
@@ -259,7 +281,7 @@ UIRegFunc DrawCircleReg{"UI_DrawCircle", "UI_DrawCircle(pos:vector, radius:float
 float delta_frame = 0;
 
 // offset +284 from CUIWorldView
-void __thiscall CustomDraw(void *_this, void *batcher)
+void __thiscall CustomDraw(void *_this, Moho::CPrimBatcher::Batcher *batcher)
 {
     // void *wldmap = IWldTerrainRes::GetWldMap();
     // void *terrain = IWldTerrainRes::GetTerrainRes(wldmap);
@@ -294,10 +316,10 @@ void __thiscall CustomDraw(void *_this, void *batcher)
         return;
     }
 
-    Moho::CPrimBatcher::Setup(batcher, "TAlphaBlendLinearSampleNoDepth");
-    Moho::CPrimBatcher::SetViewProjMatrix(batcher, Moho::GetWorldCamera(_worldview));
+    batcher->Setup("TAlphaBlendLinearSampleNoDepth");
+    batcher->SetViewProjMatrix(Moho::GetWorldCamera(_worldview));
     Moho::CPrimBatcher::Texture t = Moho::CPrimBatcher::FromSolidColor(0xFFFFFFFF);
-    Moho::CPrimBatcher::SetTexture(batcher, t);
+    batcher->SetTexture(t);
 
     is_in_render_world = true;
     lua_pushvalue(l, -2);
