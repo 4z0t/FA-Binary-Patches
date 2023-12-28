@@ -106,7 +106,7 @@ namespace Moho
             *(char *)((int *)batcher + 285) = 0;
         }
 
-        void __stdcall FromSolidColor(Texture *t, unsigned int color) asm("0x4478C0");
+        void __cdecl FromSolidColor(Texture *t, unsigned int color) asm("0x4478C0");
 
         Texture FromSolidColor(unsigned int color)
         {
@@ -138,7 +138,7 @@ namespace Moho
                 : "edx", "eax");
         }
 
-         struct Batcher
+        struct Batcher
         {
             void Flush()
             {
