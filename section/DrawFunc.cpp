@@ -154,6 +154,17 @@ namespace Moho
     }
 } // namespace Moho
 
+float CalcLazyVar(void *var)
+{
+    float result;
+    asm(
+        "call 0x783840;"
+        : "=t"(result)
+        : "D"(var)
+        : "ecx");
+    return result;
+}
+
 namespace IWldTerrainRes
 {
     void *GetWldMap()
@@ -261,6 +272,8 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     if (!view->GetCustomRenderingEnabled())
         return;
+    float bottom = CalcLazyVar((void *)((int)view + 132));
+    LogF("%f", bottom);
 
     // LogF("%p", *(int *)(0x010A6470));//gamesession
     // LogF("%p", *(int *)((int)worldview - 284 + 532));
