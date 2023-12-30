@@ -154,7 +154,7 @@ namespace Moho
     }
 } // namespace Moho
 
-float CalcLazyVar(void *var)
+float CalcLazyVar(LuaObject *var)
 {
     float result;
     asm(
@@ -272,7 +272,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
 
     if (!view->GetCustomRenderingEnabled())
         return;
-    float bottom = CalcLazyVar((void *)((int)view + 132));
+    float bottom = CalcLazyVar((LuaObject *)((int)view + 132));
     LogF("%f", bottom);
 
     // LogF("%p", *(int *)(0x010A6470));//gamesession
