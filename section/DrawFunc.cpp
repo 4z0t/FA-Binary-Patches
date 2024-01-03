@@ -362,8 +362,8 @@ void StoreFPS()
 {
     asm(
         "movss  xmm0, dword ptr [esp+0x78-0x68];"
-        "movss ds:%[delta_frame], xmm0;"
-        "jmp 0x8D1A8B;"
+        "movss  ds:%[delta_frame], xmm0;"
+        "jmp    0x8D1A8B;"
         :
         : [delta_frame] "i"(&delta_frame)
         :);
