@@ -60,12 +60,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
             }
 
             new_selection->~UserUnitMap();
-            new_selection->root = CreateMapNode();
-            new_selection->root->is_leaf = 1;
-            new_selection->root->parent = new_selection->root;
-            new_selection->root->left = new_selection->root;
-            new_selection->root->right = new_selection->root;
-            new_selection->size = 0;
+            new (new_selection) UserUnitMap();
 
             for (const auto &[key, value] : IPairs(result))
             {
