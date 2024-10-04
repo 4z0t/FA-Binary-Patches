@@ -27,7 +27,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
         MapNode *node;
         MapIterate(&node, new_selection, new_selection->root->left);
         int j = 1;
-        for (MapNode *i = node; node != new_selection->root;)
+        for (MapNode *i = node; node != new_selection->root; MapIterate(&node, new_selection, i))
         {
             void *value = node->value;
             if (value)
@@ -42,7 +42,6 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
                 }
             }
             map_something(&i);
-            MapIterate(&node, new_selection, i);
         }
         try
         {

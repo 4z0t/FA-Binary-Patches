@@ -122,6 +122,9 @@ void HookSelectionMerge()
         "mov dl, byte ptr [edx];"
         "test dl, dl;"
         "jz 0x0086396C;" // normal flow : merging maps
+        "mov     edx, [ebp+8];"
+        "test    byte ptr [edx+0x1C], 1;"
+        "jnz 0x0086396C;" // normal flow : merging maps
         "jmp 0x00863982;"
         :
         : [use_selector] "i"(&use_selector)
