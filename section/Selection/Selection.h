@@ -75,10 +75,11 @@ namespace Moho
 
         static void ReBalanceMaybe(MapNode **node)
         {
-            if ((*node)->is_leaf)
+            MapNode *result = *node;
+
+            if (result->is_leaf)
                 return;
 
-            MapNode *result = *node;
             MapNode *right = result->right;
             if (right->is_leaf)
             {
