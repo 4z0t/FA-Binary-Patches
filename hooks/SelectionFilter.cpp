@@ -11,6 +11,8 @@ asm(
   // "call "QU(HookSelection)";"
   // "nop;"
   // "nop;"
+  SECTION(0,0x00863967)
+  "jmp "QU(HookSelectionMerge)";"
   SECTION(1,0x0086398D)
   "call "QU(HookSelection)";"
   "nop;"
