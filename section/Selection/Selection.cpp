@@ -48,13 +48,6 @@ namespace Moho
         return __result;
     }
 
-    MapNode *map_something(MapNode **a2)
-    {
-        MapNode *__result;
-        asm("call 0x7B4D90;" : "=a"(__result) : [a2] "d"(a2) :);
-        return __result;
-    }
-
     UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls)
     {
         UserUnit *result;
