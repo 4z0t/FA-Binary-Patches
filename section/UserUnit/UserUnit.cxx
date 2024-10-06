@@ -1,18 +1,18 @@
 #include "UserUnit.h"
 #include "magic_classes.h"
 
-BitSetGetResult BitSetGet_(const BitSet &a2, unsigned int ordinal)
+BitSetGetResult BitSetGet_(const BitSet &set, unsigned int ordinal)
 {
 
-    unsigned int v4;
+    unsigned int index;
 
-    unsigned int i = (ordinal >> 5) - a2.ordinal;
-    if (i < a2.end - a2.begin && ((a2.begin[i] >> (ordinal & 0x1F)) & 1) != 0)
-        v4 = ordinal;
+    unsigned int i = (ordinal >> 5) - set.ordinal;
+    if (i < set.end - set.begin && ((set.begin[i] >> (ordinal & 0x1F)) & 1) != 0)
+        index = ordinal;
     else
-        v4 = 32 * (a2.ordinal + a2.end - a2.begin);
+        index = 32 * (set.ordinal + set.end - set.begin);
 
-    BitSetGetResult result{a2, v4};
+    BitSetGetResult result{set, index};
     return result;
 }
 
