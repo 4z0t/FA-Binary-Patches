@@ -54,12 +54,10 @@ int IssueBuildMobile(lua_State *L)
         CheckUnitList(&units, &obj, ls, __FUNCTION__);
 
         Vector3f pos;
-        // Moho::CAiTarget target;
-        // CAiTargetFromArg(&target, L->LuaState, __FUNCTION__, L->LuaState, 2);
-        // GetTargetPos(&pos, &target, 0);
-
         LuaObject vecObj{ls, 2};
-        LuaTableToVector(&pos, &vecObj);
+        pos.x = vecObj.GetNumber(1);
+        pos.y = vecObj.GetNumber(2);
+        pos.z = vecObj.GetNumber(3);
 
         void *blueprint = GetBlueprintByName(ls, 3, __FUNCTION__);
         if (!blueprint)
@@ -80,7 +78,15 @@ int IssueBuildMobile(lua_State *L)
     return 0;
 }
 
-static SimRegFunc IssueStopReg{"IssueStop2", "", IssueStop};
-static SimRegFunc IssueKillSelfReg{"IssueKillSelf2", "", IssueKillSelf};
-static SimRegFunc IssueBuildMobileReg{"IssueBuildMobile2", "",
-                                      IssueBuildMobile};
+static SimRegFunc IssueStopReg{
+    "IssueStop2",
+    "",
+    IssueStop};
+static SimRegFunc IssueKillSelfReg{
+    "IssueKillSelf2",
+    "",
+    IssueKillSelf};
+static SimRegFunc IssueBuildMobileReg{
+    "IssueBuildMobile2",
+    "",
+    IssueBuildMobile};

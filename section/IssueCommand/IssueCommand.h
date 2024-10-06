@@ -221,7 +221,6 @@ SHARED
     void UNIT_IssueCommand(Moho::EntitySet * units, void *moho, Moho::SSTICommandIssueData *command, int a5);
     void *GetBlueprintByName(LuaState * ls, int index, const char *funcName) noexcept(false);
     Moho::AddResult *EntitySetAddItem(Moho::EntitySet * set, Moho::AddResult * insert_res, void *unit);
-    Vector3f *LuaTableToVector(Vector3f * out, LuaObject * table);
     Moho::CellData *CopySetData(Moho::CellData * to, Moho::CellData * from);
     Moho::CAiTarget *CAiTargetFromArg(Moho::CAiTarget * target, LuaState * state, const char *funcName, LuaState *ls, int index);
     Vector3f *GetTargetPos(Vector3f * res, Moho::CAiTarget * target, bool flag);

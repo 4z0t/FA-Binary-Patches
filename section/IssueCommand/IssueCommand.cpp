@@ -55,17 +55,6 @@ Moho::AddResult *EntitySetAddItem(Moho::EntitySet *set, Moho::AddResult *insert_
     return result;
 }
 
-Vector3f *LuaTableToVector(Vector3f *out, LuaObject *table)
-{
-    Vector3f *result;
-    asm("call 0x004D0080;"
-        : "=a"(result)
-        : "S"(out),
-          "D"(table)
-        :);
-    return result;
-}
-
 Moho::CellData *CopySetData(Moho::CellData *to, Moho::CellData *from)
 {
     Moho::CellData *result;
