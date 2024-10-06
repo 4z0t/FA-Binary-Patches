@@ -77,7 +77,7 @@ int SetCustomIcon(lua_State *l) {
   texture->Release();
   texture->data = nullptr;
   texture->lock = nullptr;
-  if (lua_type(l, 2) == LUA_TNIL) {
+  if (lua_isnil(l, 2)) {
     return 0;
   }
 
