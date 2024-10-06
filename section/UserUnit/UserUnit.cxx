@@ -1,6 +1,21 @@
 #include "UserUnit.h"
 #include "magic_classes.h"
 
+BitSetGetResult BitSetGet_(const BitSet &a2, unsigned int ordinal)
+{
+
+    unsigned int v4;
+
+    unsigned int i = (ordinal >> 5) - a2.ordinal;
+    if (i < a2.end - a2.begin && ((a2.begin[i] >> (ordinal & 0x1F)) & 1) != 0)
+        v4 = ordinal;
+    else
+        v4 = 32 * (a2.ordinal + a2.end - a2.begin);
+
+    BitSetGetResult result{a2, v4};
+    return result;
+}
+
 int GetFocusArmyUnits(lua_State *L)
 {
 
@@ -58,11 +73,10 @@ int GetFocusArmyUnits(lua_State *L)
 
                 unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
 
-                int cat_index = 32 * (category->data.ordinal + category->data.end -
-                                      category->data.begin);
+                unsigned int cat_index = 32 * (category->data.ordinal + category->data.end -
+                                               category->data.begin);
 
-                BitSetGetResult r;
-                BitSetGet_(&r, &category->data, bp_ordinal);
+                BitSetGetResult r = BitSetGet_(category->data, bp_ordinal);
                 if (r.bit_index == cat_index)
                 {
                     continue;

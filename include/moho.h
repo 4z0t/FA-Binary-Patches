@@ -78,7 +78,7 @@ struct linked_list
 
 struct BitSet
 {	// 0x20 bytes
-	int ordinal;
+	unsigned int ordinal;
 	int unk1;
 	uint32_t *begin;
 	uint32_t *end;

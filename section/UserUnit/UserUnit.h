@@ -319,8 +319,8 @@ namespace Moho
 
 struct BitSetGetResult
 {
-    BitSet *set;
-    int bit_index;
+    const BitSet &set;
+    unsigned int bit_index;
 };
 
 template <typename T>
@@ -342,7 +342,6 @@ VALIDATE_SIZE(Moho::EntityCategory, 0x28);
 SHARED
 {
     int get_session_user_entities(BaseVector<UserEntity *> * output, int a2, Moho::struct_session_res3 *a3);
-    BitSetGetResult *BitSetGet_(BitSetGetResult * result, BitSet * a2, unsigned int a3);
 }
 
 Moho::EntityCategory *__cdecl CastEntityCategory(LuaObject obj) asm("0x005575E0");
