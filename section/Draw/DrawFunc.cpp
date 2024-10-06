@@ -136,7 +136,12 @@ char *DrawLine(Vertex *v1, void *batcher, Vertex *v2)
     return __result;
 }
 
-char *DrawQuad(Vertex *a1, void *batcher, Vertex *a3, Vertex *a4, Vertex *a5)
+char *DrawQuad(
+    Vertex *a1,
+    void *batcher,
+    Vertex *a3,
+    Vertex *a4,
+    Vertex *a5)
 {
     char *__result;
     asm("push %[a5];"
