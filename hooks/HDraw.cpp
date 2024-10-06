@@ -13,7 +13,7 @@ asm(
 
     //allow changing color
     ".section h3; .set h3,0x4561A8;"
-    "jmp "QU(_SetColor)";"
+    "call "QU(GetCircleColor)";"
 
     //increase number of segements
     ".section h4; .set h4,0x455E53;"

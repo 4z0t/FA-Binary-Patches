@@ -23,8 +23,11 @@ void _DrawRect(Vector3f *v1, Vector3f *v2, unsigned int color, float thickness,
       : "xmm0");
 }
 
+
+
 float THICKNESS = 0.1;
-extern unsigned int CIRCLE_COLOR;
+unsigned int CIRCLE_COLOR = 0xFF00D800;
+float SEGMENT_RAD = 0.1308996939f;
 void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness,
                  uint32_t color, Vector3f *orientation) {
   THICKNESS = thickness;
@@ -35,10 +38,18 @@ void _DrawCircle(void *batcher, Vector3f *pos, float radius, float thickness,
       "call 0x00456200;"
       "add esp, 0xC;"
       :
-      : "c"(orientation), NON_GENERAL_REG(batcher), NON_GENERAL_REG(pos),
+      : "c"(orientation),
+       NON_GENERAL_REG(batcher),
+        NON_GENERAL_REG(pos),
         NON_GENERAL_REG(radius)
       : "eax");
 }
+
+unsigned int GetCircleColor()
+{
+    return CIRCLE_COLOR;
+}
+
 
 void __stdcall Moho::CPrimBatcher::SetTexture(void *batcher, Texture *texture) {
   asm("call 0x4386A0;" : : "D"(batcher), "b"(texture) : "edx", "ecx", "eax");
