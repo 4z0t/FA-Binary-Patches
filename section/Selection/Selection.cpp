@@ -99,8 +99,7 @@ void HookSelection()
         "push    ecx;"
         "push    eax;"
         "call %[HandleNewSelection];"
-        "call 0x00896140;" //  Moho::CWldSession::SetSelection(Moho::CWldSession
-                           //  *a1, map *a2)
+        "call 0x00896140;" //  Moho::CWldSession::SetSelection(Moho::CWldSession *a1, map *a2)
         "ret;"
         :
         : [HandleNewSelection] "i"(HandleNewSelection)
