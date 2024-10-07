@@ -69,6 +69,38 @@ namespace Moho
             size = 0;
         }
 
+        struct MapIterator
+        {
+            UserUnitMap *map;
+            MapNode *node;
+
+            bool operator!=(const MapIterator &other)
+            {
+                return node != other.node;
+            }
+
+            MapIterator &operator++()
+            {
+                UserUnitMap::NextNode(&node);
+                MapIterate(&node, map, node);
+                return *this;
+            }
+
+            MapNode *&operator*()
+            {
+                return node;
+            }
+        };
+
+        MapIterator begin()
+        {
+            MapIterator iter{this};
+            MapIterate(&iter.node, this, root->left);
+            return iter;
+        }
+
+        MapIterator end() { return {this, root}; }
+
         static void NextNode(MapNode **node)
         {
             MapNode *result = *node;

@@ -24,10 +24,8 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
         LuaObject units_list;
         units_list.AssignNewTable(ls, size, 0);
 
-        MapNode *node;
-        MapIterate(&node, new_selection, new_selection->root->left);
         int j = 1;
-        for (MapNode *i = node; node != new_selection->root; MapIterate(&node, new_selection, i))
+        for (MapNode* node: *new_selection)
         {
             void *value = node->value;
             if (value)
@@ -41,7 +39,6 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
                     j++;
                 }
             }
-            UserUnitMap::NextNode(&i);
         }
         try
         {
