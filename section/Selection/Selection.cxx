@@ -25,20 +25,19 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
         units_list.AssignNewTable(ls, size, 0);
 
         int j = 1;
-        for (MapNode* node: *new_selection)
+        for (MapNode *node : *new_selection)
         {
             void *value = node->value;
-            if (value)
-            {
-                Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);
-                if (uunit)
-                {
-                    LuaObject obj;
-                    GetIUnitVTable(uunit)->GetLuaObject(Offset<Moho::Unit_ *>(uunit, 0x148), &obj);
-                    units_list.SetObject(j, obj);
-                    j++;
-                }
-            }
+            if (value == nullptr)
+                continue;
+            Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);
+            if (uunit == nullptr)
+                continue;
+
+            LuaObject obj;
+            GetIUnitVTable(uunit)->GetLuaObject(Offset<Moho::Unit_ *>(uunit, 0x148), &obj);
+            units_list.SetObject(j, obj);
+            j++;
         }
         try
         {
