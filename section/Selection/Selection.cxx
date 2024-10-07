@@ -13,7 +13,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
         return;
     }
 
-    int size = MapGetSize(new_selection);
+    size_t size = new_selection->Size();
     if (!size)
     {
         return;

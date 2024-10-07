@@ -101,6 +101,22 @@ namespace Moho
 
         MapIterator end() { return {this, root}; }
 
+        size_t Size()
+        {
+            size_t n = 0;
+            for (MapNode *node : *this)
+            {
+                void *value = node->value;
+                if (value == nullptr)
+                    continue;
+                Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);
+                if (uunit == nullptr)
+                    continue;
+                n++;
+            }
+            return n;
+        }
+
         static void NextNode(MapNode **node)
         {
             MapNode *result = *node;

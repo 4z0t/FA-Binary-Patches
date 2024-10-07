@@ -245,7 +245,7 @@ public:
   lua_State *GetActiveCState() const asm("0x9072c0");
   void AssignBoolean(LuaState *state, bool value) asm("0x909600");
   void AssignInteger(LuaState *state, int value) asm("0x909650");
-  void AssignNewTable(LuaState *state, int narray, int lnhash) asm("0x909940");
+  void AssignNewTable(LuaState *state, size_t narray, int lnhash) asm("0x909940");
   void AssignNil(LuaState *state) asm("0x9095c0");
   void AssignNumber(LuaState *state, float value) asm("0x9096a0");
   void AssignString(LuaState *state, const char *value) asm("0x909750");
