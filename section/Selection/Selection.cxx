@@ -41,7 +41,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
                     j++;
                 }
             }
-            UserUnitMap::ReBalanceMaybe(&i);
+            UserUnitMap::NextNode(&i);
         }
         try
         {

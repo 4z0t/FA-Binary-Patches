@@ -21,9 +21,9 @@ namespace Moho
         MapNode *left;
         MapNode *parent;
         MapNode *right;
-        void *key;
-        void *value;
-        void *field_14;
+        UserEntity *entity; // key
+        void *value;        // entity + 8
+        void *unk;          //?
         MapNodeColor color;
         bool is_leaf;
     };
@@ -37,7 +37,6 @@ namespace Moho
 
     SHARED
     {
-
         MapNode **delete_UserUnitMap(UserUnitMap * a1, MapNode * *a2, MapNode * a3, MapNode * a4);
         UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
         int MapGetSize(UserUnitMap * a1);
@@ -70,7 +69,7 @@ namespace Moho
             size = 0;
         }
 
-        static void ReBalanceMaybe(MapNode **node)
+        static void NextNode(MapNode **node)
         {
             MapNode *result = *node;
 
