@@ -3,8 +3,7 @@
 namespace Moho
 {
 
-    MapNode **delete_UserUnitMap(UserUnitMap *a1, MapNode **a2, MapNode *a3,
-                                 MapNode *a4)
+    MapNode **delete_UserUnitMap(UserUnitMap *a1, MapNode **a2, MapNode *a3, MapNode *a4)
     {
         MapNode **__result;
         asm("push %[a4];"
@@ -17,8 +16,7 @@ namespace Moho
         return __result;
     }
 
-    UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult *a1,
-                                           UserUnitMap *a2, UserUnit *uunit)
+    UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult *a1, UserUnitMap *a2, UserUnit *uunit)
     {
         UserUnitMap_AddResult *__result;
         asm("push %[a3];"
@@ -27,13 +25,6 @@ namespace Moho
             : "=a"(__result)
             : [a1] "S"(a1), [a2] "g"(a2), [a3] "g"(uunit)
             :);
-        return __result;
-    }
-
-    int MapGetSize(UserUnitMap *a1)
-    {
-        int __result;
-        asm("call 0x00838AE0;" : "=a"(__result) : [a1] "a"(a1) :);
         return __result;
     }
 

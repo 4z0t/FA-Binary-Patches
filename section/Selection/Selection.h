@@ -39,7 +39,6 @@ namespace Moho
     {
         MapNode **delete_UserUnitMap(UserUnitMap * a1, MapNode * *a2, MapNode * a3, MapNode * a4);
         UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
-        int MapGetSize(UserUnitMap * a1);
         MapNode **MapIterate(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
     }
