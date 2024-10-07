@@ -47,6 +47,43 @@ namespace Moho
         return result;
     }
 
+    MapFindResult *map_find(Moho::UserUnit *a1, MapFindResult *a2, UserUnitMap *a3)
+    {
+        MapFindResult *__result;
+        asm(
+            "push %[a3];"
+            "call 0x00867780;"
+            : "=a"(__result)
+            : [a1] "a"(a1), [a2] "D"(a2), [a3] "g"(a3)
+            :);
+        return __result;
+    }
+
+    int map_instersect_count(UserUnitMap *ebx0, UserUnitMap *arg0)
+    {
+        int __result;
+        asm(
+            "push %[arg0];"
+            "call 0x00863760;"
+            "add esp, 0x4;"
+            : "=a"(__result)
+            : [ebx0] "b"(ebx0), [arg0] "g"(arg0)
+            :);
+        return __result;
+    }
+
+    UserUnitMap *map_copy(UserUnitMap *source, UserUnitMap *dest)
+    {
+        UserUnitMap *__result;
+        asm(
+            "push %[dest];"
+            "call 0x00822210;"
+            : "=a"(__result)
+            : [source] "a"(source), [dest] "g"(dest)
+            :);
+        return __result;
+    }
+
 } // namespace Moho
 
 SHARED bool use_selector = false;

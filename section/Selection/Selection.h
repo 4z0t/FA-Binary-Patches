@@ -35,12 +35,21 @@ namespace Moho
         bool b;
     };
 
+    struct MapFindResult
+    {
+        UserUnitMap *map;
+        MapNode *node;
+    };
+
     SHARED
     {
         MapNode **delete_UserUnitMap(UserUnitMap * a1, MapNode * *a2, MapNode * a3, MapNode * a4);
         UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
         MapNode **MapIterate(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
+        MapFindResult *map_find(Moho::UserUnit * a1, MapFindResult * a2, UserUnitMap * a3);
+        int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
+        UserUnitMap *map_copy(UserUnitMap *source, UserUnitMap *dest);
     }
 
     struct UserUnitMap
