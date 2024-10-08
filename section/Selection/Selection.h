@@ -43,13 +43,13 @@ namespace Moho
 
     SHARED
     {
-        MapNode **delete_UserUnitMap(UserUnitMap * a1, MapNode * *a2, MapNode * a3, MapNode * a4);
+        MapNode **UserUnitMap_RemoveNodes(UserUnitMap * a1, MapNode * *a2, MapNode * begin, MapNode * end);
         UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
         MapNode **MapIterate(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
         MapFindResult *map_find(Moho::UserUnit * a1, MapFindResult * a2, UserUnitMap * a3);
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
-        UserUnitMap *map_copy(UserUnitMap *source, UserUnitMap *dest);
+        UserUnitMap *map_copy_ctor(UserUnitMap * source, UserUnitMap * dest);
     }
 
     struct UserUnitMap
@@ -71,7 +71,7 @@ namespace Moho
         ~UserUnitMap()
         {
             MapNode *node;
-            delete_UserUnitMap(this, &node, root->left, root);
+            UserUnitMap_RemoveNodes(this, &node, root->left, root);
             free(root);
             root = nullptr;
             size = 0;

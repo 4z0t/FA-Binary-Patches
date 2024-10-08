@@ -3,7 +3,7 @@
 namespace Moho
 {
 
-    MapNode **delete_UserUnitMap(UserUnitMap *a1, MapNode **a2, MapNode *a3, MapNode *a4)
+    MapNode **UserUnitMap_RemoveNodes(UserUnitMap *a1, MapNode **a2, MapNode *a3, MapNode *a4)
     {
         MapNode **__result;
         asm("push %[a4];"
@@ -72,7 +72,7 @@ namespace Moho
         return __result;
     }
 
-    UserUnitMap *map_copy(UserUnitMap *source, UserUnitMap *dest)
+    UserUnitMap *map_copy_ctor(UserUnitMap *source, UserUnitMap *dest)
     {
         UserUnitMap *__result;
         asm(
