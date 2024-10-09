@@ -6,11 +6,11 @@ BitSetGetResult BitSetGet_(const BitSet &set, unsigned int ordinal)
 
     unsigned int index;
 
-    unsigned int i = (ordinal >> 5) - set.ordinal;
+    unsigned int i = (ordinal >> 5) - set.offset;
     if (i < set.end - set.begin && ((set.begin[i] >> (ordinal & 0x1F)) & 1) != 0)
         index = ordinal;
     else
-        index = 32 * (set.ordinal + set.end - set.begin);
+        index = 32 * (set.offset + set.end - set.begin);
 
     BitSetGetResult result{set, index};
     return result;
@@ -73,7 +73,7 @@ int GetFocusArmyUnits(lua_State *L)
 
                 unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
 
-                unsigned int cat_index = 32 * (category->data.ordinal + category->data.end -
+                unsigned int cat_index = 32 * (category->data.offset + category->data.end -
                                                category->data.begin);
 
                 BitSetGetResult r = BitSetGet_(category->data, bp_ordinal);

@@ -78,7 +78,7 @@ struct linked_list
 
 struct BitSet
 {	// 0x20 bytes
-	unsigned int ordinal;
+	unsigned int offset;
 	int unk1;
 	uint32_t *begin;
 	uint32_t *end;
@@ -87,7 +87,7 @@ struct BitSet
 	uint32_t inlined_values[2];
 
 	void set(uint32_t item, bool set) {
-		auto *itemPtr = &begin[item >> 5 - ordinal];
+		auto *itemPtr = &begin[item >> 5 - offset];
 		if (itemPtr >= end) end = itemPtr + 1;
 		item = 1 << (item & 0x1F);
 		if (set)
@@ -96,7 +96,7 @@ struct BitSet
 			*itemPtr &= ~item;
 	}
 	bool operator[](int item) {
-		auto *itemPtr = &begin[item >> 5 - ordinal];
+		auto *itemPtr = &begin[item >> 5 - offset];
 		if (itemPtr >= end) return false;
 		return *itemPtr & (1 << (item & 0x1F));
 	}
