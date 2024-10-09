@@ -110,7 +110,7 @@ struct BitSet
 
 		unsigned int i = block_i - offset;
 
-		if (i < end - begin && ((begin[i] >> (i & 0x1F)) & 1) != 0)
+		if (i < end - begin && ((begin[i] >> (index & 0x1F)) & 1) != 0)
 			return true;
 		return false;
 	}
