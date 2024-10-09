@@ -3,17 +3,18 @@
 
 BitSetGetResult BitSetGet_(const BitSet &set, unsigned int ordinal)
 {
+    unsigned int index = 32 * (set.offset + set.end - set.begin);
 
-    unsigned int index;
+    unsigned int block_i = ordinal >> 5;
+    if (block_i < set.offset)
+        return {set, index};
 
-    unsigned int i = (ordinal >> 5) - set.offset;
+    unsigned int i = block_i - set.offset;
+
     if (i < set.end - set.begin && ((set.begin[i] >> (ordinal & 0x1F)) & 1) != 0)
         index = ordinal;
-    else
-        index = 32 * (set.offset + set.end - set.begin);
 
-    BitSetGetResult result{set, index};
-    return result;
+    return {set, index};
 }
 
 int GetFocusArmyUnits(lua_State *L)
