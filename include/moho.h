@@ -95,10 +95,24 @@ struct BitSet
 		else
 			*itemPtr &= ~item;
 	}
-	bool operator[](int item) {
-		auto *itemPtr = &begin[item >> 5 - offset];
-		if (itemPtr >= end) return false;
-		return *itemPtr & (1 << (item & 0x1F));
+
+	// bool operator[](int item) {
+	// 	auto *itemPtr = &begin[item >> 5 - offset];
+	// 	if (itemPtr >= end) return false;
+	// 	return *itemPtr & (1 << (item & 0x1F));
+	// }
+
+	bool operator[](unsigned int index)
+	{
+		unsigned int block_i = index >> 5;
+		if (block_i < offset)
+			return false;
+
+		unsigned int i = block_i - offset;
+
+		if (i < end - begin && ((begin[i] >> (i & 0x1F)) & 1) != 0)
+			return true;
+		return false;
 	}
 };
 VALIDATE_SIZE(BitSet, 0x20)

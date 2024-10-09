@@ -71,14 +71,9 @@ int GetFocusArmyUnits(lua_State *L)
             void *bp = iunit_vtable->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148));
             if (bp)
             {
-
                 unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
 
-                unsigned int cat_index = 32 * (category->data.offset + category->data.end -
-                                               category->data.begin);
-
-                BitSetGetResult r = BitSetGet_(category->data, bp_ordinal);
-                if (r.bit_index == cat_index)
+                if (!category->data[bp_ordinal])
                 {
                     continue;
                 }
