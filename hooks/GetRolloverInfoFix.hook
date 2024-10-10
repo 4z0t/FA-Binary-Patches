@@ -1,0 +1,36 @@
+    LuaObject_SetNumber = 0x908320
+    // energy consumed
+#0x8422FD:
+    movd eax, xmm0
+#0x84230D:
+    call LuaObject_SetNumber
+
+     // mass consumed
+#0x842330:
+    movd eax, xmm0
+#0x842340:
+    call LuaObject_SetNumber
+
+     // energy requested
+#0x842363:
+    movd eax, xmm0
+#0x842373:
+    call LuaObject_SetNumber
+
+     // mass requested
+#0x842396:
+    movd eax, xmm0
+#0x8423A6:
+    call LuaObject_SetNumber
+
+    // energy produced
+#0x8423C9:
+    movd eax, xmm0
+#0x8423D9:
+    call LuaObject_SetNumber
+
+     // mass produced
+#0x842400:
+    movd eax, xmm0
+#0x84240C:
+    call LuaObject_SetNumber
