@@ -1,0 +1,21 @@
+  // SECTION(0,0x00863C22)
+  //   NOP
+  //   NOP
+  //   NOP
+  //   NOP
+  //   NOP
+  // SECTION(0,0x00863A59)
+  // call QU(HookSelection)
+  // nop
+  // nop
+#0x00863967:
+  jmp @HookSelectionMerge
+
+#0x0086398D:
+  call @HookSelection
+  nop
+  nop
+#0x0086390B:
+  jmp @HookSelectionCondition
+#0x00863927:
+  jmp @HookSelectionCondition2
