@@ -1,0 +1,14 @@
+
+#0x0086FFF0:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+#0x00870044:
+    jmp @HookHydroCondition
+    nop
+    nop
+    nop
+    nop
