@@ -1,0 +1,3 @@
+#0x6A8B30: // Moho::Unit::CalcTransportLoadFactor
+    fld1
+    ret

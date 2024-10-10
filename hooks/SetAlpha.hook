@@ -1,0 +1,11 @@
+#0x789988: //prevent set alpha from resetting color mask
+    call @_SetAlpha
+
+#0x789972: //check for bool not type != 0
+    call 0x90CA40 //call lua_toboolean
+
+#0x789999: //apply to children
+    sub esp, 4
+    fstp dword ptr [esp]
+    call @_SetAlphaChildren
+    jmp short 0x7899FB

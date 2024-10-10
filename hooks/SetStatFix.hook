@@ -1,0 +1,4 @@
+#0x6CCA2A:
+    jmp @SetStatCheck
+    nop
+    nop

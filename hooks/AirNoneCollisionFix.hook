@@ -1,0 +1,6 @@
+#0x6C018B:
+    jmp .+0x30 //0x6C01BB
+    nop
+    nop
+    nop
+    nop
