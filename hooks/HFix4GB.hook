@@ -1,0 +1,12 @@
+#0x957e35:
+  push 0x3ff000
+
+#0x915a92:
+  add eax,eax
+  jge .+0x73
+  mov eax,dword ptr ds:[esi+0x2c]
+  add eax,0x10000000
+  jmp .+0x69
+
+#0x915b05:
+  jmp .-0x73

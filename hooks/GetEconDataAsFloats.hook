@@ -1,0 +1,35 @@
+  //energyConsumedAsFloat
+#0x8C52A5:
+  movd ecx, xmm0
+#0x8C52B7:
+  call 0x908320
+  
+  //massConsumedAsFloat
+#0x8C52DA:
+  movd ecx, xmm0
+#0x8C52EC:
+  call 0x908320
+  
+  // energyRequestedAsFloat
+#0x8C530F:
+  movd ecx, xmm0
+#0x8C5321:
+  call 0x908320
+  
+  // massRequestedAsFloat
+#0x8C5344:
+  movd ecx, xmm0
+#0x8C5356:
+  call 0x908320
+  
+  // energyProducedAsFloat
+#0x8C5379:
+  movd ecx, xmm0
+#0x8C538B:
+  call 0x908320
+  
+  // massProducedAsFloat
+#0x8C53B2:
+  movd ecx, xmm0
+#0x8C53C0:
+  call 0x908320
