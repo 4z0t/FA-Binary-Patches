@@ -1,0 +1,19 @@
+// Increase allocated size for CMauiText
+#0x007A344B:
+    push 0x198
+// Set default value of new field - shadow color to black
+#0x007A2C67:
+    mov     dword ptr [esi+0x140], 0x00000000
+    mov     dword ptr [esi+0x194], 0xFF000000
+    nop
+    nop
+    nop
+    nop
+// Use this value in render
+#0x007A314F:
+    mov     eax, [esi+0x194]
+    nop
+    nop
+    nop
+    nop
+    nop

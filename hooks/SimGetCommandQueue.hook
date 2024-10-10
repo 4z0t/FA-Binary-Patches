@@ -1,0 +1,2 @@
+#0x6CE3BA:
+    call @SimGetCommandQueueInsert
