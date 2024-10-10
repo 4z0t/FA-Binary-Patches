@@ -1,0 +1,164 @@
+#0x598e80:
+      push ebp
+      mov ebp,esp
+      and esp,0xfffffff8
+      push ecx
+      push ebp
+      push esi
+      push edi
+      mov edi,ecx
+      cmp byte ptr [edi+0x40], bl
+      je l0xabel_0x598f6c
+      mov ecx,dword ptr [edi+0x44]
+      mov eax,dword ptr [ecx+0x10]
+      test eax,eax
+      je l0xabel_0x598eb5
+      mov edx,dword ptr [ecx+0x14]
+      sub edx,eax
+      sar edx,0x3
+      je l0xabel_0x598eb5
+      mov eax,dword ptr [eax]
+      test eax,eax
+      je l0xabel_0x598eb5
+      lea esi,dword ptr [eax-0x4]
+      jmp l0xabel_0x598eb7
+  l0xabel_0x598eb5:
+      xor esi,esi
+  l0xabel_0x598eb7:
+      mov edx,0x2
+      cmp dword ptr [edi+0x2c],edx
+      mov byte ptr [edi+0x40], bl
+      jne l0xabel_0x598eec
+      mov esi,dword ptr [esi+0x98]
+      sub esi,0xa
+      je l0xabel_0x598f66
+      sub esi,0x6
+      je l0xabel_0x598ee1
+      sub esi,edx
+      jne l0xabel_0x598f66
+  l0xabel_0x598ee1:
+      push ecx
+      call 0x6edfc0
+      jmp l0xabel_0x598f6c
+  l0xabel_0x598eec:
+      //crash fix (null pointer)
+      cmp esi, ebx
+      je return1
+      //------------------------
+      mov eax,dword ptr [esi+0xe4]
+      cmp eax,0x1
+      jle l0xabel_0x598f09
+      add eax,0xffffffff
+      mov dword ptr [esi+0xe4],eax
+      mov byte ptr [esi+0x141],0x1
+      jmp l0xabel_0x598f6c
+  l0xabel_0x598f09:
+      mov ebp,dword ptr [edi+0x1c]
+      cmp byte ptr [ebp+0x2a2],bl
+      je l0xabel_0x598f46
+      cmp dword ptr [esi+0x98],0x7
+      jne l0xabel_0x598f46
+      mov eax,dword ptr [esi+0xe0]
+      mov dword ptr [esi+0xe4],eax
+      mov byte ptr [esi+0x141],0x1
+      mov ecx,dword ptr [edi+0x44]
+      push ecx
+      call 0x6edfc0
+  l0xabel_0x598f3a:
+  return1:
+      mov eax,0x1
+      pop edi
+      pop esi
+      pop ebp
+      mov esp,ebp
+      pop ebp
+      ret
+  l0xabel_0x598f46:
+      mov eax,dword ptr [esi+0x98]
+      sub eax,0xa
+      je l0xabel_0x598fdb
+      sub eax,0x6
+      je l0xabel_0x598fec
+      sub eax,edx
+      je l0xabel_0x598fec
+      l0xabel_0x598f66:
+      push ecx
+      call 0x6ede70
+  l0xabel_0x598f6c:
+      mov ecx,dword ptr [edi+0x1c]
+      mov eax,dword ptr [ecx]
+      mov edx,dword ptr [eax+0x34]
+      call edx
+      test al,al
+      jne l0xabel_0x598f3a
+      mov ecx,dword ptr [edi+0x1c]
+      mov eax,dword ptr [ecx]
+      mov edx,dword ptr [eax+0x28]
+      call edx
+      test al,al
+      jne l0xabel_0x598f3a
+      mov ecx,dword ptr [edi+0x1c]
+      mov eax,dword ptr [ecx]
+      mov edx,dword ptr [eax+0x3c]
+      push 0xe
+      call edx
+      test al,al
+      jne l0xabel_0x598f3a
+      mov ecx,dword ptr [edi+0x1c]
+      mov eax,dword ptr [ecx]
+      mov edx,dword ptr [eax+0x3c]
+      push 0x2a
+      call edx
+      test al,al
+      jne l0xabel_0x598f3a
+      mov esi,dword ptr [edi+0x44]
+      mov eax,esi
+      call 0x598b90
+      test al,al
+      jne l0xabel_0x598f3a
+      mov eax,esi
+      call 0x6edbf0
+      push eax
+      push edi
+      mov byte ptr [edi+0x40],0x1
+      mov dword ptr [edi+0x2c],0x0
+      call 0x608ef0
+      add esp,0x8
+      xor eax,eax
+      pop edi
+      pop esi
+      pop ebp
+      mov esp,ebp
+      pop ebp
+      ret
+  l0xabel_0x598fdb:
+      cmp dword ptr [esi+0x11c],edx
+      sete al
+      test al,al
+      je l0xabel_0x598f66
+  l0xabel_0x598fec:
+      call 0x6edc20
+      test eax,eax
+      je l0xabel_0x599011
+      mov edx,ebp
+      call 0x6e8d70
+      mov edx,dword ptr [edi+0x44]
+      push edx
+      call 0x6edfc0
+      mov eax,0x1
+      pop edi
+      pop esi
+      pop ebp
+      mov esp,ebp
+      pop ebp
+      ret
+  l0xabel_0x599011:
+      push ecx
+      call 0x6ede70
+      pop edi
+      mov eax,0x1
+      pop esi
+      pop ebp
+      mov esp,ebp
+      pop ebp
+      ret
