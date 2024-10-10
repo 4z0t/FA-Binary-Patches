@@ -1,0 +1,36 @@
+#0x008BD9BF:   // nop AssignNewTable call
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    mov byte ptr [esp+0xD0-0xC], 2
+    nop
+    nop
+    nop
+    nop
+    nop
+
+#0x008BDBA6:    // nop PushStack
+    nop
+    nop
+    nop
+    nop
+    nop
+
+    nop
+    nop
+    nop
+    nop
+    nop
+
+    nop
+    nop
+    nop
+    nop
+    nop
+     
+#0x008BDC18: // return 0 value on stack
+    mov eax, 0
