@@ -1,0 +1,2 @@
+#0x86E5B2:
+    mov [edi+0x178], ebx
