@@ -2,7 +2,7 @@
 #include "../define.h"
 
 asm(
-    SECTION(0, 0X008949FE)
+    SECTION(0, 0x008949FE)
     "push 1008;"
     SECTION(1, 0x008BF979)
     "jmp "QU(ExtendCtor)";"
