@@ -5,8 +5,8 @@ asm(
     "fld dword ptr [esp+4];"
     "fsqrt;"
     "ret;"
-    "nop;""nop;""nop;"
-    "nop;""nop;""nop;"
-    "nop;""nop;"
-
+    SECTION(1, 0x0040EAF0)
+    "fld dword ptr [esp+4];"
+    "fsqrt;"
+    "ret;"
 );
