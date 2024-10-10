@@ -1,0 +1,14 @@
+#0x7722b0:
+  fsubrp    st(1),st
+  fstp     dword ptr [esp+0x24]
+  movss    xmm1, [esp+0x24]
+  comiss   xmm2, xmm1
+  jbe      .+0x0d  //0x7722
+  xorps    xmm0, xmm0
+  jmp      .+0x10  //0x7722
+  nop
+  nop
+  nop
+  nop
+  nop
+  nop
