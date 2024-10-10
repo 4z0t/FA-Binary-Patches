@@ -1,0 +1,6 @@
+#0x7D1AE9:
+    jmp @minimapMesh
+    nop
+    nop
+    nop
+    nop

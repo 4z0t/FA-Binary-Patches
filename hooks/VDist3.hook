@@ -1,0 +1,2 @@
+#0x4D0F02:
+    mov dword ptr [0x10A8FE4], @VDist3

@@ -1,9 +1,7 @@
-#include "../define.h"
 
-asm(R"(
-     arg_0           =  4;
-     limit           =  8;
-    .section h0; .set h0,0x00915A00 
+#0x00915A00:
+     arg_0           =  4
+     limit           =  8
                     push    ebp 
                     mov     ebp, [esp+4+arg_0]
                     push    esi 
@@ -22,7 +20,7 @@ asm(R"(
                     and     cl, 0x0FE 
                     mov     [eax+5], cl 
                     mov     esi, eax 
-                    jmp     short loc_915A35 
+                    jmp     short loc_915A35
     loc_915A27:
                     mov     ecx, [eax]
                     mov     [esi], ecx 
@@ -32,11 +30,10 @@ asm(R"(
     loc_915A35:
                     mov     eax, [esi]
                     cmp     eax, ebx 
-                    jnz     short loc_915A11 
+                    jnz     short loc_915A11
     loc_915A3B:
                     mov     eax, edi 
                     pop     edi 
                     pop     esi 
                     pop     ebp 
                     ret 
-)");
