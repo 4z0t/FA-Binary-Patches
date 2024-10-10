@@ -13,10 +13,19 @@
     fdivrp st(1), st
     ret
 #0x005734E0: // sin
-    fld dword ptr [esp+4]; fsin; ret;
+    fld dword ptr [esp+4]
+    fsin
+    ret
 #0x005734D0: // cos
-    fld dword ptr [esp+4]; fcos; ret;
+    fld dword ptr [esp+4]
+    fcos 
+    ret
 #0x0040DAB0: // abs
-    fld dword ptr [esp+4]; fabs; ret;
+    fld dword ptr [esp+4]
+    fabs
+    ret
 #0x004E9DF0: // atan2
-    fld dword ptr [esp+4]; fld dword ptr [esp+8]; fpatan; ret;
+    fld dword ptr [esp+4]
+    fld dword ptr [esp+8]
+    fpatan
+    ret
