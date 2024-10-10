@@ -4,6 +4,9 @@ define.h
 patch.ld
 section.cpp
 
+# Hook generated files
+*.hook.cpp
+
 // ida files
 *.ida
 *.id0
