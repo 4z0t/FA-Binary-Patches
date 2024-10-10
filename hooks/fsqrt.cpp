@@ -9,4 +9,10 @@ asm(
     "fld dword ptr [esp+4];"
     "fsqrt;"
     "ret;"
+    SECTION(2, 0x0050D150)
+    "fld dword ptr [esp+4];"
+    "fsqrt;"
+    "fld1;"
+    "fdivrp  st(1), st;"
+    "ret;"
 );
