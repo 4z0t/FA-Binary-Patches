@@ -1,0 +1,2 @@
+#0x459EE3:
+    call @OnCreateInitLuaState

@@ -1,0 +1,5 @@
+#0x6ACC95:
+    jmp @GuardZero
+    nop
+    nop
+    nop
