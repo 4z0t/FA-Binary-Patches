@@ -6,7 +6,7 @@ asm(
     SECTION(1, 0x0040EAF0) // sqrt
     "fld dword ptr [esp+4]; fsqrt; ret;"
     SECTION(2, 0x0050D150) // inverse sqrt
-    "fld dword ptr [esp+4]; fsqrt; fld1; fdivrp  st(1), st; ret;"
+    "fld dword ptr [esp+4]; fsqrt; fld1; fdivrp st(1), st; ret;"
     SECTION(3, 0x005734E0) // sin
     "fld dword ptr [esp+4]; fsin; ret;"
     SECTION(4, 0x005734D0) // cos
