@@ -1,0 +1,30 @@
+
+#0x86EF2B:
+    jmp @CustomDrawEnter
+
+//allow changing thickness of line
+#0x456264:
+    subss xmm0, ds:@THICKNESS
+
+//allow changing thickness of line
+#0x4562CD:
+    addss xmm0, ds:@THICKNESS
+
+//allow changing color
+#0x4561A8:
+    call @GetCircleColor
+
+//increase number of segements
+#0x455E53:
+    mov ecx, 0x30
+    
+#0x4561E4:
+    cmp eax, 0x30
+
+//adjust angle to number of segments 2*pi/segments
+#0x455E30:
+    fld dword ptr [@SEGMENT_RAD]
+
+
+
+

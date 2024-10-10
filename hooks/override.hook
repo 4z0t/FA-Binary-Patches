@@ -1,0 +1,25 @@
+
+#0x00909AF0:
+    jmp @LuaObject_Insert
+    nop
+#0x00909CE0:
+    jmp @LuaObject_Insert2
+    nop
+#0x004D0080:
+    push esi
+    push edi
+    call @LuaObject_ToVector3f
+    pop edi
+    pop esi
+    ret
+    nop
+    nop
+#0x004CFD70:
+    push esi
+    push edi
+    call @LuaObject_ToVector2f
+    pop edi
+    pop esi
+    ret
+    nop
+    nop
