@@ -1,5 +1,14 @@
 #include "RenderIcons.h"
 
+void *operator new(std::size_t n) noexcept(false)
+{
+    return shi_new(n);
+}
+void operator delete(void *p) throw()
+{
+    free(p);
+}
+
 void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures *unit_textures,
                                         struct_IconAux *aux,
                                         const Vector2f *pos)

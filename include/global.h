@@ -75,6 +75,7 @@ size_t msize(void *memblock) asm("0x957EA0");
 void *calloc(size_t num, size_t size) asm("0x957AB0");
 void *memset(void *dest, int ch, size_t count) asm("0xA89110");
 void *memcpy(void *dest, const void *src, size_t count) asm("0xA89190");
+int __cdecl memmove_s(void *dest, const size_t dest_size, const void *src,const size_t src_size) asm("0x00A824E7");
 size_t strlen(const char *str) asm("0xA94450");
 int strcmp(const char *str1, const char *str2) asm("0xAA549E");
 int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
