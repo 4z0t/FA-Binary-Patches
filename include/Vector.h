@@ -42,7 +42,7 @@ public:
         return _begin[index];
     }
 
-    ~Vector()
+    ~Vector() noexcept(true)
     {
         if (_begin)
             delete[] _begin;
