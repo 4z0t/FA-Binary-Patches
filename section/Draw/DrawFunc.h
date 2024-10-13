@@ -46,6 +46,14 @@ namespace Moho::CPrimBatcher
         } *lock = nullptr;
 
         VALIDATE_SIZE(WeakLock, 16);
+        Texture &operator=(const Texture &other)
+        {
+            if (lock)
+                Release();
+            data = other.data;
+            lock = other.lock;
+            Lock();
+        }
 
         void Lock()
         {
