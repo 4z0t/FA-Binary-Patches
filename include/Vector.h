@@ -16,13 +16,20 @@ public:
     {
     }
 
-    Vector(size_t n) : _begin{new T[n]{}}, _end{_begin}, _capacity_end{_begin}
+    Vector(size_t n) : _begin{new T[n]{}},
+                       _end{_begin + n},
+                       _capacity_end{_begin + n}
     {
     }
 
     size_t Size() const
     {
         return _begin != nullptr ? _end - _begin : 0;
+    }
+
+    size_t Capacity() const
+    {
+        return _begin != nullptr ? _capacity_end - _begin : 0;
     }
 
     T &operator[](int index)

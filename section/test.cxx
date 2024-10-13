@@ -13,11 +13,7 @@ struct A
 
 UIRegFunc _{"clang", "q", [](lua_State *L)
             {
-                struct A
-                {
-                    A() { WarningF("Take Resource"); }
-                    ~A() { WarningF("Free Resource"); }
-                } a;
+                A a;
                 try
                 {
                     luaL_error(L, "clang error");
@@ -29,8 +25,10 @@ UIRegFunc _{"clang", "q", [](lua_State *L)
                 return 0;
             }};
 
-UIRegFunc __{"test", "q", [](lua_State *l) -> int
-             {
-                 Vector<A> v{10};
-                 return 0;
-             }};
+int VERY_TESTING_FUNCTION(lua_State *l)
+{
+    Vector<A> v{10};
+    return 0;
+}
+
+UIRegFunc __{"test", "q", VERY_TESTING_FUNCTION};
