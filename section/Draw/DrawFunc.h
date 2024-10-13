@@ -55,6 +55,16 @@ namespace Moho::CPrimBatcher
             Lock();
         }
 
+        Texture &operator=(Texture &&other)
+        {
+            if (lock)
+                Release();
+            data = other.data;
+            lock = other.lock;
+            other.data = nullptr;
+            other.lock = nullptr;
+        }
+
         void Lock()
         {
             if (lock)
