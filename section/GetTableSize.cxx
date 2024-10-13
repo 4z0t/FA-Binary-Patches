@@ -90,32 +90,27 @@ void IsTableEmpty() {
 
 #include "Iterators.h"
 
-
 // UI_Lua local a = {} reprsl(table.clone(a))
 // UI_Lua local a = {1,2,3} reprsl(table.clone(a))
-// UI_Lua local a = (function() local t = {} for i=1,1000 do t[i]={1,2,3} end return t end)() reprsl(table.clone(a))
-// UI_Lua local a = {a=1,b=3,c=4,1,3,4} reprsl(table.clone(a))
-// UI_Lua local a = {} a[1] = a  reprsl(table.clone(a))
+// UI_Lua local a = (function() local t = {} for i=1,1000 do t[i]={1,2,3} end
+// return t end)() reprsl(table.clone(a)) UI_Lua local a = {a=1,b=3,c=4,1,3,4}
+// reprsl(table.clone(a)) UI_Lua local a = {} a[1] = a  reprsl(table.clone(a))
 // UI_Lua local a = {} a.a = a reprsl(table.clone(a))
 int TableClone(lua_State *L) noexcept(false) {
   LuaObject(L->LuaState, 1).DeepCopy().PushStack(L);
   return 1;
 }
 
+// UI_Lua local a = {1,2} table.prints(a, 3, 'a') reprsl(a)
+// local a = {1,2} table.prints(a, 2, 'a') reprsl(a)
+// local a = {1,2} table.prints(a, 1, 'a') reprsl(a)
+// local a = {1,2} table.prints(a, 4, 'a') reprsl(a)
 int LoopTable(lua_State *l) {
   LuaState *ls = l->LuaState;
-  LuaObject obj{ls, 1};
-
-  if (!obj.IsTable()) {
-    ls->ArgError(1, "Expected table");
-  }
-
-  for (const auto &[key, value] : IPairs(obj)) {
-    if (value.IsString())
-      LogF("%d: %s", key, value.ToString());
-    else
-      ls->Error("Expected table of strings, but got %s", value.TypeName());
-  }
+  LuaObject tbl{ls, 1};
+  LuaObject key{ls, 2};
+  LuaObject obj{ls, 3};
+  tbl.Insert(key.GetInteger(), obj);
   return 0;
 }
 
