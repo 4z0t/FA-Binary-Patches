@@ -67,14 +67,15 @@ struct SharedPtr
     {
         if (!lock)
             return;
-        if (!InterlockedExchangeAdd(&lock->use_count_, -1))
-        {
-            lock->vtable->dispose(lock);
-            if (!InterlockedExchangeAdd(&lock->weak_count_, -1))
-            {
-                lock->vtable->destroy(lock);
-            }
-        }
+
+        if (InterlockedExchangeAdd(&lock->use_count_, -1))
+            return;
+
+        lock->vtable->dispose(lock);
+        if (InterlockedExchangeAdd(&lock->weak_count_, -1))
+            return;
+
+        lock->vtable->destroy(lock);
     }
 
     ~SharedPtr()
