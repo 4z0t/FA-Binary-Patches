@@ -82,6 +82,12 @@ int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
               ...) asm("0xA82F32");
 float sqrtf(float) asm("0x452FC0");
 }
+// void *operator new(std::size_t n) noexcept(false) asm("0xA825B9");
+// void __cdecl operator delete(void *p) throw()asm("0x958C40");
+
+// void *operator new[](std::size_t n) noexcept(false) asm("0xA825B9");
+// void __cdecl operator delete[](void *p) throw()asm("0x958C40");
+
 #define GetModuleHandleA                                                       \
   WDecl(0xC0F378, __stdcall void *(*)(const char *lpLibFileName))
 #define GetProcAddress                                                         \
