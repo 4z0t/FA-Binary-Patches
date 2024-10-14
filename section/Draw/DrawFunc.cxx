@@ -252,7 +252,6 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     }
     lua_pop(l, 1);
     is_in_render_world = false;
-    t.Release();
     Moho::CPrimBatcher::FlushBatcher(batcher);
     _worldview = nullptr;
 }
