@@ -10,7 +10,7 @@ void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures *unit_textures,
     if (!unit)
         return;
 
-    CPrimBatcher::Texture *texture = Offset<CPrimBatcher::Texture *>(unit, 1000);
+    SPtrTexture *texture = Offset<SPtrTexture *>(unit, 1000);
     if (!texture->data)
     {
         return;

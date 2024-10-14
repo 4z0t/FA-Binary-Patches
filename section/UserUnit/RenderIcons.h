@@ -2,6 +2,8 @@
 #include "GenericStructures.h"
 #include "UserUnit.h"
 
+using SPtrTexture = SharedPtr<Moho::CPrimBatcher::Texture>;
+
 struct UserUnitIconsTextures
 {
     Moho::UserEntity *entity;
@@ -9,9 +11,9 @@ struct UserUnitIconsTextures
     signed __int32 field_8;
     signed __int32 field_C;
     signed __int32 field_10;
-    Moho::CPrimBatcher::Texture field_14;
-    Moho::CPrimBatcher::Texture field_1C;
-    Moho::CPrimBatcher::Texture field_24;
+    SPtrTexture field_14;
+    SPtrTexture field_1C;
+    SPtrTexture field_24;
     int field_2C[2];
 };
 
@@ -24,10 +26,10 @@ struct struct_IconAux // sizeof=0xAC
     /*Moho::CD3DPrimBatcher*/ void **batcher;
     /*Moho::GeomCamera3*/ void **cam;
     /*Moho::CWldMap*/ void **map;
-    Moho::CPrimBatcher::Texture v8;
+    SPtrTexture v8;
     FastVector<void *> genericIconList;
-    Moho::CPrimBatcher::Texture pauseRest;
-    Moho::CPrimBatcher::Texture stunnedRest;
+    SPtrTexture pauseRest;
+    SPtrTexture stunnedRest;
     FastVector<UserUnitIconsTextures> vec1;
     FastVector<UserUnitIconsTextures> vec2;
     FastVector<UserUnitIconsTextures> vec3;

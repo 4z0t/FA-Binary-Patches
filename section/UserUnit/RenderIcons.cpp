@@ -4,17 +4,14 @@
 
 void __stdcall ExtendUserUnitCtor(Moho::UserUnit *uunit)
 {
-    auto texture = Offset<Moho::CPrimBatcher::Texture *>(uunit, 1000);
-    texture->data = nullptr;
-    texture->lock = nullptr;
+    auto texture = Offset<SPtrTexture *>(uunit, 1000);
+    new (texture) SPtrTexture();
 }
 
 void __stdcall ExtendUserUnitDtor(Moho::UserUnit *uunit)
 {
-    auto texture = Offset<Moho::CPrimBatcher::Texture *>(uunit, 1000);
-    texture->Release();
-    texture->data = nullptr;
-    texture->lock = nullptr;
+    auto texture = Offset<SPtrTexture *>(uunit, 1000);
+    texture->~SharedPtr();
 }
 
 void ExtendCtor()
@@ -57,7 +54,7 @@ void ExtendRenderIcon()
         :);
 }
 
-Moho::CPrimBatcher::Texture *__cdecl FromFile(Moho::CPrimBatcher::Texture *a1,
+Moho::CPrimBatcher::Texture *__cdecl FromFile(SPtrTexture *a1,
                                               const char *filename,
                                               int border) asm("0x004486F0");
 
@@ -81,7 +78,7 @@ int SetCustomIcon(lua_State *l)
     if (unit == nullptr)
         return 0;
 
-    auto *texture = Offset<Moho::CPrimBatcher::Texture *>(unit, 1000);
+    auto *texture = Offset<SPtrTexture *>(unit, 1000);
     texture->Release();
     texture->data = nullptr;
     texture->lock = nullptr;

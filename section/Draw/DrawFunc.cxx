@@ -1,8 +1,8 @@
+#include "DrawFunc.h"
 #include "CObject.h"
 #include "magic_classes.h"
 #include "moho.h"
 #include "utility.h"
-#include "DrawFunc.h"
 #include <cmath>
 
 void DrawRect(
@@ -43,9 +43,9 @@ namespace Moho
             *(char *)((int *)batcher + 285) = 0;
         }
 
-        Texture FromSolidColor(unsigned int color)
+        SharedPtr<Texture> FromSolidColor(unsigned int color)
         {
-            Texture t;
+            SharedPtr<Texture> t;
             FromSolidColor(&t, color);
             return t;
         }
@@ -151,7 +151,6 @@ int LuaDrawCircle(lua_State *l)
 
 static UIRegFunc DrawCircleReg{"UI_DrawCircle", "UI_DrawCircle(pos:vector, radius:float, color:string, thickness?=0.15:float)", LuaDrawCircle};
 
-
 int LuaDrawBox(lua_State *l)
 {
     int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
@@ -167,9 +166,9 @@ int LuaDrawBox(lua_State *l)
 
     VMatrix4 matrix = {
         128, 128, 128, 1.0, // x,y,z
-          0,   0,   0, 1.0, //
-          0,   0,   0, 1.0, //
-         10,  10,  10,   0  // sizex, sizey, sizez
+        0, 0, 0, 1.0,       //
+        0, 0, 0, 1.0,       //
+        10, 10, 10, 0       // sizex, sizey, sizez
     };
 
     DRAW_WireBox(&matrix, batcher);
@@ -191,17 +190,16 @@ int LuaDrawLine(lua_State *l)
         return 0;
     }
 
-    Vertex v1{Vector3f{256, 128,256}, 0xFFFF00FF, 0,0};
-    Vertex v2{Vector3f{0, 128,256}, 0xFFFF0000, 0,1};
-    Vertex v3{Vector3f{0, 128,0}, 0xFF0000FF, 1,1};
-    Vertex v4{Vector3f{256, 128,0}, 0xFF00FF00, 1,0};
+    Vertex v1{Vector3f{256, 128, 256}, 0xFFFF00FF, 0, 0};
+    Vertex v2{Vector3f{0, 128, 256}, 0xFFFF0000, 0, 1};
+    Vertex v3{Vector3f{0, 128, 0}, 0xFF0000FF, 1, 1};
+    Vertex v4{Vector3f{256, 128, 0}, 0xFF00FF00, 1, 0};
     // DrawLine(&v1, batcher, &v2);
-    DrawQuad(&v1, batcher, &v2,&v3,&v4);
+    DrawQuad(&v1, batcher, &v2, &v3, &v4);
     return 0;
 }
 
 static UIRegFunc DrawLineReg{"UI_DrawLine", "", LuaDrawLine};
-
 
 SHARED float delta_frame = 0.1;
 // offset +284 from CUIWorldView
@@ -241,7 +239,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
     Moho::CPrimBatcher::ResetBatcher(batcher);
     Moho::CPrimBatcher::SetViewProjMatrix(batcher, Moho::GetWorldCamera(_worldview));
-    Moho::CPrimBatcher::Texture t;
+    SharedPtr<Moho::CPrimBatcher::Texture> t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
 

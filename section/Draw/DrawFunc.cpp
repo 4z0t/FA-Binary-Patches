@@ -67,7 +67,7 @@ unsigned int GetCircleColor()
     return CIRCLE_COLOR;
 }
 
-void __stdcall Moho::CPrimBatcher::SetTexture(void *batcher, Texture *texture)
+void __stdcall Moho::CPrimBatcher::SetTexture(void *batcher, SharedPtr<Texture> *texture)
 {
     asm("call 0x4386A0;"
         :
@@ -155,16 +155,6 @@ char *DrawQuad(
           [a4] "g"(a4),
           [a5] "g"(a5)
         :);
-    return __result;
-}
-
-void *Moho::CPrimBatcher::ReleaseTexture(Moho::CPrimBatcher::Texture *t)
-{
-    void *__result;
-    asm("call 0x004260B0;"
-        : "=a"(__result)
-        : [t] "a"(t)
-        : "edx", "ecx");
     return __result;
 }
 
