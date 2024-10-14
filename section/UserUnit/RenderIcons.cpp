@@ -54,7 +54,6 @@ void ExtendRenderIcon()
         :);
 }
 
-Moho::CPrimBatcher::Texture *__cdecl FromFile(SPtrTexture *a1,
 SPtrTexture *__cdecl FromFile(SPtrTexture *a1,
                                               const char *filename,
                                               int border) asm("0x004486F0");
