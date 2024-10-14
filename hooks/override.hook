@@ -41,11 +41,11 @@
 #0x004392C0:
     push ebp
     mov ebp, esp
-    push ecx
     push [ebp+0x8]
     push eax
     push ecx
     call @DrawLine_OVERRIDE
     pop ecx
+    add esp, 8
     pop ebp
     ret 0x4

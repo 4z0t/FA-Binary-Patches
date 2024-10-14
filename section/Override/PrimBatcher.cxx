@@ -59,7 +59,7 @@ void DrawQuad(Moho::CD3DPrimBatcher *batcher,
 {
     CheckBatcherMode4(batcher);
     batcher->mode = 4;
-    // here we know that all vectors have enough space to put things
+    // here we know that all vectors have enough space to put things!!!
     auto &vertices = batcher->vertices;
     auto &primitives = batcher->primitives;
 
@@ -101,7 +101,7 @@ void DrawLine(Moho::CD3DPrimBatcher *batcher,
 {
     CheckBatcherMode2(batcher);
     batcher->mode = 2;
-    // here we know that all vectors have enough space to put things
+    // here we know that all vectors have enough space to put things!!!
     auto &vertices = batcher->vertices;
     auto &primitives = batcher->primitives;
 
@@ -136,7 +136,7 @@ SHARED void __stdcall DrawQuad_OVERRIDE(Moho::CD3DPrimBatcher *batcher,
     return DrawQuad(batcher, *v1, *v2, *v3, *v4);
 }
 
-SHARED void __stdcall DrawLine_OVERRIDE(Moho::CD3DPrimBatcher *batcher,
+SHARED void __cdecl DrawLine_OVERRIDE(Moho::CD3DPrimBatcher *batcher,
                                         const Moho::Vertex *v1,
                                         const Moho::Vertex *v2) noexcept(true)
 
