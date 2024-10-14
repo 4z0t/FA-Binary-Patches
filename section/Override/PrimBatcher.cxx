@@ -25,6 +25,32 @@ void CheckBatcherMode4(Moho::CD3DPrimBatcher *batcher)
     }
 }
 
+
+void CheckBatcherMode2(Moho::CD3DPrimBatcher *batcher)
+{
+    auto num_v = batcher->vertices.Size();
+    if (num_v == 0)
+        return;
+
+    if (batcher->mode != 2)
+    {
+        batcher->Flush();
+        return;
+    }
+
+    if (num_v + 2 > 0x8000)
+    {
+        batcher->Flush();
+        return;
+    }
+
+    if (batcher->primitives.Size() + 2 > 0x8000)
+    {
+        batcher->Flush();
+        return;
+    }
+}
+
 void DrawQuad(Moho::CD3DPrimBatcher *batcher,
               const Moho::Vertex &v1,
               const Moho::Vertex &v2,
@@ -70,6 +96,36 @@ void DrawQuad(Moho::CD3DPrimBatcher *batcher,
     primitives._end++;
 }
 
+void DrawLine(Moho::CD3DPrimBatcher *batcher,
+              const Moho::Vertex &v1, const Moho::Vertex &v2) noexcept(true)
+{
+    CheckBatcherMode2(batcher);
+    batcher->mode = 2;
+    // here we know that all vectors have enough space to put things
+    auto &vertices = batcher->vertices;
+    auto &primitives = batcher->primitives;
+
+    short num_v = vertices.Size();
+
+    Vector2f scale = batcher->p1;
+    Vector2f offset = batcher->p2;
+
+    auto f = [&](const Moho::Vertex &v) -> Moho::Vertex
+    {
+        return {v.pos, v.color, {v.scale.x * scale.x + offset.x, v.scale.y * scale.y + offset.y}};
+    };
+
+    *vertices._end = f(v1);
+    vertices._end++;
+    *vertices._end = f(v2);
+    vertices._end++;
+
+    *primitives._end = num_v;
+    primitives._end++;
+    *primitives._end = num_v + 1;
+    primitives._end++;
+}
+
 SHARED void __stdcall DrawQuad_OVERRIDE(Moho::CD3DPrimBatcher *batcher,
                                         const Moho::Vertex *v1,
                                         const Moho::Vertex *v2,
@@ -78,4 +134,12 @@ SHARED void __stdcall DrawQuad_OVERRIDE(Moho::CD3DPrimBatcher *batcher,
 
 {
     return DrawQuad(batcher, *v1, *v2, *v3, *v4);
+}
+
+SHARED void __stdcall DrawLine_OVERRIDE(Moho::CD3DPrimBatcher *batcher,
+                                        const Moho::Vertex *v1,
+                                        const Moho::Vertex *v2) noexcept(true)
+
+{
+    return DrawLine(batcher, *v1, *v2);
 }
