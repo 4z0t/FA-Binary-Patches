@@ -27,16 +27,16 @@ void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures *unit_textures,
     float half_width = texture->data->width / 2;
     float half_height = texture->data->height / 2;
     t_r.x = pos->x + half_width;
-    t_r.y = pos->z - half_height;
+    t_r.y = pos->y - half_height;
     t_r.z = 0.0;
     b_r.x = pos->x + half_width;
-    b_r.y = pos->z + half_height;
+    b_r.y = pos->y + half_height;
     b_r.z = 0.0;
     b_l.x = pos->x - half_width;
-    b_l.y = pos->z + half_height;
+    b_l.y = pos->y + half_height;
     b_l.z = 0.0;
     t_l.x = pos->x - half_width;
-    t_l.y = pos->z - half_height;
+    t_l.y = pos->y - half_height;
     t_l.z = 0.0;
     DrawQuad2(0xFFFFFFFF, &b_r, &t_r, &b_l, batcher, &t_l);
 }

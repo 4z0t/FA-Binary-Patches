@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LuaAPI.h"
+#include "Maths.h"
 
 typedef int BOOL;
 typedef int unk_t;
@@ -119,21 +120,6 @@ VALIDATE_SIZE(BitSet, 0x20)
 
 typedef int SOCKET;
 // GPGCore
-
-struct Vector2f
-{	// 0x8 bytes
-	float x,z;
-};
-
-struct Vector3f
-{	// 0xC bytes
-	float x,y,z;
-};
-
-struct Vector4f
-{	// 0x10 bytes
-	float x,y,z,w;
-};
 
 struct RObject
 {	// 0x4 bytes
@@ -1494,9 +1480,3 @@ namespace Moho
 	int *D3D_GetDevice() asm("0x00430590");
 	bool __cdecl TryConvertToColor(const char *s, uint32_t &color) asm("0x4B2B90");
 }
-
-struct VMatrix4
-{
-float data[16];
-};
-VALIDATE_SIZE(VMatrix4, 0x40);
