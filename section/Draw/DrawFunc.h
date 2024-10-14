@@ -1,13 +1,17 @@
 #pragma once
 #include "moho.h"
 
-void __fastcall InterlockedExchangeAdd(volatile unsigned *at, unsigned value)
+bool InterlockedExchangeAdd(volatile unsigned *addr, unsigned value)
 {
-    asm("lock xadd [ecx], edx;"
-        :
-        : "c"(at),
+    bool _result;
+    asm(
+        "lock xadd [eax], edx;"
+        "setnz al;"
+        : "=a"(_result)
+        : "a"(addr),
           "d"(value)
-        : "cc");
+        :);
+    return _result;
 }
 
 // #include <windows.h>
@@ -38,7 +42,13 @@ namespace Moho::CPrimBatcher
         } *data = nullptr;
         struct WeakLock
         {
-            void *vtable;
+            struct vtable_counted_base
+            {
+                void(__thiscall *dtr)(WeakLock *);
+                void(__thiscall *dispose)(WeakLock *);
+                void(__thiscall *destroy)(WeakLock *);
+                void *(__thiscall *get_deleter)(WeakLock *);
+            } *vtable;
             unsigned use_count_;
             unsigned weak_count_;
             void *px_;
@@ -65,6 +75,18 @@ namespace Moho::CPrimBatcher
             other.lock = nullptr;
         }
 
+        Texture() : data{nullptr}, lock{nullptr}
+        {
+        }
+
+        Texture(Texture &&other)
+        {
+            data = other.data;
+            lock = other.lock;
+            other.data = nullptr;
+            other.lock = nullptr;
+        }
+
         void Lock()
         {
             if (lock)
@@ -73,7 +95,20 @@ namespace Moho::CPrimBatcher
             }
         }
 
-        void Release() { ReleaseTexture(this); }
+        void Release()
+        {
+            if (!lock)
+                return;
+            if (!InterlockedExchangeAdd(&lock->use_count_, -1))
+            {
+                lock->vtable->dispose(lock);
+                if (!InterlockedExchangeAdd(&lock->weak_count_, -1))
+                {
+                    lock->vtable->destroy(lock);
+                }
+            }
+            // ReleaseTexture(this);
+        }
     };
 
 } // namespace Moho::CPrimBatcher
