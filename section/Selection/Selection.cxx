@@ -54,8 +54,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
             ls->Error("Expected table");
         }
 
-        new_selection->~UserUnitMap();
-        new (new_selection) UserUnitMap();
+        new_selection->Clear();
 
         for (const auto &[key, value] : IPairs(result))
         {

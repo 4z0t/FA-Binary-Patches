@@ -68,10 +68,15 @@ namespace Moho
             size = 0;
         }
 
-        ~UserUnitMap()
+        void Clear()
         {
             MapNode *node;
             UserUnitMap_RemoveNodes(this, &node, root->left, root);
+        }
+
+        ~UserUnitMap()
+        {
+            Clear();
             free(root);
             root = nullptr;
             size = 0;
