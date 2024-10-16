@@ -3,6 +3,45 @@
 #include <exception>
 
 SHARED bool use_selector;
+
+Moho::UserUnitMap_AddResult *UserUnitMap_Add(
+    Moho::UserUnitMap_AddResult *r,
+    Moho::UserUnitMap *map,
+    Moho::UserUnit *uunit)
+{
+    Moho::UserUnitMap_InsertResult insert_result;
+    Moho::MapItem item;
+
+    item.key = uunit;
+
+    UserEntityChain **p_chain = uunit ? &uunit->chain : nullptr;
+    item.value.chain = p_chain;
+    if (p_chain)
+    {
+        item.value.next = *p_chain;
+        *p_chain = &item.value;
+    }
+    else
+    {
+        item.value.next = 0;
+    }
+
+    UserUnitMap_AddItem(map, &item, &insert_result);
+    UserEntityChain **i = item.value.chain;
+    if (i)
+    {
+        while (*i != &item.value)
+        {
+            i = &(*i)->next;
+        }
+        *i = item.value.next;
+    }
+
+    r->insert_result = insert_result;
+    r->map = map;
+    return r;
+}
+
 void __stdcall HandleNewSelection(Moho::CWldSession *session,
                                   Moho::UserUnitMap *new_selection)
 {
@@ -26,7 +65,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session,
     int j = 1;
     for (MapNode *node : *new_selection)
     {
-        void *value = node->value;
+        void *value = node->item.value.chain;
         if (value == nullptr)
             continue;
         Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);

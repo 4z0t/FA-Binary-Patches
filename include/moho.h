@@ -915,8 +915,15 @@ struct Unit : WeakObject
 	bool updWeaponRadius;
 };
 
+ struct UserEntityChain
+ {
+     UserEntityChain **chain;
+     UserEntityChain *next;
+ };
+
 struct UserEntity : WeakObject
 {	// 0x148 bytes
+	UserEntityChain *chain;
 	// at 0x44
 	int entityID;
 	RPropBlueprint *blueprint;

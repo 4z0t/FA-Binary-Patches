@@ -15,24 +15,32 @@ namespace Moho
     };
 
     Moho::MapNode *CreateMapNode() asm("0x007B08D0");
+    struct MapItem
+    {
+        UserEntity *key;
+        UserEntityChain value;
+    };
 
     struct MapNode
     {
         MapNode *left;
         MapNode *parent;
         MapNode *right;
-        UserEntity *entity; // key
-        void *value;        // entity + 8
-        void *unk;          //?
+        MapItem item;
         MapNodeColor color;
         bool is_leaf;
+    };
+
+    struct UserUnitMap_InsertResult
+    {
+        MapNode *node;
+        bool inserted;
     };
 
     struct UserUnitMap_AddResult
     {
         UserUnitMap *map;
-        int unk;
-        bool b;
+        UserUnitMap_InsertResult insert_result;
     };
 
     struct MapFindResult
@@ -44,12 +52,13 @@ namespace Moho
     SHARED
     {
         MapNode **UserUnitMap_RemoveNodes(UserUnitMap * a1, MapNode * *a2, MapNode * begin, MapNode * end);
-        UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
+        // UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
         MapNode **MapIterate(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
         MapFindResult *map_find(Moho::UserUnit * a1, MapFindResult * a2, UserUnitMap * a3);
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(UserUnitMap * source, UserUnitMap * dest);
+        UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapItem * a2, UserUnitMap_InsertResult * a3);
     }
 
     struct UserUnitMap
@@ -119,7 +128,7 @@ namespace Moho
             size_t n = 0;
             for (MapNode *node : *this)
             {
-                void *value = node->value;
+                void *value = node->item.value.chain;
                 if (value == nullptr)
                     continue;
                 Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);

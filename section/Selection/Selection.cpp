@@ -16,17 +16,17 @@ namespace Moho
         return __result;
     }
 
-    UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult *a1, UserUnitMap *a2, UserUnit *uunit)
-    {
-        UserUnitMap_AddResult *__result;
-        asm("push %[a3];"
-            "push %[a2];"
-            "call 0x007AE1B0;"
-            : "=a"(__result)
-            : [a1] "S"(a1), [a2] "g"(a2), [a3] "g"(uunit)
-            :);
-        return __result;
-    }
+    // UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult *a1, UserUnitMap *a2, UserUnit *uunit)
+    // {
+    //     UserUnitMap_AddResult *__result;
+    //     asm("push %[a3];"
+    //         "push %[a2];"
+    //         "call 0x007AE1B0;"
+    //         : "=a"(__result)
+    //         : [a1] "S"(a1), [a2] "g"(a2), [a3] "g"(uunit)
+    //         :);
+    //     return __result;
+    // }
 
     MapNode **MapIterate(MapNode **output, UserUnitMap *_this, MapNode *prev_node)
     {
@@ -80,6 +80,18 @@ namespace Moho
             "call 0x00822210;"
             : "=a"(__result)
             : [source] "a"(source), [dest] "g"(dest)
+            :);
+        return __result;
+    }
+
+    UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap *a1, MapItem *a2, UserUnitMap_InsertResult *a3)
+    {
+        UserUnitMap_InsertResult *__result;
+        asm(
+            "push %[a3];"
+            "call 0x007AEDC0;"
+            : "=a"(__result)
+            : [a1] "a"(a1), [a2] "b"(a2), [a3] "g"(a3)
             :);
         return __result;
     }
