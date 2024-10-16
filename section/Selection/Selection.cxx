@@ -23,7 +23,7 @@ Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     }
     else
     {
-        item.value.next = 0;
+        item.value.next = nullptr;
     }
 
     UserUnitMap_AddItem(map, &item, &insert_result);
