@@ -1,10 +1,14 @@
 
+// use low level table insert
 #0x00909AF0:
     jmp @LuaObject_Insert
     nop
+// use low level table insert
 #0x00909CE0:
     jmp @LuaObject_Insert2
     nop
+
+// remove temp lua objects
 #0x004D0080:
     push esi
     push edi
@@ -14,6 +18,8 @@
     ret
     nop
     nop
+
+// remove temp lua objects
 #0x004CFD70:
     push esi
     push edi
@@ -24,6 +30,7 @@
     nop
     nop
 
+// removes checks for enough space in vectors
 #0x004389A0:
     push ebp
     mov ebp, esp
@@ -38,6 +45,7 @@
     pop ebp
     ret 0xC
 
+// removes checks for enough space in vectors
 #0x004392C0:
     push ebp
     mov ebp, esp
@@ -50,7 +58,7 @@
     pop ebp
     ret 0x4
 
-
+// removes chain population for temp item
 #0x007AE1B0:
     push [esp+0x8]
     push [esp+0x8]
