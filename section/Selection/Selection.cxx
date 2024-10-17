@@ -16,26 +16,26 @@ Moho::UserUnitMap_AddResult *UserUnitMap_Add(
 
     UserEntityChain **p_chain = uunit ? &uunit->chain : nullptr;
     item.value.chain = p_chain;
-    if (p_chain)
-    {
-        item.value.next = *p_chain;
-        *p_chain = &item.value;
-    }
-    else
-    {
-        item.value.next = nullptr;
-    }
+    // if (p_chain)
+    // {
+    //     item.value.next = *p_chain;
+    //     *p_chain = &item.value;
+    // }
+    // else
+    // {
+    //     item.value.next = nullptr;
+    // }
 
     UserUnitMap_AddItem(map, &item, &insert_result);
-    UserEntityChain **i = item.value.chain;
-    if (i)
-    {
-        while (*i != &item.value)
-        {
-            i = &(*i)->next;
-        }
-        *i = item.value.next;
-    }
+    // UserEntityChain **i = item.value.chain;
+    // if (i)
+    // {
+    //     while (*i != &item.value)
+    //     {
+    //         i = &(*i)->next;
+    //     }
+    //     *i = item.value.next;
+    // }
 
     r->insert_result = insert_result;
     r->map = map;
