@@ -4,7 +4,7 @@
 
 SHARED bool use_selector;
 
-Moho::UserUnitMap_AddResult *UserUnitMap_Add(
+SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     Moho::UserUnitMap_AddResult *r,
     Moho::UserUnitMap *map,
     Moho::UserUnit *uunit)
@@ -25,7 +25,6 @@ Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     // {
     //     item.value.next = nullptr;
     // }
-
     UserUnitMap_AddItem(map, &item, &insert_result);
     // UserEntityChain **i = item.value.chain;
     // if (i)

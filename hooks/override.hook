@@ -49,3 +49,11 @@
     add esp, 8
     pop ebp
     ret 0x4
+
+
+#0x007AE1B0:
+    push [esp+0x8]
+    push [esp+0x8]
+    push esi
+    call @UserUnitMap_Add
+    ret 8
