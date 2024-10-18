@@ -16,18 +16,6 @@ namespace Moho
         return __result;
     }
 
-    // UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult *a1, UserUnitMap *a2, UserUnit *uunit)
-    // {
-    //     UserUnitMap_AddResult *__result;
-    //     asm("push %[a3];"
-    //         "push %[a2];"
-    //         "call 0x007AE1B0;"
-    //         : "=a"(__result)
-    //         : [a1] "S"(a1), [a2] "g"(a2), [a3] "g"(uunit)
-    //         :);
-    //     return __result;
-    // }
-
     MapNode **MapIterate(MapNode **output, UserUnitMap *_this, MapNode *prev_node)
     {
         MapNode **__result;
@@ -45,18 +33,6 @@ namespace Moho
         asm("call 0x00822B80;" : "=a"(result) : [obj] "a"(obj), [ls] "D"(ls) :);
 
         return result;
-    }
-
-    MapFindResult *map_find(Moho::UserUnit *a1, MapFindResult *a2, UserUnitMap *a3)
-    {
-        MapFindResult *__result;
-        asm(
-            "push %[a3];"
-            "call 0x00867780;"
-            : "=a"(__result)
-            : [a1] "a"(a1), [a2] "D"(a2), [a3] "g"(a3)
-            :);
-        return __result;
     }
 
     int map_instersect_count(UserUnitMap *ebx0, UserUnitMap *arg0)

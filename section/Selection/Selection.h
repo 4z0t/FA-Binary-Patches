@@ -52,10 +52,8 @@ namespace Moho
     SHARED
     {
         MapNode **UserUnitMap_RemoveNodes(UserUnitMap * a1, MapNode * *a2, MapNode * begin, MapNode * end);
-        // UserUnitMap_AddResult *UserUnitMap_Add(UserUnitMap_AddResult * a1, UserUnitMap * a2, UserUnit * uunit);
         MapNode **MapIterate(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
-        MapFindResult *map_find(Moho::UserUnit * a1, MapFindResult * a2, UserUnitMap * a3);
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
         UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapItem * a2, UserUnitMap_InsertResult * a3);
