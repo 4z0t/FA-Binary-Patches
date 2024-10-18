@@ -162,3 +162,12 @@ void HookSelectionMerge()
         : [use_selector] "i"(&use_selector)
         :);
 }
+
+SHARED Moho::MapFindResult *__stdcall UserUnitMap_Find_OVERRIDE(UserUnit *entity, Moho::MapFindResult *r, Moho::UserUnitMap *map)
+{
+    Moho::MapItem item;
+    item.key = entity;
+    r->node = map->Find(item);
+    r->map = map;
+    return r;
+}

@@ -164,6 +164,29 @@ namespace Moho
                 *node = right;
             }
         }
+
+        MapNode *Find(const MapItem &item)
+        {
+            MapNode *root = this->root;
+            MapNode *parent = root->parent;
+            while (!parent->is_leaf)
+            {
+                if (parent->item.key >= item.key)
+                {
+                    root = parent;
+                    parent = parent->left;
+                }
+                else
+                {
+                    parent = parent->right;
+                }
+            }
+            MapNode *v6 = this->root;
+            if (root == v6 || item.key < root->item.key)
+                return v6;
+            else
+                return root;
+        }
     };
 
     bool __cdecl MAUI_KeyIsDown(int) asm("0x0079CB70");

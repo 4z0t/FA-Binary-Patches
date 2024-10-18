@@ -65,3 +65,19 @@
     push esi
     call @UserUnitMap_Add
     ret 8
+
+// removes chain population for temp item
+#0x00867780:
+    push [esp+0x4]
+    push edi
+    push eax
+    call @UserUnitMap_Find_OVERRIDE
+    ret 4
+
+// removes chain population for temp item
+#0x007FDD50:
+    push [esp+0x4]
+    push edi
+    push eax
+    call @UserUnitMap_Find_OVERRIDE
+    ret 4
