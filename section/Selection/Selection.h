@@ -21,6 +21,12 @@ namespace Moho
         UserEntityChain value;
     };
 
+    struct MapAddItem
+    {
+        UserEntity *key;
+        UserEntityChain **value;
+    };
+
     struct MapNode
     {
         MapNode *left;
@@ -56,7 +62,7 @@ namespace Moho
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
-        UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapItem * a2, UserUnitMap_InsertResult * a3);
+        UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapAddItem * a2, UserUnitMap_InsertResult * a3);
     }
 
     struct UserUnitMap

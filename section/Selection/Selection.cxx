@@ -9,32 +9,11 @@ SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     Moho::UserUnitMap *map,
     Moho::UserUnit *uunit)
 {
-    Moho::MapItem item;
-
+    Moho::MapAddItem item;
     item.key = uunit;
-
-    UserEntityChain **p_chain = uunit ? &uunit->chain : nullptr;
-    item.value.chain = p_chain;
-    // if (p_chain)
-    // {
-    //     item.value.next = *p_chain;
-    //     *p_chain = &item.value;
-    // }
-    // else
-    // {
-    //     item.value.next = nullptr;
-    // }
+    item.value = uunit ? &uunit->chain : nullptr;
     r->map = map;
     UserUnitMap_AddItem(map, &item, &r->insert_result);
-    // UserEntityChain **i = item.value.chain;
-    // if (i)
-    // {
-    //     while (*i != &item.value)
-    //     {
-    //         i = &(*i)->next;
-    //     }
-    //     *i = item.value.next;
-    // }
     return r;
 }
 

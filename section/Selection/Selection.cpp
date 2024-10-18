@@ -60,7 +60,7 @@ namespace Moho
         return __result;
     }
 
-    UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap *a1, MapItem *a2, UserUnitMap_InsertResult *a3)
+    UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap *a1, MapAddItem *a2, UserUnitMap_InsertResult *a3)
     {
         UserUnitMap_InsertResult *__result;
         asm(
