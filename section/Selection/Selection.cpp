@@ -95,7 +95,6 @@ namespace Moho
             :);
         return __result;
     }
-
 } // namespace Moho
 
 SHARED bool use_selector = false;

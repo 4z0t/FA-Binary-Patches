@@ -57,7 +57,7 @@ namespace Moho
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
         MapFindResult *map_find(Moho::UserUnit * a1, MapFindResult * a2, UserUnitMap * a3);
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
-        UserUnitMap *map_copy_ctor(UserUnitMap * source, UserUnitMap * dest);
+        UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
         UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapItem * a2, UserUnitMap_InsertResult * a3);
     }
 
@@ -66,6 +66,11 @@ namespace Moho
         void *unk;
         MapNode *root;
         int size;
+
+        UserUnitMap(const UserUnitMap *source)
+        {
+            map_copy_ctor(source, this);
+        }
 
         UserUnitMap()
         {
@@ -181,9 +186,8 @@ namespace Moho
                     parent = parent->right;
                 }
             }
-            MapNode *v6 = this->root;
-            if (root == v6 || item.key < root->item.key)
-                return v6;
+            if (root == this->root || item.key < root->item.key)
+                return this->root;
             else
                 return root;
         }
@@ -197,3 +201,6 @@ SHARED
     void __stdcall HandleNewSelection(Moho::CWldSession * session,
                                       Moho::UserUnitMap * new_selection);
 }
+
+void __stdcall SetSelection(Moho::CWldSession *session, Moho::UserUnitMap *units) asm("0x00896140");
+void __cdecl handle_click_selection(Moho::CWldSession *a1, int *modifiers) asm("0x00865920");
