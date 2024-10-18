@@ -9,7 +9,6 @@ SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     Moho::UserUnitMap *map,
     Moho::UserUnit *uunit)
 {
-    Moho::UserUnitMap_InsertResult insert_result;
     Moho::MapItem item;
 
     item.key = uunit;
@@ -25,7 +24,8 @@ SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     // {
     //     item.value.next = nullptr;
     // }
-    UserUnitMap_AddItem(map, &item, &insert_result);
+    r->map = map;
+    UserUnitMap_AddItem(map, &item, &r->insert_result);
     // UserEntityChain **i = item.value.chain;
     // if (i)
     // {
@@ -35,9 +35,6 @@ SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     //     }
     //     *i = item.value.next;
     // }
-
-    r->insert_result = insert_result;
-    r->map = map;
     return r;
 }
 
