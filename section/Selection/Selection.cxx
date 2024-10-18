@@ -4,19 +4,6 @@
 
 SHARED bool use_selector;
 
-SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
-    Moho::UserUnitMap_AddResult *r,
-    Moho::UserUnitMap *map,
-    Moho::UserUnit *uunit)
-{
-    Moho::MapAddItem item;
-    item.key = uunit;
-    item.value = uunit ? &uunit->chain : nullptr;
-    r->map = map;
-    UserUnitMap_AddItem(map, &item, &r->insert_result);
-    return r;
-}
-
 void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap *new_selection)
 {
     using namespace Moho;
@@ -73,8 +60,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap 
         {
             UserUnit *u = UserUnitFromObj(&value, ls);
 
-            UserUnitMap_AddResult r;
-            UserUnitMap_Add(&r, new_selection, u);
+            new_selection->Add(u);
         }
     }
     catch (const std::exception &e)

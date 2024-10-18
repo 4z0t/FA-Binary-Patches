@@ -100,6 +100,17 @@ namespace Moho
             size = 0;
         }
 
+        UserUnitMap_AddResult Add(UserUnit *uunit)
+        {
+            UserUnitMap_AddResult r;
+            MapAddItem item;
+            item.key = uunit;
+            item.value = uunit ? &uunit->chain : nullptr;
+            r.map = this;
+            UserUnitMap_AddItem(this, &item, &r.insert_result);
+            return r;
+        }
+
         struct MapIterator
         {
             UserUnitMap *map;

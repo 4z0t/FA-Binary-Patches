@@ -63,7 +63,7 @@
     push [esp+0x8]
     push [esp+0x8]
     push esi
-    call @UserUnitMap_Add
+    call @UserUnitMap_Add_OVERRIDE
     ret 8
 
 // removes chain population for temp item
