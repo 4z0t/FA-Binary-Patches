@@ -38,8 +38,7 @@ SHARED __stdcall Moho::UserUnitMap_AddResult *UserUnitMap_Add(
     return r;
 }
 
-void __stdcall HandleNewSelection(Moho::CWldSession *session,
-                                  Moho::UserUnitMap *new_selection)
+void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap *new_selection)
 {
     using namespace Moho;
 

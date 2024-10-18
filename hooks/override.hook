@@ -56,7 +56,7 @@
     pop ecx
     add esp, 8
     pop ebp
-    ret 0x4
+    ret 4
 
 // removes chain population for temp item
 #0x007AE1B0:

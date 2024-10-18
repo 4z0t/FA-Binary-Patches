@@ -198,8 +198,7 @@ namespace Moho
 
 SHARED
 {
-    void __stdcall HandleNewSelection(Moho::CWldSession * session,
-                                      Moho::UserUnitMap * new_selection);
+    void __stdcall HandleNewSelection(Moho::CWldSession * session, Moho::UserUnitMap * new_selection);
 }
 
 void __stdcall SetSelection(Moho::CWldSession *session, Moho::UserUnitMap *units) asm("0x00896140");
