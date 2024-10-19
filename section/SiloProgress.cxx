@@ -151,9 +151,10 @@ SHARED void __stdcall CheckSiloProgress(CAiSiloBuildImpl *silo_build, struct_Res
         auto *unit = silo_build->unit;
         unit->unitData.energyMaintainenceCost = silo_build->segment_cost.ENERGY;
         unit->unitData.massMaintainanceCost = silo_build->segment_cost.MASS;
-        float *v22 = (float *)silo_build->unit;
-        v22[188] += res->ENERGY;
-        v22[189] += res->MASS;
+
+        struct_Resources &unit_res = *Offset<struct_Resources *>(unit, 752);
+        unit_res += *res;
+
         silo_build->curSegments += 1;
         silo_build->unit->unitData.workProgress = silo_build->curSegments / silo_build->segments;
     }
@@ -168,10 +169,10 @@ SHARED void __stdcall CheckSiloProgress(CAiSiloBuildImpl *silo_build, struct_Res
         auto *unit = silo_build->unit;
         unit->unitData.energyMaintainenceCost = res->ENERGY;
         unit->unitData.massMaintainanceCost = res->MASS;
-        float *v22 = (float *)silo_build->unit;
-        v22[188] += res->ENERGY;
-        v22[189] += res->MASS;
-        LogF("%.2f/%.2f", silo_build->curSegments, silo_build->segments);
+
+        struct_Resources &unit_res = *Offset<struct_Resources *>(unit, 752);
+        unit_res += *res;
+
         silo_build->curSegments += available_ratio;
         silo_build->unit->unitData.workProgress = silo_build->curSegments / silo_build->segments;
     }
