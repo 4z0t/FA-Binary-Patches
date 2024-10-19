@@ -161,8 +161,9 @@ SHARED void __stdcall CheckSiloProgress(CAiSiloBuildImpl *silo_build, struct_Res
     }
 }
 
-SHARED void __thiscall AddSiloEco(CAiSiloBuildImpl *silo_build, float *result, struct_Resources *econ)
+SHARED void __thiscall AddSiloEco(CAiSiloBuildImpl *silo_build, struct_Resources *econ)
 {
+    float result;
     float v3;
     float segmentMassSpent;
     float v5;
@@ -170,35 +171,33 @@ SHARED void __thiscall AddSiloEco(CAiSiloBuildImpl *silo_build, float *result, s
     int unit;
     float v8;
 
-    if (silo_build->state)
+    if (!silo_build->state)
+        return;
+
+    silo_build->segmentEnergySpent = silo_build->segmentEnergySpent + econ->ENERGY;
+    silo_build->segmentMassSpent = silo_build->segmentMassSpent + econ->MASS;
+    for (result = silo_build->segmentEnergySpent; result >= silo_build->energySegmentCost; result = silo_build->segmentEnergySpent)
     {
-        silo_build->segmentEnergySpent = silo_build->segmentEnergySpent + econ->ENERGY;
-        silo_build->segmentMassSpent = econ->MASS + silo_build->segmentMassSpent;
-        for (*result = silo_build->segmentEnergySpent;
-             *result >= silo_build->energySegmentCost;
-             *result = silo_build->segmentEnergySpent)
-        {
-            *result = silo_build->segmentMassSpent;
-            if (*result < silo_build->massSegmentCost)
-                break;
-            v3 = 0.0;
-            if ((float)(silo_build->segmentEnergySpent - silo_build->energySegmentCost) > 0.0)
-                v3 = silo_build->segmentEnergySpent - silo_build->energySegmentCost;
-            segmentMassSpent = silo_build->segmentMassSpent;
-            silo_build->segmentEnergySpent = v3;
-            v5 = segmentMassSpent - silo_build->massSegmentCost;
-            v6 = 0.0;
-            if (v5 > 0.0)
-                v6 = v5;
-            silo_build->segmentMassSpent = v6;
-            unit = (int)silo_build->unit;
-            v8 = silo_build->energySegmentCost + *(float *)(unit + 752);
-            unit += 0x2F0;
-            *(float *)unit = v8;
-            *(float *)(unit + 4) = silo_build->massSegmentCost + *(float *)(unit + 4);
-            silo_build->unit->unitData.workProgress = (float)silo_build->curSegments++ / silo_build->segments;
-            if (silo_build->curSegments >= silo_build->segments)
-                silo_build->state = 3;
-        }
+        result = silo_build->segmentMassSpent;
+        if (result < silo_build->massSegmentCost)
+            break;
+        v3 = 0.0;
+        if (silo_build->segmentEnergySpent - silo_build->energySegmentCost > 0.0)
+            v3 = silo_build->segmentEnergySpent - silo_build->energySegmentCost;
+        segmentMassSpent = silo_build->segmentMassSpent;
+        silo_build->segmentEnergySpent = v3;
+        v5 = segmentMassSpent - silo_build->massSegmentCost;
+        v6 = 0.0;
+        if (v5 > 0.0)
+            v6 = v5;
+        silo_build->segmentMassSpent = v6;
+        unit = (int)silo_build->unit;
+        v8 = silo_build->energySegmentCost + *(float *)(unit + 752);
+        unit += 0x2F0;
+        *(float *)unit = v8;
+        *(float *)(unit + 4) = silo_build->massSegmentCost + *(float *)(unit + 4);
+        silo_build->unit->unitData.workProgress = (float)silo_build->curSegments++ / silo_build->segments;
+        if (silo_build->curSegments >= silo_build->segments)
+            silo_build->state = 3;
     }
 }

@@ -6,12 +6,4 @@
     jmp 0x005CF4CA
 
 #0x005CF030:
-    push eax
-    movss dword ptr [esp], xmm0
-    lea eax, [esp]
-    push [esp+0x8]
-    push eax
-    call @AddSiloEco
-    movss xmm0, dword ptr [esp]
-    pop eax
-    ret 4
+    jmp @AddSiloEco
