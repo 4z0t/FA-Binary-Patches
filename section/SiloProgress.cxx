@@ -147,14 +147,11 @@ struct CAiSiloBuildImpl // sizeof=0x4C
 
 SHARED void __stdcall CheckSiloProgress(CAiSiloBuildImpl *silo_build, struct_Resources *res)
 {
-    // LogF("%s", "hello");
     struct_ConsumptionData *cons_data = silo_build->cons_data;
 
     float energy_ratio = cons_data->addWhenSetOff.ENERGY / silo_build->segment_cost.ENERGY;
     float mass_ratio = cons_data->addWhenSetOff.MASS / silo_build->segment_cost.MASS;
     float available_ratio = (mass_ratio > energy_ratio ? energy_ratio : mass_ratio);
-    LogF("E: %.3f/%.3f", cons_data->addWhenSetOff.ENERGY, silo_build->segment_cost.ENERGY);
-    LogF("M: %.3f/%.3f", cons_data->addWhenSetOff.MASS, silo_build->segment_cost.MASS);
     *res = cons_data->addWhenSetOff;
     cons_data->addWhenSetOff = {0, 0};
 
