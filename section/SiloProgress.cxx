@@ -179,12 +179,12 @@ SHARED void __thiscall AddSiloEco(CAiSiloBuildImpl *silo_build, struct_Resources
     float mass_ratio = silo_build->segment_spent.MASS / silo_build->segment_cost.MASS;
     float available_ratio = (mass_ratio > energy_ratio ? energy_ratio : mass_ratio);
 
-    float needed_segments = silo_build->segments - silo_build->curSegments;
+    float left_segments = silo_build->segments - silo_build->curSegments;
 
     auto *unit = silo_build->unit;
 
     struct_Resources spent;
-    if (needed_segments > available_ratio)
+    if (left_segments > available_ratio)
     {
         spent = silo_build->segment_cost * available_ratio;
         silo_build->curSegments += available_ratio;
@@ -192,8 +192,8 @@ SHARED void __thiscall AddSiloEco(CAiSiloBuildImpl *silo_build, struct_Resources
     }
     else
     {
-        spent = silo_build->segment_cost * needed_segments;
-        silo_build->curSegments += needed_segments;
+        spent = silo_build->segment_cost * left_segments;
+        silo_build->curSegments += left_segments;
         silo_build->unit->unitData.workProgress = silo_build->curSegments / silo_build->segments;
     }
 
