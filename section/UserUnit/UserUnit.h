@@ -323,18 +323,6 @@ struct BitSetGetResult
     unsigned int bit_index;
 };
 
-template <typename T>
-T Offset(void *ptr, size_t offset)
-{
-    return (T)(((char *)ptr) + offset);
-}
-
-template <typename T>
-T &GetField(void *ptr, size_t offset)
-{
-    return *Offset<T *>(ptr, offset);
-}
-
 VALIDATE_SIZE(Moho::CWldSession, 0x508);
 VALIDATE_SIZE(Moho::struct_session_res3, 0x84);
 VALIDATE_SIZE(Moho::EntityCategory, 0x28);
