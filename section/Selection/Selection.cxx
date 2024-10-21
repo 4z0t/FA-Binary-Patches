@@ -73,7 +73,7 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
     Moho::UserUnitMap units{};
     if (entity_below_mouse == nullptr || !Moho::CanSelectUserUnit(entity_below_mouse, session))
     {
-        if ((modifiers & 3) == 0) // shift or control
+        if ((modifiers & 3) == 0) // not shift and not control
         {
             SetSelection(session, &units);
         }
@@ -83,7 +83,7 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
     Moho::UserUnit *uunit_below_mouse = GetVTable(entity_below_mouse)->IsUserUnit2(entity_below_mouse);
     if (uunit_below_mouse == nullptr)
     {
-        if ((modifiers & 3) == 0) // shift or control
+        if ((modifiers & 3) == 0) // not shift and not control
         {
             SetSelection(session, &units);
         }
