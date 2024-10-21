@@ -207,11 +207,14 @@ namespace Moho
         int v320;
         int v321;
 
+        bool IsObserver() const
+        {
+            return this->focusArmy < 0;
+        }
+
         UserArmy *GetFocusArmy()
         {
-            const int focus_army_index = this->focusArmy;
-            const bool is_observer = focus_army_index < 0;
-            UserArmy *focus_army = is_observer ? nullptr : this->userArmies[focus_army_index];
+            UserArmy *focus_army = IsObserver() ? nullptr : this->userArmies[this->focusArmy];
             return focus_army;
         }
     };

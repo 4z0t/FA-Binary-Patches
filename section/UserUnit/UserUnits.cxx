@@ -39,7 +39,7 @@ int GetFocusArmyUnits(lua_State *L)
     InlinedVector<UserEntity *, 2> entities;
     get_session_user_entities(&entities, 256, &cwldsession->v20);
 
-    const bool is_observer = cwldsession->focusArmy < 0;
+    const bool is_observer = cwldsession->IsObserver();
     void *focus_army = cwldsession->GetFocusArmy();
 
     LuaObject list;
