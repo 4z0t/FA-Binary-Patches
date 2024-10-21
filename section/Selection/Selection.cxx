@@ -80,6 +80,29 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
     get_units_in_selection_box(&units_in_selection_box, dragger);
     if (modifiers & 1)
     {
+        int intersect = map_instersect_count(&units_in_selection_box, &dragger->session->selectedUnits);
+        int count = units_in_selection_box.Size();
+
+        if (intersect >= count)
+        {
+            UserUnitMap selected_units{};
+            for (Moho::UserEntity *entity : dragger->session->selectedUnits)
+            {
+                if (units_in_selection_box.Find(entity) == units_in_selection_box.root)
+                {
+                    selected_units.Add(entity);
+                }
+            }
+            SetSelection(dragger->session, &selected_units);
+        }
+        else
+        {
+            for (Moho::UserEntity *entity : dragger->session->selectedUnits)
+            {
+                units_in_selection_box.Add(entity);
+            }
+            SetSelection(dragger->session, &units_in_selection_box);
+        }
     }
     else
     {

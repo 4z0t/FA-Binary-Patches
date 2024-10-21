@@ -3,10 +3,10 @@
 #include "GenericStructures.h"
 #include "magic_classes.h"
 #include "moho.h"
+#include "UserUnit.h"
 
 namespace Moho
 {
-
     enum class map_node_color : char
     {
         RED = 0x0,
@@ -177,7 +177,7 @@ namespace Moho
         int v293;
         int v294;
         int v295;
-        map<void *, void *> selectedUnits;
+        UserUnitMap selectedUnits;
         int v299;
         bool v300a;
         bool v300b;
@@ -254,12 +254,12 @@ namespace Moho
         VTransform *(__thiscall *GetTransform)(Moho::Unit_ *);
         RUnitBlueprint *(__thiscall *GetBlueprint)(void *);
         LuaObject *(__thiscall *GetLuaObject)(Moho::Unit_ *, LuaObject *);
-         int (__thiscall *CalcTransportLoadFactor)(Moho::Unit_ *);
-         bool (__thiscall *IsDead)(Moho::Unit_ *);
-         bool (__thiscall *DestroyQueued)(Moho::Unit_*);
-         int (__thiscall *IsMobile)(Moho::Unit_ *);
-         bool (__thiscall *IsBeingBuilt)(Moho::Unit_ *);
-         int (__thiscall *IsNavigatorIdle)(Moho::Unit_ *);
+        int(__thiscall *CalcTransportLoadFactor)(Moho::Unit_ *);
+        bool(__thiscall *IsDead)(Moho::Unit_ *);
+        bool(__thiscall *DestroyQueued)(Moho::Unit_ *);
+        int(__thiscall *IsMobile)(Moho::Unit_ *);
+        bool(__thiscall *IsBeingBuilt)(Moho::Unit_ *);
+        int(__thiscall *IsNavigatorIdle)(Moho::Unit_ *);
         //  unsigned __int8 (__thiscall *IsUnitState)(Moho::Unit_ *,
         //  Moho::EUnitState); Moho::UnitAttributes *(__thiscall
         //  *GetAttributes1)(Moho::IUnit *); Moho::Intel *(__thiscall
