@@ -230,12 +230,59 @@ namespace Moho
                 return root;
         }
     };
+    struct RRuleGameRulesImpl;
+
+    struct vtable_gamerules
+    {
+        void(__thiscall *dtr)(Moho::RRuleGameRulesImpl *, int);
+        void *ExportToLuaState; //        void(__thiscall __noreturn *ExportToLuaState)(struct_lock *this, int);
+        void *UpdateLuaState;   //   void(__userpurge *UpdateLuaState)(struct_lock *@<ecx>, double @<st0>, int);
+        void *CancelExport;
+        int(__thiscall *AssignNextOrdinal)(Moho::RRuleGameRulesImpl *);
+        void *GetBlueprintFromOrdinal;
+        void *GetFootprints;
+        void *FindFootprint; //        Moho::SFootprint *(__thiscall *FindFootprint)(Moho::RRuleGameRulesImpl *, Moho::SFootprint *, const char *);
+        int(__thiscall *GetUnitBlueprints)(Moho::RRuleGameRulesImpl *);
+        void *GetPropBlueprints;
+        void *GetProjectileBlueprints;
+        void *GetMeshBlueprints;
+        int(__thiscall *GetEntityBlueprint)(Moho::RRuleGameRulesImpl *, string *);
+        void *GetUnitBlueprint;       // Moho::RUnitBlueprint*(__thiscall *GetUnitBlueprint)(Moho::RRuleGameRulesImpl *_this, const Moho::RResId *resid);
+        void *GetPropBlueprint;       //   Moho::RPropBlueprint *(__thiscall *GetPropBlueprint)(Moho::RRuleGameRulesImpl *, std::string *);
+        void *GetMeshBlueprint;       //   Moho::RMeshBlueprint *(__thiscall *GetMeshBlueprint)(Moho::RRuleGameRulesImpl *, std::string *);
+        void *GetProjectileBlueprint; //   Moho::RProjectileBlueprint *(__thiscall *GetProjectileBlueprint)(Moho::RRuleGameRulesImpl *, std::string *);
+        void *GetEmitterBlueprint;
+        void *GetBeamBlueprint;
+        void *GetTrailBlueprint;
+        void *GetEffectBlueprint;
+        void *GetUnitCount;
+        Moho::EntityCategory *(__thiscall *GetEntityCategory)(Moho::RRuleGameRulesImpl *_this, const char *);
+        Moho::EntityCategory *(__thiscall *ParseEntityCategory)(Moho::RRuleGameRulesImpl *, Moho::EntityCategory *, const char *);
+        void *UpdateChecksum; // char *(__thiscall *UpdateChecksum)(int this, gpg::MD5Context *arg0, FILE *);
+    };
+
+    struct RRuleGameRulesImpl
+    {
+        vtable_gamerules *vtable;
+    };
 
     bool __cdecl MAUI_KeyIsDown(int) asm("0x0079CB70");
 
-    bool IsInCategory(UserEntity* entity, const char* category)
+    bool IsInCategory(UserEntity *entity, const char *category_name)
     {
-        
+        Moho::CWldSession *session = GetField<Moho::CWldSession *>(entity, 0xC);
+        Moho::RRuleGameRulesImpl *gamerules = (Moho::RRuleGameRulesImpl *)session->gamerules;
+        if (gamerules == nullptr)
+            return false;
+        void *bp = GetField<void *>(entity, 0x48);
+        if (bp == nullptr)
+            return false;
+
+        unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
+
+        Moho::EntityCategory *category = gamerules->vtable->GetEntityCategory(gamerules, category_name);
+
+        return category->data[bp_ordinal];
     }
 } // namespace Moho
 

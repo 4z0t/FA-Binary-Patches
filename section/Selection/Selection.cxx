@@ -102,11 +102,13 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
             UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
             if (uunit == nullptr)
                 continue;
-
-            void *bp = GetIUnitVTable(uunit)->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148));
+            auto iunit = Offset<Moho::Unit_ *>(uunit, 0x148);
+            void *bp = GetIUnitVTable(uunit)->GetBlueprint(iunit);
             int priority = GetField<int>(bp, 508);
             if (priority < 1)
                 priority = 1;
+            if (GetIUnitVTable(uunit)->IsBeingBuilt(iunit) && IsInCategory(entity, "LOWSELECTPRIO"))
+                priority = 6;
             if (priority < selection_priority)
                 selection_priority = priority;
         }
@@ -123,10 +125,13 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
             if (uunit == nullptr)
                 continue;
 
-            void *bp = GetIUnitVTable(uunit)->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148));
+            auto iunit = Offset<Moho::Unit_ *>(uunit, 0x148);
+            void *bp = GetIUnitVTable(uunit)->GetBlueprint(iunit);
             int priority = GetField<int>(bp, 508);
             if (priority < 1)
                 priority = 1;
+            if (GetIUnitVTable(uunit)->IsBeingBuilt(iunit) && IsInCategory(entity, "LOWSELECTPRIO"))
+                priority = 6;
             if (priority == selection_priority)
             {
                 selected_units.Add(uunit);

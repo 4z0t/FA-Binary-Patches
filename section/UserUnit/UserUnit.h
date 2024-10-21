@@ -254,12 +254,12 @@ namespace Moho
         VTransform *(__thiscall *GetTransform)(Moho::Unit_ *);
         RUnitBlueprint *(__thiscall *GetBlueprint)(void *);
         LuaObject *(__thiscall *GetLuaObject)(Moho::Unit_ *, LuaObject *);
-        //  int (__thiscall *CalcTransportLoadFactor)(Moho::Unit_ *);
-        //  bool (__thiscall *IsDead)(Moho::IUnit *);
-        //  bool (__thiscall *DestroyQueued)(Moho::IUnit *);
-        //  int (__thiscall *IsMobile)(Moho::Unit_ *);
-        //  bool (__thiscall *IsBeingBuilt)(Moho::Unit_ *);
-        //  int (__thiscall *IsNavigatorIdle)(Moho::Unit_ *);
+         int (__thiscall *CalcTransportLoadFactor)(Moho::Unit_ *);
+         bool (__thiscall *IsDead)(Moho::Unit_ *);
+         bool (__thiscall *DestroyQueued)(Moho::Unit_*);
+         int (__thiscall *IsMobile)(Moho::Unit_ *);
+         bool (__thiscall *IsBeingBuilt)(Moho::Unit_ *);
+         int (__thiscall *IsNavigatorIdle)(Moho::Unit_ *);
         //  unsigned __int8 (__thiscall *IsUnitState)(Moho::Unit_ *,
         //  Moho::EUnitState); Moho::UnitAttributes *(__thiscall
         //  *GetAttributes1)(Moho::IUnit *); Moho::Intel *(__thiscall
