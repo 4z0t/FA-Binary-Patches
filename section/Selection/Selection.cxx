@@ -113,12 +113,7 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
         InlinedVector<UserEntity *, 2> entities;
         get_session_user_entities(&entities, 256, &session->v20);
 
-        const int focus_army_index = session->focusArmy;
-        const bool is_observer = focus_army_index < 0;
-        void *focus_army = is_observer
-                               ? nullptr
-                               : session->userArmies[focus_army_index];
-
+        void *focus_army = session->GetFocusArmy();
         void *bp_entity_below_mouse = uunit_below_mouse->GetBlueprint();
 
         for (UserEntity *entity : entities)

@@ -206,6 +206,14 @@ namespace Moho
         int v319;
         int v320;
         int v321;
+
+        UserArmy *GetFocusArmy()
+        {
+            const int focus_army_index = this->focusArmy;
+            const bool is_observer = focus_army_index < 0;
+            UserArmy *focus_army = is_observer ? nullptr : this->userArmies[focus_army_index];
+            return focus_army;
+        }
     };
 
     using ::UserEntity;
