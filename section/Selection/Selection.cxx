@@ -28,8 +28,7 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap 
     {
         Moho::UserUnit *uunit = (Moho::UserUnit *)entity;
 
-        LuaObject obj;
-        GetIUnitVTable(uunit)->GetLuaObject(Offset<Moho::Unit_ *>(uunit, 0x148), &obj);
+        LuaObject obj = uunit->GetLuaObject();
         units_list.SetObject(j, obj);
         j++;
     }
@@ -80,7 +79,7 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
         return;
     }
 
-    Moho::UserUnit *uunit_below_mouse = GetVTable(entity_below_mouse)->IsUserUnit2(entity_below_mouse);
+    Moho::UserUnit *uunit_below_mouse = entity_below_mouse->IsUserUnit();
     if (uunit_below_mouse == nullptr)
     {
         if ((modifiers & 3) == 0) // not shift and not control
@@ -120,25 +119,23 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
                                ? nullptr
                                : session->userArmies[focus_army_index];
 
-        void *bp_entity_below_mouse = GetIUnitVTable(uunit_below_mouse)->GetBlueprint(Offset<Moho::Unit_ *>(uunit_below_mouse, 0x148));
+        void *bp_entity_below_mouse = uunit_below_mouse->GetBlueprint();
 
         for (UserEntity *entity : entities)
         {
-            const Moho::UserEntityVTable *vtable = Moho::GetVTable(entity);
 
-            UserUnit *uunit = vtable->IsUserUnit2(entity);
+            UserUnit *uunit = entity->IsUserUnit();
             if (!uunit)
                 continue;
 
-            bool is_selectable = vtable->IsSelectable(uunit);
-            if (!is_selectable)
+            if (!entity->IsSelectable())
                 continue;
 
             void *army = GetField<void *>(uunit, 0x120);
             if (army != focus_army)
                 continue;
 
-            if (GetIUnitVTable(uunit)->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148)) == bp_entity_below_mouse)
+            if (uunit->GetBlueprint() == bp_entity_below_mouse)
             {
                 units.Add(uunit);
             }
@@ -214,15 +211,14 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
         int selection_priority = INT32_MAX;
         for (Moho::UserEntity *entity : units_in_selection_box)
         {
-            UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
+            UserUnit *uunit = entity->IsUserUnit();
             if (uunit == nullptr)
                 continue;
-            auto iunit = Offset<Moho::Unit_ *>(uunit, 0x148);
-            void *bp = GetIUnitVTable(uunit)->GetBlueprint(iunit);
+            void *bp = uunit->GetBlueprint();
             int priority = GetField<int>(bp, 508);
             if (priority < 1)
                 priority = 1;
-            if (GetIUnitVTable(uunit)->IsBeingBuilt(iunit) && IsInCategory(entity, "LOWSELECTPRIO"))
+            if (uunit->IsBeingBuilt() && IsInCategory(entity, "LOWSELECTPRIO"))
                 priority = 6;
             if (priority < selection_priority)
                 selection_priority = priority;
@@ -230,16 +226,15 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
 
         for (Moho::UserEntity *entity : units_in_selection_box)
         {
-            UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
+            UserUnit *uunit = entity->IsUserUnit();
             if (uunit == nullptr)
                 continue;
 
-            auto iunit = Offset<Moho::Unit_ *>(uunit, 0x148);
-            void *bp = GetIUnitVTable(uunit)->GetBlueprint(iunit);
+            void *bp = uunit->GetBlueprint();
             int priority = GetField<int>(bp, 508);
             if (priority < 1)
                 priority = 1;
-            if (GetIUnitVTable(uunit)->IsBeingBuilt(iunit) && IsInCategory(entity, "LOWSELECTPRIO"))
+            if (uunit->IsBeingBuilt() && IsInCategory(entity, "LOWSELECTPRIO"))
                 priority = 6;
             if (priority == selection_priority)
             {

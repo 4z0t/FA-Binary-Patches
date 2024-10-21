@@ -51,24 +51,20 @@ int GetFocusArmyUnits(lua_State *L)
     int j = 1;
     for (UserEntity *entity : entities)
     {
-        const UserEntityVTable *vtable = GetVTable(entity);
-
-        UserUnit *uunit = vtable->IsUserUnit2(entity);
+        UserUnit *uunit = entity->IsUserUnit();
         if (!uunit)
             continue;
 
-        bool is_selectable = vtable->IsSelectable(uunit);
-        if (!is_selectable)
+        if (!entity->IsSelectable())
             continue;
 
         void *army = GetField<void *>(uunit, 0x120);
         if (!(army == focus_army || is_observer))
             continue;
 
-        auto iunit_vtable = GetIUnitVTable(uunit);
         if (category)
         {
-            void *bp = iunit_vtable->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148));
+            void *bp = uunit->GetBlueprint();
             if (bp)
             {
                 unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
@@ -79,9 +75,7 @@ int GetFocusArmyUnits(lua_State *L)
                 }
             }
         }
-
-        LuaObject obj;
-        iunit_vtable->GetLuaObject(Offset<Moho::Unit_ *>(uunit, 0x148), &obj);
+        LuaObject obj = uunit->GetLuaObject();
         list.SetObject(j, obj);
         j++;
     }

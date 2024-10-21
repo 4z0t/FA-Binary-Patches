@@ -1,9 +1,9 @@
 #pragma once
 
 #include "GenericStructures.h"
+#include "UserUnit.h"
 #include "magic_classes.h"
 #include "moho.h"
-#include "UserUnit.h"
 
 namespace Moho
 {
@@ -210,102 +210,6 @@ namespace Moho
 
     using ::UserEntity;
     using ::UserUnit;
-    struct UserEntityVTable
-    {
-        void *(__thiscall *dtr)(void *_this, char);
-        void(__stdcall *Tick)(int);
-        void *IsUserUnit1;
-        UserUnit *(__thiscall *IsUserUnit2)(UserEntity *);
-        void *GetUniformScale;
-        void *GetCommandQueue1;
-        void *GetCommandQueue2;
-        void *GetFactoryCommandQueue1;
-        void *GetFactoryCommandQueue2;
-        /*Moho::MeshInstance*/ void *(__thiscall *UpdateEntityData)(UserEntity *_this, int);
-        void(__thiscall *UpdateVisibility)(int _this);
-        void *RequiresUIRefresh;
-        bool(__thiscall *IsSelectable)(UserUnit *_this);
-        void *IsBeingBuilt;
-        void *NotifyFocusArmyUnitDamaged;
-        /*boost::detail::sp_counted_impl_pd*/ void *(__thiscall *CreateMeshInstance)(int _this, char);
-        /*Moho::MeshRenderer*/ void *(__thiscall *DestroyMeshInstance)(void *_this);
-    };
-    VALIDATE_SIZE(UserEntityVTable, 0x44);
-
-    struct Unit_
-    {
-    };
-    struct VTransform
-    {
-        Vector4f orient;
-        Vector3f pos;
-        /* data */
-    };
-
-    struct IUnitVTable
-    {
-        void(__thiscall *IsUnit1)(Moho::Unit_ *);
-        Moho::Unit_ *(__thiscall *IsUnit2)(Moho::Unit_ *);
-        void(__thiscall *IsUserUnit1)(Moho::Unit_ *);
-        void(__thiscall *IsUserUnit2)(Moho::Unit_ *);
-        int(__thiscall *GetEntityId)(Moho::Unit_ *);
-        Vector3f *(__thiscall *GetPosition)(Moho::Unit_ *);
-        VTransform *(__thiscall *GetTransform)(Moho::Unit_ *);
-        RUnitBlueprint *(__thiscall *GetBlueprint)(void *);
-        LuaObject *(__thiscall *GetLuaObject)(Moho::Unit_ *, LuaObject *);
-        int(__thiscall *CalcTransportLoadFactor)(Moho::Unit_ *);
-        bool(__thiscall *IsDead)(Moho::Unit_ *);
-        bool(__thiscall *DestroyQueued)(Moho::Unit_ *);
-        int(__thiscall *IsMobile)(Moho::Unit_ *);
-        bool(__thiscall *IsBeingBuilt)(Moho::Unit_ *);
-        int(__thiscall *IsNavigatorIdle)(Moho::Unit_ *);
-        //  unsigned __int8 (__thiscall *IsUnitState)(Moho::Unit_ *,
-        //  Moho::EUnitState); Moho::UnitAttributes *(__thiscall
-        //  *GetAttributes1)(Moho::IUnit *); Moho::Intel *(__thiscall
-        //  *GetAttributes2)(Moho::Unit_ *); Moho::StatItem *(__thiscall
-        //  *GetStatDefaultStr)(Moho::Unit_ *, const char *, std::string *);
-        //  Moho::StatItem *(__thiscall *GetStatDefaultNum)(Moho::Unit_ *, const char
-        //  *, float *); Moho::StatItem *(__thiscall *GetStatDefaultInt)(Moho::Unit_
-        //  *, const char *, int *); Moho::StatItem *(__thiscall *GetStat)(Moho::Unit_
-        //  *, const char *); void (__thiscall *SetAutoMode)(Moho::Unit_ *, BOOL);
-        //  void (__thiscall *SetAutoSurfaceMode)(Moho::Unit_ *);
-        //  void (__thiscall *IsAutoMode)(Moho::Unit_ *);
-        //  int (__thiscall *IsAutoSurfaceMode)(Moho::Unit_ *);
-        //  void (__thiscall *SetCustomName)(Moho::Unit_ *, std::string);
-        //  std::string *(__thiscall *GetCustomName)(Moho::Unit_ *, std::string *);
-    };
-
-    static const UserEntityVTable *GetVTable(UserEntity *unit)
-    {
-        return (*(const UserEntityVTable **)unit);
-    }
-
-    struct UserUnitVTable : UserEntityVTable
-    {
-        BOOL(__thiscall *field_44)
-        (Moho::UserUnit *_this, int a2, float *a3, float *a4);
-        bool(__thiscall *GetWaterIntel)(Moho::UserUnit *_this, float *sonarRange, float *waterRange, float *radarRange);
-        bool(__thiscall *GetMaxCounterIntel)(Moho::UserUnit *_this, float *dest);
-        char(__thiscall *field_50)(Moho::UserUnit *_this);
-        bool(__thiscall *IsAutoSurfaceMode)(Moho::UserUnit *);
-        void *field_58;
-        BOOL(__thiscall *IsOverchargePaused)
-        (Moho::UserUnit *);
-        string *(__thiscall *GetCustomName)(Moho::UserUnit *);
-        void *field_64;
-        void *field_68;
-    };
-    VALIDATE_SIZE(UserUnitVTable, 0x6C);
-
-    static const UserUnitVTable *GetVTable(UserUnit *unit)
-    {
-        return (*(const UserUnitVTable **)unit);
-    }
-
-    const IUnitVTable *GetIUnitVTable(UserUnit *unit)
-    {
-        return *(const IUnitVTable **)((char *)unit + 0x148);
-    }
 
     struct EntityCategory // sizeof=0x28
     {                     // XREF: Moho::UnitAttributes/r

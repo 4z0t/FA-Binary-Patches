@@ -6,7 +6,7 @@ void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures *unit_textures,
 {
     using namespace Moho;
     UserEntity *entity = unit_textures->entity;
-    UserUnit *unit = GetVTable(entity)->IsUserUnit2(entity);
+    UserUnit *unit = entity->IsUserUnit();
     if (!unit)
         return;
 

@@ -921,6 +921,31 @@ struct Unit : WeakObject
      UserEntityChain *next;
  };
 
+struct UserEntity;
+struct UserUnit;
+
+ struct UserEntityVTable
+    {
+        void *(__thiscall *dtr)(void *_this, char);
+        void(__stdcall *Tick)(int);
+        void *IsUserUnit1;
+        UserUnit *(__thiscall *IsUserUnit2)(UserEntity *);
+        void *GetUniformScale;
+        void *GetCommandQueue1;
+        void *GetCommandQueue2;
+        void *GetFactoryCommandQueue1;
+        void *GetFactoryCommandQueue2;
+        /*Moho::MeshInstance*/ void *(__thiscall *UpdateEntityData)(UserEntity *_this, int);
+        void(__thiscall *UpdateVisibility)(int _this);
+        void *RequiresUIRefresh;
+        bool(__thiscall *IsSelectable)(const UserEntity *_this);
+        void *IsBeingBuilt;
+        void *NotifyFocusArmyUnitDamaged;
+        /*boost::detail::sp_counted_impl_pd*/ void *(__thiscall *CreateMeshInstance)(int _this, char);
+        /*Moho::MeshRenderer*/ void *(__thiscall *DestroyMeshInstance)(void *_this);
+    };
+    VALIDATE_SIZE(UserEntityVTable, 0x44);
+
 struct UserEntity : WeakObject
 {	// 0x148 bytes
 	UserEntityChain *chain;
@@ -948,7 +973,84 @@ struct UserEntity : WeakObject
 	UserArmy *owner; // at 0x120
 	Vector4f rot3;
 	Vector4f pos3;
+
+	const UserEntityVTable* GetVTable()const
+	{
+  		return (*(const UserEntityVTable **)this);
+	}
+
+	UserUnit* IsUserUnit()
+	{
+		return GetVTable()->IsUserUnit2(this);
+	}
+
+	bool IsSelectable() const
+	{
+		return GetVTable()->IsSelectable(this);
+	}
+
+	bool IsInCategory(const char* category_name)
+	{
+		return false;
+	}
 };
+
+ struct UserUnitVTable : UserEntityVTable
+    {
+        bool(__thiscall *field_44)(UserUnit *_this, int a2, float *a3, float *a4);
+        bool(__thiscall *GetWaterIntel)(UserUnit *_this, float *sonarRange, float *waterRange, float *radarRange);
+        bool(__thiscall *GetMaxCounterIntel)(UserUnit *_this, float *dest);
+        char(__thiscall *field_50)(UserUnit *_this);
+        bool(__thiscall *IsAutoSurfaceMode)(UserUnit *);
+        void *field_58;
+        BOOL(__thiscall *IsOverchargePaused)
+        (UserUnit *);
+        string *(__thiscall *GetCustomName)(UserUnit *);
+        void *field_64;
+        void *field_68;
+    };
+    VALIDATE_SIZE(UserUnitVTable, 0x6C);
+  struct IUnit
+    {
+    };
+    struct VTransform
+    {
+        Vector4f orient;
+        Vector3f pos;
+        /* data */
+    };
+ struct IUnitVTable
+    {
+        void(__thiscall *IsUnit1)(IUnit *);
+        IUnit *(__thiscall *IsUnit2)(IUnit *);
+        void(__thiscall *IsUserUnit1)(IUnit *);
+        void(__thiscall *IsUserUnit2)(IUnit *);
+        int(__thiscall *GetEntityId)(IUnit *);
+        Vector3f *(__thiscall *GetPosition)(IUnit *);
+        VTransform *(__thiscall *GetTransform)(IUnit *);
+        RUnitBlueprint *(__thiscall *GetBlueprint)(void *);
+        LuaObject *(__thiscall *GetLuaObject)(IUnit *, LuaObject *);
+        int(__thiscall *CalcTransportLoadFactor)(IUnit *);
+        bool(__thiscall *IsDead)(IUnit *);
+        bool(__thiscall *DestroyQueued)(IUnit *);
+        int(__thiscall *IsMobile)(IUnit *);
+        bool(__thiscall *IsBeingBuilt)(IUnit *);
+        int(__thiscall *IsNavigatorIdle)(IUnit *);
+        //  unsigned __int8 (__thiscall *IsUnitState)(IUnit *,
+        //  Moho::EUnitState); Moho::UnitAttributes *(__thiscall
+        //  *GetAttributes1)(Moho::IUnit *); Moho::Intel *(__thiscall
+        //  *GetAttributes2)(IUnit *); Moho::StatItem *(__thiscall
+        //  *GetStatDefaultStr)(IUnit *, const char *, std::string *);
+        //  Moho::StatItem *(__thiscall *GetStatDefaultNum)(IUnit *, const char
+        //  *, float *); Moho::StatItem *(__thiscall *GetStatDefaultInt)(IUnit
+        //  *, const char *, int *); Moho::StatItem *(__thiscall *GetStat)(IUnit
+        //  *, const char *); void (__thiscall *SetAutoMode)(IUnit *, BOOL);
+        //  void (__thiscall *SetAutoSurfaceMode)(IUnit *);
+        //  void (__thiscall *IsAutoMode)(IUnit *);
+        //  int (__thiscall *IsAutoSurfaceMode)(IUnit *);
+        //  void (__thiscall *SetCustomName)(IUnit *, std::string);
+        //  std::string *(__thiscall *GetCustomName)(IUnit *, std::string *);
+    };
 
 struct UserUnit : UserEntity
 {//0x008B8601, 0x3E8 bytes
@@ -964,6 +1066,39 @@ struct UserUnit : UserEntity
 	string customUnitName;
 	// at 0x290
 	UserUnitWeapon *weapons;
+
+	const UserUnitVTable* GetVTable()const
+	{
+  		return (*(const UserUnitVTable **)this);
+	}
+
+    const IUnitVTable *GetIUnitVTable()
+    {
+        return *(const IUnitVTable **)GetIUnit();
+    }
+
+	void* GetBlueprint()
+	{
+		return GetIUnitVTable()->GetBlueprint(GetIUnit());
+	}
+
+	bool IsBeingBuilt()
+	{
+		return GetIUnitVTable()->IsBeingBuilt(GetIUnit());
+	}
+
+	LuaObject GetLuaObject()
+	{
+		LuaObject obj;
+		GetIUnitVTable()->GetLuaObject(GetIUnit(), &obj);
+		return obj;
+	}
+
+private:
+	IUnit* GetIUnit()
+	{
+		return (IUnit*)((char *)this + 0x148);
+	}
 };
 
 struct CPlatoon : public CScriptObject
