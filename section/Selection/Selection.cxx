@@ -137,9 +137,6 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
                 selected_units.Add(uunit);
             }
         }
-        LogF("%i", selection_priority);
         SetSelection(dragger->session, &selected_units);
     }
-
-    LogF("Hi");
 }
