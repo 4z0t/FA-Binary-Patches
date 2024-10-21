@@ -204,7 +204,7 @@ namespace Moho
             }
         }
 
-        MapNode *Find(const MapAddItem &item)
+        MapNode *Find(const MapAddItem &item) const
         {
             MapNode *root = this->root;
             MapNode *parent = root->parent;
@@ -226,11 +226,16 @@ namespace Moho
                 return root;
         }
 
-        MapNode *Find(UserEntity *entity)
+        MapNode *Find(UserEntity *entity) const
         {
             MapAddItem item;
             item.key = entity;
             return Find(item);
+        }
+
+        bool Contains(UserEntity *entity) const
+        {
+            return Find(entity) != root;
         }
     };
 }

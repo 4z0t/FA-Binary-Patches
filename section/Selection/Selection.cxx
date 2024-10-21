@@ -146,13 +146,13 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
         if (modifiers & 1) // shift
         {
             units = session->selectedUnits;
-            if (units.Find(uunit_below_mouse) == units.root)
+            if (units.Contains(uunit_below_mouse))
             {
-                units.Add(uunit_below_mouse);
+                units.Remove(uunit_below_mouse);
             }
             else
             {
-                units.Remove(uunit_below_mouse);
+                units.Add(uunit_below_mouse);
             }
         }
         else
@@ -187,7 +187,7 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
             UserUnitMap selected_units{};
             for (Moho::UserEntity *entity : dragger->session->selectedUnits)
             {
-                if (units_in_selection_box.Find(entity) == units_in_selection_box.root)
+                if (!units_in_selection_box.Contains(entity))
                 {
                     selected_units.Add(entity);
                 }
