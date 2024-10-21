@@ -92,19 +92,23 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
 
     if (modifiers & 2) // control
     {
-        if (modifiers & 1) // shift
+        if ((modifiers & 1)) // shift
         {
-            void *bp_entity_below_mouse = GetField<void *>(entity_below_mouse, 0x48);
-            // remove all units with same blueprint
-            for (Moho::UserEntity *entity : session->selectedUnits)
+            if (session->selectedUnits.Contains(uunit_below_mouse))
             {
-                if (GetField<void *>(entity, 0x48) != bp_entity_below_mouse) // compare blueprints
+                void *bp_entity_below_mouse = GetField<void *>(entity_below_mouse, 0x48);
+                // remove all units with same blueprint
+                for (Moho::UserEntity *entity : session->selectedUnits)
                 {
-                    units.Add(entity);
+                    if (GetField<void *>(entity, 0x48) != bp_entity_below_mouse) // compare blueprints
+                    {
+                        units.Add(entity);
+                    }
                 }
+                SetSelection(session, &units);
+                return;
             }
-            SetSelection(session, &units);
-            return;
+            units = session->selectedUnits;
         }
 
         InlinedVector<UserEntity *, 2> entities;
