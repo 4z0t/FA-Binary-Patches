@@ -66,6 +66,8 @@ namespace Moho
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
         UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapAddItem * a2, UserUnitMap_InsertResult * a3);
+        MapNode *map_copy_(UserUnitMap * dest, const UserUnitMap *source);
+        int UserUnitMap_RemoveItem(UserUnitMap * a1, MapAddItem * a2);
     }
 
     struct UserUnitMap
@@ -87,6 +89,16 @@ namespace Moho
             root->left = root;
             root->right = root;
             size = 0;
+        }
+
+        UserUnitMap &operator=(const UserUnitMap &other)
+        {
+            if (this == &other)
+                return *this;
+
+            Clear();
+            map_copy_(this, &other);
+            return *this;
         }
 
         void Clear()
@@ -112,6 +124,14 @@ namespace Moho
             r.map = this;
             UserUnitMap_AddItem(this, &item, &r.insert_result);
             return r;
+        }
+
+        void Remove(UserEntity *entity)
+        {
+            MapAddItem item;
+            item.key = entity;
+            item.value = entity ? &entity->chain : nullptr;
+            UserUnitMap_RemoveItem(this, &item);
         }
 
         struct MapIterator
@@ -184,7 +204,7 @@ namespace Moho
             }
         }
 
-        MapNode *Find(const MapItem &item)
+        MapNode *Find(const MapAddItem &item)
         {
             MapNode *root = this->root;
             MapNode *parent = root->parent;
@@ -208,7 +228,7 @@ namespace Moho
 
         MapNode *Find(UserEntity *entity)
         {
-            Moho::MapItem item;
+            MapAddItem item;
             item.key = entity;
             return Find(item);
         }

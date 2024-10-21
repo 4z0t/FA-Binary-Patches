@@ -1,7 +1,7 @@
 #include "Selection.h"
 SHARED Moho::MapFindResult *__stdcall UserUnitMap_Find_OVERRIDE(UserUnit *entity, Moho::MapFindResult *r, Moho::UserUnitMap *map)
 {
-    Moho::MapItem item;
+    Moho::MapAddItem item;
     item.key = entity;
     r->node = map->Find(item);
     r->map = map;

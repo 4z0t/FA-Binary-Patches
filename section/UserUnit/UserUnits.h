@@ -184,8 +184,7 @@ namespace Moho
         bool v300c;
         bool v300d;
         Vector3f mouseWorldPos;
-        int v304;
-        int v305;
+        UserEntityChain entity_below_mouse;
         int isDragger;
         Vector2f mouseScreenPos;
         bool cheatsEnabled;

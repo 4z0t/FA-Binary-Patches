@@ -80,6 +80,38 @@ namespace Moho
             : [a1] "c"(a1), [a2] "S"(a2)
             :);
     }
+
+    bool CanSelectUserUnit(Moho::UserEntity *entity, Moho::CWldSession *session)
+    {
+        bool __result;
+        asm(
+            "call 0x00865830;"
+            : "=a"(__result)
+            : [entity] "D"(entity), [session] "S"(session)
+            :);
+        return __result;
+    }
+    MapNode *map_copy_(UserUnitMap *dest, const UserUnitMap *source)
+    {
+        MapNode *__result;
+        asm(
+            "call 0x00867B20;"
+            : "=a"(__result)
+            : [dest] "a"(dest), [source] "b"(source)
+            :);
+        return __result;
+    }
+
+    int UserUnitMap_RemoveItem(UserUnitMap *a1, MapAddItem *a2)
+    {
+        int __result;
+        asm(
+            "call 0x00867AC0;"
+            : "=a"(__result)
+            : [a1] "a"(a1), [a2] "c"(a2)
+            :);
+        return __result;
+    }
 } // namespace Moho
 
 SHARED bool use_selector = false;

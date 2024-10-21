@@ -31,6 +31,7 @@ namespace Moho
     SHARED
     {
         void get_units_in_selection_box(UserUnitMap * a1, Dragger * a2);
+         bool CanSelectUserUnit(Moho::UserEntity *entity, Moho::CWldSession *session);
     }
 
     struct RRuleGameRulesImpl;
