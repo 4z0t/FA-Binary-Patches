@@ -69,13 +69,71 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap 
     }
 }
 
-SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, int *arg0)
+SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0)
 {
     dragger->vtable->field_4(dragger, arg0);
+    char modifiers = arg0[28];
     if (!dragger->vtable->field_18(dragger))
     {
-        handle_click_selection(dragger->session, arg0[7]);
+        handle_click_selection(dragger->session, modifiers);
         return;
+    }
+
+    using namespace Moho;
+
+    UserUnitMap units_in_selection_box{};
+    get_units_in_selection_box(&units_in_selection_box, dragger);
+    if (modifiers & 1)
+    {
+    }
+    else
+    {
+        UserUnitMap selected_units{};
+
+        int selection_priority = INT32_MAX;
+        for (MapNode *node : units_in_selection_box)
+        {
+            void *value = node->item.value.chain;
+            if (value == nullptr)
+                continue;
+            Moho::UserEntity *entity = (Moho::UserEntity *)((char *)value - 8);
+            if (entity == nullptr)
+                continue;
+            UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
+            if (uunit == nullptr)
+                continue;
+
+            void *bp = GetIUnitVTable(uunit)->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148));
+            int priority = GetField<int>(bp, 508);
+            if (priority < 1)
+                priority = 1;
+            if (priority < selection_priority)
+                selection_priority = priority;
+        }
+
+        for (MapNode *node : units_in_selection_box)
+        {
+            void *value = node->item.value.chain;
+            if (value == nullptr)
+                continue;
+            Moho::UserEntity *entity = (Moho::UserEntity *)((char *)value - 8);
+            if (entity == nullptr)
+                continue;
+            UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
+            if (uunit == nullptr)
+                continue;
+
+            void *bp = GetIUnitVTable(uunit)->GetBlueprint(Offset<Moho::Unit_ *>(uunit, 0x148));
+            int priority = GetField<int>(bp, 508);
+            if (priority < 1)
+                priority = 1;
+            if (priority == selection_priority)
+            {
+                selected_units.Add(uunit);
+            }
+        }
+        LogF("%i", selection_priority);
+        SetSelection(dragger->session, &selected_units);
     }
 
     LogF("Hi");

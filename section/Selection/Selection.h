@@ -10,7 +10,7 @@ namespace Moho
     struct DraggerVTable // sizeof=0x1C
     {
         Dragger *(__thiscall *dtor)(Dragger *, char);
-        void(__thiscall *field_4)(Dragger *, int *);
+        void(__thiscall *field_4)(Dragger *, char *);
         int f;
         int field_C;
         int field_10;
@@ -85,6 +85,7 @@ namespace Moho
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
         UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapAddItem * a2, UserUnitMap_InsertResult * a3);
+        void get_units_in_selection_box(UserUnitMap * a1, Dragger * a2);
     }
 
     struct UserUnitMap
@@ -231,6 +232,11 @@ namespace Moho
     };
 
     bool __cdecl MAUI_KeyIsDown(int) asm("0x0079CB70");
+
+    bool IsInCategory(UserEntity* entity, const char* category)
+    {
+        
+    }
 } // namespace Moho
 
 SHARED
@@ -239,4 +245,4 @@ SHARED
 }
 
 void __stdcall SetSelection(Moho::CWldSession *session, Moho::UserUnitMap *units) asm("0x00896140");
-void __cdecl handle_click_selection(Moho::CWldSession *a1, int modifiers) asm("0x00865920");
+void __cdecl handle_click_selection(Moho::CWldSession *a1, char modifiers) asm("0x00865920");
