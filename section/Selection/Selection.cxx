@@ -24,14 +24,9 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap 
     units_list.AssignNewTable(ls, size, 0);
 
     int j = 1;
-    for (MapNode *node : *new_selection)
+    for (Moho::UserEntity *entity : *new_selection)
     {
-        void *value = node->item.value.chain;
-        if (value == nullptr)
-            continue;
-        Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);
-        if (uunit == nullptr)
-            continue;
+        Moho::UserUnit *uunit = (Moho::UserUnit *)entity;
 
         LuaObject obj;
         GetIUnitVTable(uunit)->GetLuaObject(Offset<Moho::Unit_ *>(uunit, 0x148), &obj);
@@ -91,14 +86,8 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
         UserUnitMap selected_units{};
 
         int selection_priority = INT32_MAX;
-        for (MapNode *node : units_in_selection_box)
+        for (Moho::UserEntity *entity : units_in_selection_box)
         {
-            void *value = node->item.value.chain;
-            if (value == nullptr)
-                continue;
-            Moho::UserEntity *entity = (Moho::UserEntity *)((char *)value - 8);
-            if (entity == nullptr)
-                continue;
             UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
             if (uunit == nullptr)
                 continue;
@@ -113,14 +102,8 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
                 selection_priority = priority;
         }
 
-        for (MapNode *node : units_in_selection_box)
+        for (Moho::UserEntity *entity : units_in_selection_box)
         {
-            void *value = node->item.value.chain;
-            if (value == nullptr)
-                continue;
-            Moho::UserEntity *entity = (Moho::UserEntity *)((char *)value - 8);
-            if (entity == nullptr)
-                continue;
             UserUnit *uunit = GetVTable(entity)->IsUserUnit2(entity);
             if (uunit == nullptr)
                 continue;

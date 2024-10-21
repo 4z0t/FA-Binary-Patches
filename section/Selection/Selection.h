@@ -80,7 +80,7 @@ namespace Moho
     SHARED
     {
         MapNode **UserUnitMap_RemoveNodes(UserUnitMap * a1, MapNode * *a2, MapNode * begin, MapNode * end);
-        MapNode **MapIterate(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
+        MapNode **MapIterateValid(MapNode * *output, UserUnitMap * _this, MapNode * prev_node);
         UserUnit *UserUnitFromObj(const LuaObject *obj, LuaState *ls);
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
@@ -147,20 +147,22 @@ namespace Moho
             MapIterator &operator++()
             {
                 UserUnitMap::NextNode(&node);
-                MapIterate(&node, map, node);
+                MapIterateValid(&node, map, node); // this function guarantees us that node value is valid
                 return *this;
             }
 
-            MapNode *&operator*()
+            UserEntity *operator*()
             {
-                return node;
+                void *value = node->item.value.chain;
+                Moho::UserEntity *entity = (Moho::UserEntity *)((char *)value - 8);
+                return entity;
             }
         };
 
         MapIterator begin()
         {
             MapIterator iter{this};
-            MapIterate(&iter.node, this, root->left);
+            MapIterateValid(&iter.node, this, root->left);
             return iter;
         }
 
@@ -169,14 +171,8 @@ namespace Moho
         size_t Size()
         {
             size_t n = 0;
-            for (MapNode *node : *this)
+            for (auto *entity : *this)
             {
-                void *value = node->item.value.chain;
-                if (value == nullptr)
-                    continue;
-                Moho::UserUnit *uunit = (Moho::UserUnit *)((char *)value - 8);
-                if (uunit == nullptr)
-                    continue;
                 n++;
             }
             return n;

@@ -16,7 +16,7 @@ namespace Moho
         return __result;
     }
 
-    MapNode **MapIterate(MapNode **output, UserUnitMap *_this, MapNode *prev_node)
+    MapNode **MapIterateValid(MapNode **output, UserUnitMap *_this, MapNode *prev_node)
     {
         MapNode **__result;
         asm("push %[prev_node];"
