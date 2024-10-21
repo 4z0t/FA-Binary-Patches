@@ -91,7 +91,7 @@ namespace Moho
             :);
         return __result;
     }
-    MapNode *map_copy_(UserUnitMap *dest, const UserUnitMap *source)
+    MapNode *UserUnitMap_copy(UserUnitMap *dest, const UserUnitMap *source)
     {
         MapNode *__result;
         asm(

@@ -66,7 +66,7 @@ namespace Moho
         int map_instersect_count(UserUnitMap * ebx0, UserUnitMap * arg0);
         UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest);
         UserUnitMap_InsertResult *UserUnitMap_AddItem(UserUnitMap * a1, MapAddItem * a2, UserUnitMap_InsertResult * a3);
-        MapNode *map_copy_(UserUnitMap * dest, const UserUnitMap *source);
+        MapNode *UserUnitMap_copy(UserUnitMap * dest, const UserUnitMap *source);
         int UserUnitMap_RemoveItem(UserUnitMap * a1, MapAddItem * a2);
     }
 
@@ -97,7 +97,7 @@ namespace Moho
                 return *this;
 
             Clear();
-            map_copy_(this, &other);
+            UserUnitMap_copy(this, &other);
             return *this;
         }
 
