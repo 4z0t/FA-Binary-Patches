@@ -71,6 +71,15 @@ namespace Moho
             :);
         return __result;
     }
+
+    void get_units_in_selection_box(UserUnitMap *a1, Dragger *a2)
+    {
+        asm(
+            "call 0x00863F10;"
+            :
+            : [a1] "c"(a1), [a2] "S"(a2)
+            :);
+    }
 } // namespace Moho
 
 SHARED bool use_selector = false;

@@ -1,10 +1,32 @@
 #pragma once
 #include "../UserUnit/UserUnit.h"
+#include "GenericStructures.h"
 #include "LuaAPI.h"
 #include "moho.h"
 
 namespace Moho
 {
+    struct Dragger;
+    struct DraggerVTable // sizeof=0x1C
+    {
+        Dragger *(__thiscall *dtor)(Dragger *, char);
+        void(__thiscall *field_4)(Dragger *, int *);
+        int f;
+        int field_C;
+        int field_10;
+        void(__thiscall *field_8)(Dragger *, InlinedVector<UserEntity, 2> *);
+        unsigned __int8(__thiscall *field_18)(Dragger *);
+    };
+    struct Dragger
+    {
+        DraggerVTable *vtable;
+        int field_4;
+        Moho::CWldSession *session;
+        /* Moho::CMauiFrame */ void *frame;
+        Vector2f mouse_screen_pos;
+        Vector3f mouse_world_pos;
+    };
+
     struct UserUnitMap;
     struct MapNode;
 
@@ -217,4 +239,4 @@ SHARED
 }
 
 void __stdcall SetSelection(Moho::CWldSession *session, Moho::UserUnitMap *units) asm("0x00896140");
-void __cdecl handle_click_selection(Moho::CWldSession *a1, int *modifiers) asm("0x00865920");
+void __cdecl handle_click_selection(Moho::CWldSession *a1, int modifiers) asm("0x00865920");

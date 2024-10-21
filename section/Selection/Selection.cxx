@@ -68,3 +68,15 @@ void __stdcall HandleNewSelection(Moho::CWldSession *session, Moho::UserUnitMap 
         WarningF("%s", e.what());
     }
 }
+
+SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, int *arg0)
+{
+    dragger->vtable->field_4(dragger, arg0);
+    if (!dragger->vtable->field_18(dragger))
+    {
+        handle_click_selection(dragger->session, arg0[7]);
+        return;
+    }
+
+    LogF("Hi");
+}

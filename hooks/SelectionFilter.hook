@@ -19,3 +19,7 @@
   jmp @HookSelectionCondition
 #0x00863927:
   jmp @HookSelectionCondition2
+
+
+#0x00863870:
+  jmp @DraggerHandle_OVERRIDE
