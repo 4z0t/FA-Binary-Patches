@@ -4,7 +4,7 @@ extern int factory_count asm("0x010A63A8");
 
 class MetaTableFactory;
 
-SHARED LuaObject *GetMetatable(LuaState *state, const MetaTableFactory *factory, LuaObject *dest);
+SHARED LuaObject *MetatableFactory__Get(LuaState *state, const MetaTableFactory *factory, LuaObject *dest);
 
 class MetaTableFactory
 {
@@ -12,7 +12,7 @@ public:
     LuaObject Get(LuaState *state) const
     {
         LuaObject metatable;
-        GetMetatable(state, this, &metatable);
+        MetatableFactory__Get(state, this, &metatable);
         return metatable;
     }
 
