@@ -1,7 +1,7 @@
 #include "MetaTableFactory.h"
 #include "magic_classes.h"
 
-TestMetaTable testmeta{};
+const TestMetaTable testmeta{};
 
 int TEST_METATABLE(lua_State *l)
 {

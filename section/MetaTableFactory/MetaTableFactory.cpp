@@ -1,6 +1,6 @@
 #include "MetaTableFactory.h"
 
-LuaObject *GetMetatable(LuaState *state, MetaTableFactory *proto, LuaObject *dest)
+LuaObject *GetMetatable(LuaState *state, const MetaTableFactory *proto, LuaObject *dest)
 {
     LuaObject *__result;
     asm(

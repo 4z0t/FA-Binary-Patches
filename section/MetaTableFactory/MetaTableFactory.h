@@ -4,12 +4,12 @@ extern int factory_count asm("0x010A63A8");
 
 class MetaTableFactory;
 
-SHARED LuaObject *GetMetatable(LuaState *state, MetaTableFactory *factory, LuaObject *dest);
+SHARED LuaObject *GetMetatable(LuaState *state, const MetaTableFactory *factory, LuaObject *dest);
 
 class MetaTableFactory
 {
 public:
-    LuaObject Get(LuaState *state)
+    LuaObject Get(LuaState *state) const
     {
         LuaObject metatable;
         GetMetatable(state, this, &metatable);
@@ -22,8 +22,7 @@ public:
         index = factory_count;
     }
 
-    // MetaTableFactory
-    virtual LuaObject *Create(LuaObject *metatable, LuaState *state)
+    virtual LuaObject *Create(LuaObject *metatable, LuaState *state) const
     {
         new (metatable) LuaObject();
         metatable->AssignNewTable(state, 0, 0);
@@ -47,7 +46,7 @@ class TestMetaTable : public MetaTableFactory
         return 0;
     }
 
-    virtual LuaObject *Create(LuaObject *metatable, LuaState *state) override
+    virtual LuaObject *Create(LuaObject *metatable, LuaState *state) const override
     {
         new (metatable) LuaObject();
         metatable->AssignNewTable(state, 0, 0);
