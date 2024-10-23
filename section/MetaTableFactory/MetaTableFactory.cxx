@@ -14,5 +14,5 @@ int TEST_METATABLE(lua_State *l)
     return 1;
 }
 
-// UI_Lua local t = testmeta() t.a = 5 LOG(t.a)
+// UI_Lua local t = testmeta() t.a = 5 LOG(t.a) LOG(getmetatable(t))
 UIRegFunc __testmeta{"testmeta", "q", TEST_METATABLE};

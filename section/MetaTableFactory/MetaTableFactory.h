@@ -16,10 +16,8 @@ public:
         return metatable;
     }
 
-    MetaTableFactory()
+    MetaTableFactory() : index{++factory_count}
     {
-        factory_count++;
-        index = factory_count;
     }
 
     virtual LuaObject *Create(LuaObject *metatable, LuaState *state) const
@@ -29,7 +27,7 @@ public:
         return metatable;
     };
 
-    int index;
+    const int index;
 };
 
 class TestMetaTable : public MetaTableFactory
