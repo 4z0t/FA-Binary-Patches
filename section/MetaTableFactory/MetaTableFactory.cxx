@@ -32,7 +32,7 @@ int TEST_METATABLE(lua_State *l)
     LuaObject res{};
     res.AssignNewTable(l->LuaState, 0, 0);
     LuaObject meta = testmeta.Get(l->LuaState);
-    res.SetMetaTable(&meta);
+    res.SetMetaTable(meta);
     res.PushStack(l);
     return 1;
 }
