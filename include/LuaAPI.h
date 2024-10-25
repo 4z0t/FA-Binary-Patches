@@ -185,6 +185,9 @@ public:
   LuaObject operator[](int key) const;
   LuaObject operator[](const char *key) const;
 
+  bool operator==(const LuaObject& right) const;
+  bool operator!=(const LuaObject& right) const;
+  
   bool GetBoolean() asm("0x907c90");
   bool IsConvertibleToString() asm("0x9077c0");
   bool IsFunction() asm("0x907810");
@@ -198,6 +201,7 @@ public:
   inline bool IsTable() const;
   inline bool IsUserData() const;
 
+  LuaObject GetMetaTable()const;
   LuaObject Clone() const;
   LuaObject DeepCopy() const;
   void Insert(const LuaObject &obj) const;
@@ -221,7 +225,7 @@ public:
   void CreateTable(LuaObject *out, int key, int narray,
                    int lnhash) asm("0x908ca0");
   void GetByName(LuaObject *out, const char *name) asm("0x90a160");
-  void GetMetaTable(LuaObject *out) asm("0x908ba0");
+  LuaObject *__GetMetaTable(LuaObject *out) const asm("0x908ba0");
   void Lookup(LuaObject *out, const char *key) asm("0x9093b0");
   void PushStack(LuaStackObject *out, LuaState *state) const asm("0x907d80");
   void PushStack(lua_State *L) const asm("0x907d10");
@@ -259,7 +263,7 @@ public:
   void SetBoolean(const char *key, bool value) asm("0x9080c0");
   void SetInteger(const char *key, int value) asm("0x9081f0");
   void SetInteger(int key, int value) asm("0x908240");
-  void SetMetaTable(const LuaObject *value) asm("0x907e00");
+  void SetMetaTable(const LuaObject &value) asm("0x907e00");
   void SetN(int n) asm("0x907ed0");
   void SetNil(const char *key) asm("0x907fa0");
   void SetNil(int key) asm("0x907ff0");
@@ -409,8 +413,8 @@ void luaL_checkany(lua_State *, int) asm("0x90ea70");
 void luaL_checkstack(lua_State *, int, const char *) asm("0x90dd10");
 void luaL_checktype(lua_State *, int, int) asm("0x90ea20");
 void luaL_getmetatable(lua_State *, const char *) asm("0x90dcf0");
-void luaL_openlib(lua_State *, const char *, const luaL_reg *,
-                  int) asm("0x90de00");
+void luaL_openlib(lua_State *, const char *, const luaL_reg *, int) asm("0x90de00");
+int __cdecl luaV_equalval(lua_State *L, const TObject *l, const TObject *r) asm("0x00929810");
 void luaL_pushresult(luaL_Buffer *) asm("0x90e330");
 void luaL_setn(lua_State *, int, int) asm("0x90dfb0");
 void luaL_where(lua_State *, int) asm("0x90db80");
