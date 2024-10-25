@@ -49,7 +49,7 @@ class Vector3Meta : public MetaTableFactory
         const char *key = lua_tostring(L, 2);
         if (!key)
             luaL_argerror(L, 2, "'x', 'y', or 'z' expected");
-        if (!*key || *key - 'x' > 2 || key[1])
+        if (!*key || *key - 'x' > 2 || *key - 'x' < 0 || key[1])
             luaL_argerror(L, 2, "'x', 'y', or 'z' expected");
         lua_rawgeti(L, 1, *key - 'x' + 1);
         return 1;
@@ -62,7 +62,7 @@ class Vector3Meta : public MetaTableFactory
         const char *key = lua_tostring(L, 2);
         if (!key)
             luaL_argerror(L, 2, "'x', 'y', or 'z' expected");
-        if (!*key || *key - 'x' > 2 || key[1])
+        if (!*key || *key - 'x' > 2 || *key - 'x' < 0 || key[1])
             luaL_argerror(L, 2, "'x', 'y', or 'z' expected");
         lua_rawseti(L, 1, *key - 'x' + 1);
         return 0;
@@ -123,9 +123,9 @@ public:
 
 const Vector3Meta Vector3Meta::vec3meta{};
 
-
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+v2 LOG(v3.x,v3.y,v3.z)
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+1
+// UI_Lua local v1 = Vector3(1,2,3) LOG(v1.a)
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+''
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+nil
 int Vector3(lua_State *l)
@@ -145,5 +145,4 @@ int Vector3(lua_State *l)
     return 1;
 }
 
-// UI_Lua local t = testmeta() t.a = 5 LOG(t.a) LOG(getmetatable(t))
 UIRegFunc vector3_reg{"Vector3", "", Vector3};
