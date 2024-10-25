@@ -76,9 +76,9 @@ namespace Moho
         MapNode *root;
         int size;
 
-        UserUnitMap(const UserUnitMap *source)
+        UserUnitMap(const UserUnitMap &source)
         {
-            map_copy_ctor(source, this);
+            map_copy_ctor(&source, this);
         }
 
         UserUnitMap()

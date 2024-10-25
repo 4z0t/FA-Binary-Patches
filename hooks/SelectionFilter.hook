@@ -23,3 +23,6 @@
 
 #0x00863870:
   jmp @DraggerHandle_OVERRIDE
+
+#0x00865E20:
+  jmp @ProcessUnitDoubleClick_OVERRIDE

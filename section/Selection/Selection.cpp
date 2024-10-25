@@ -48,7 +48,7 @@ namespace Moho
         return __result;
     }
 
-    UserUnitMap *map_copy_ctor(UserUnitMap *source, UserUnitMap *dest)
+    UserUnitMap *map_copy_ctor(const UserUnitMap *source, UserUnitMap *dest)
     {
         UserUnitMap *__result;
         asm(

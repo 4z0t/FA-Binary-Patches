@@ -282,10 +282,28 @@ SHARED void __cdecl ProcessUnitDoubleClick_OVERRIDE(Moho::CWldSession *session, 
             continue;
         }
 
+        if(uunit == uunit_below_mouse)
+        {
+            continue;
+        }
+
         if (uunit->IsDead() || uunit->DestroyQueued())
         {
             continue;
         }
-        
+
+        if(!CanSelectUserUnit(uunit, session))
+        {
+            continue;
+        }
+
+        if (target_bp != uunit->GetBlueprint())
+        {
+            continue;
+        }
+
+        units.Add(uunit);
     }
+
+    SetSelection(session, &units);
 }
