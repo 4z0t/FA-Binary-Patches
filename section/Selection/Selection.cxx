@@ -130,10 +130,10 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
             if (army != focus_army)
                 continue;
 
-            if (uunit->GetBlueprint() == bp_entity_below_mouse)
-            {
-                units.Add(uunit);
-            }
+            if (uunit->GetBlueprint() != bp_entity_below_mouse)
+                continue;
+
+            units.Add(uunit);
         }
         SetSelection(session, &units);
     }
