@@ -239,3 +239,53 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
         SetSelection(dragger->session, &selected_units);
     }
 }
+
+SHARED void __cdecl ProcessUnitDoubleClick_OVERRIDE(Moho::CWldSession *session, /* Moho::CameraImpl*/ void *camera)
+{
+    using namespace Moho;
+
+    Moho::UserEntity *entity_below_mouse = session->entity_below_mouse.chain ? (Moho::UserEntity *)((int)session->entity_below_mouse.chain - 8) : nullptr;
+    if (entity_below_mouse == nullptr)
+    {
+        return;
+    }
+
+    Moho::UserUnit *uunit_below_mouse = entity_below_mouse->IsUserUnit();
+    if (uunit_below_mouse == nullptr)
+    {
+        return;
+    }
+
+    void *focus_army = session->GetFocusArmy();
+    void *army = GetField<void *>(uunit_below_mouse, 0x120);
+    if (army != focus_army)
+    {
+        return;
+    }
+    void *target_bp = uunit_below_mouse->GetBlueprint();
+
+    Moho::UserUnitMap units{session->selectedUnits};
+
+    BaseVector<UserEntityChain> *units_in_frustum = GetField<BaseVector<UserEntityChain> *(__thiscall *)(void *)>(GetField<void *>(camera, 0), 0xA4)(camera);
+
+    for (UserEntityChain &chain : *units_in_frustum)
+    {
+        Moho::UserEntity *entity = chain.chain ? (Moho::UserEntity *)((int)chain.chain - 8) : nullptr;
+        if (entity == nullptr)
+        {
+            continue;
+        }
+
+        Moho::UserUnit *uunit = entity->IsUserUnit();
+        if (uunit == nullptr)
+        {
+            continue;
+        }
+
+        if (uunit->IsDead() || uunit->DestroyQueued())
+        {
+            continue;
+        }
+        
+    }
+}

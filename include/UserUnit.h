@@ -239,7 +239,3 @@ namespace Moho
         }
     };
 }
-
-void __cdecl ProcessUnitDoubleClick(CWldSession *session, /* Moho::CameraImpl*/ void *camera)
-{
-}

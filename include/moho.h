@@ -1094,6 +1094,17 @@ struct UserUnit : UserEntity
 		return obj;
 	}
 
+	bool IsDead()
+	{
+		return GetIUnitVTable()->IsDead(GetIUnit());
+	}
+
+	bool DestroyQueued()
+	{
+		return GetIUnitVTable()->DestroyQueued(GetIUnit());
+	}
+
+
 private:
 	IUnit* GetIUnit()
 	{
