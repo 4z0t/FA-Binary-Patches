@@ -1019,6 +1019,55 @@ struct UserEntity : WeakObject
         Vector3f pos;
         /* data */
     };
+
+	enum EUnitState : int
+ {
+     UNITSTATE_Immobile              = 0x1,
+     UNITSTATE_Moving                = 0x2,
+     UNITSTATE_Attacking             = 0x3,
+     UNITSTATE_Guarding              = 0x4,
+     UNITSTATE_Building              = 0x5,
+     UNITSTATE_Upgrading             = 0x6,
+     UNITSTATE_WaitingForTransport   = 0x7,
+     UNITSTATE_TransportLoading      = 0x8,
+     UNITSTATE_TransportUnloading    = 0x9,
+     UNITSTATE_MovingDown            = 0xA,
+     UNITSTATE_MovingUp              = 0xB,
+     UNITSTATE_Patrolling            = 0xC,
+     UNITSTATE_Busy                  = 0xD,
+     UNITSTATE_Attached              = 0xE,
+     UNITSTATE_BeingReclaimed        = 0xF,
+     UNITSTATE_Repairing             = 0x10,
+     UNITSTATE_Diving                = 0x11,
+     UNITSTATE_Surfacing             = 0x12,
+     UNITSTATE_Teleporting           = 0x13,
+     UNITSTATE_Ferrying              = 0x14,
+     UNITSTATE_WaitForFerry          = 0x15,
+     UNITSTATE_AssistMoving          = 0x16,
+     UNITSTATE_PathFinding           = 0x17,
+     UNITSTATE_ProblemGettingToGoal  = 0x18,
+     UNITSTATE_NeedToTerminateTask   = 0x19,
+     UNITSTATE_Capturing             = 0x1A,
+     UNITSTATE_BeingCaptured         = 0x1B,
+     UNITSTATE_Reclaiming            = 0x1C,
+     UNITSTATE_AssistingCommander    = 0x1D,
+     UNITSTATE_Refueling             = 0x1E,
+     UNITSTATE_GuardBusy             = 0x1F,
+     UNITSTATE_ForceSpeedThrough     = 0x20,
+     UNITSTATE_UnSelectable          = 0x21,
+     UNITSTATE_DoNotTarget           = 0x22,
+     UNITSTATE_LandingOnPlatform     = 0x23,
+     UNITSTATE_CannotFindPlaceToLand = 0x24,
+     UNITSTATE_BeingUpgraded         = 0x25,
+     UNITSTATE_Enhancing             = 0x26,
+     UNITSTATE_BeingBuilt            = 0x27,
+     UNITSTATE_NoReclaim             = 0x28,
+     UNITSTATE_NoCost                = 0x29,
+     UNITSTATE_BlockCommandQueue     = 0x2A,
+     UNITSTATE_MakingAttackRun       = 0x2B,
+     UNITSTATE_HoldingPattern        = 0x2C,
+     UNITSTATE_SiloBuildingAmmo      = 0x2D,
+ };
  struct IUnitVTable
     {
         void(__thiscall *IsUnit1)(IUnit *);
@@ -1036,9 +1085,8 @@ struct UserEntity : WeakObject
         int(__thiscall *IsMobile)(IUnit *);
         bool(__thiscall *IsBeingBuilt)(IUnit *);
         int(__thiscall *IsNavigatorIdle)(IUnit *);
-        //  unsigned __int8 (__thiscall *IsUnitState)(IUnit *,
-        //  Moho::EUnitState); Moho::UnitAttributes *(__thiscall
-        //  *GetAttributes1)(Moho::IUnit *); Moho::Intel *(__thiscall
+        bool (__thiscall *IsUnitState)(IUnit *, EUnitState); 
+		//  Moho::UnitAttributes *(__thiscall *GetAttributes1)(Moho::IUnit *); Moho::Intel *(__thiscall
         //  *GetAttributes2)(IUnit *); Moho::StatItem *(__thiscall
         //  *GetStatDefaultStr)(IUnit *, const char *, std::string *);
         //  Moho::StatItem *(__thiscall *GetStatDefaultNum)(IUnit *, const char
@@ -1104,6 +1152,15 @@ struct UserUnit : UserEntity
 		return GetIUnitVTable()->DestroyQueued(GetIUnit());
 	}
 
+	bool IsUnitState(EUnitState state)
+	{
+		return GetIUnitVTable()->IsUnitState(GetIUnit(), state);
+	}
+
+	bool IsMobile()
+	{
+		return GetIUnitVTable()->IsMobile(GetIUnit());
+	}
 
 private:
 	IUnit* GetIUnit()

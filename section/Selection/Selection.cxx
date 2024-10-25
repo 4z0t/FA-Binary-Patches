@@ -209,6 +209,9 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
             UserUnit *uunit = entity->IsUserUnit();
             if (uunit == nullptr)
                 continue;
+            if (!uunit->IsMobile() && uunit->IsUnitState(UNITSTATE_BeingUpgraded))
+                continue;
+
             void *bp = uunit->GetBlueprint();
             int priority = GetField<int>(bp, 508);
             if (priority < 1)
@@ -223,6 +226,8 @@ SHARED void __thiscall DraggerHandle_OVERRIDE(Moho::Dragger *dragger, char *arg0
         {
             UserUnit *uunit = entity->IsUserUnit();
             if (uunit == nullptr)
+                continue;
+            if (!uunit->IsMobile() && uunit->IsUnitState(UNITSTATE_BeingUpgraded))
                 continue;
 
             void *bp = uunit->GetBlueprint();
@@ -282,7 +287,7 @@ SHARED void __cdecl ProcessUnitDoubleClick_OVERRIDE(Moho::CWldSession *session, 
             continue;
         }
 
-        if(uunit == uunit_below_mouse)
+        if (uunit == uunit_below_mouse)
         {
             continue;
         }
@@ -292,12 +297,17 @@ SHARED void __cdecl ProcessUnitDoubleClick_OVERRIDE(Moho::CWldSession *session, 
             continue;
         }
 
-        if(!CanSelectUserUnit(uunit, session))
+        if (!CanSelectUserUnit(uunit, session))
         {
             continue;
         }
 
         if (target_bp != uunit->GetBlueprint())
+        {
+            continue;
+        }
+
+        if (uunit->IsUnitState(UNITSTATE_BeingUpgraded))
         {
             continue;
         }
