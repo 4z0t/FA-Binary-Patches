@@ -1108,7 +1108,7 @@ struct UserUnit : UserEntity
 private:
 	IUnit* GetIUnit()
 	{
-		return (IUnit*)((char *)this + 0x148);
+		return Offset<IUnit*>(this, 0x148);
 	}
 };
 
