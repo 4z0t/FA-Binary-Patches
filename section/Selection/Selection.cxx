@@ -277,40 +277,26 @@ SHARED void __cdecl ProcessUnitDoubleClick_OVERRIDE(Moho::CWldSession *session, 
     {
         Moho::UserEntity *entity = chain.chain ? (Moho::UserEntity *)((int)chain.chain - 8) : nullptr;
         if (entity == nullptr)
-        {
             continue;
-        }
 
         Moho::UserUnit *uunit = entity->IsUserUnit();
         if (uunit == nullptr)
-        {
             continue;
-        }
 
         if (uunit == uunit_below_mouse)
-        {
             continue;
-        }
 
         if (uunit->IsDead() || uunit->DestroyQueued())
-        {
             continue;
-        }
 
         if (!CanSelectUserUnit(uunit, session))
-        {
             continue;
-        }
 
         if (target_bp != uunit->GetBlueprint())
-        {
             continue;
-        }
 
         if (uunit->IsUnitState(UNITSTATE_BeingUpgraded))
-        {
             continue;
-        }
 
         units.Add(uunit);
     }
