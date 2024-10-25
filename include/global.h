@@ -138,7 +138,8 @@ template <typename T> struct basic_string {
       static_assert(false, "Unknown type T.");
   }
 
-  inline const T *data() { return capacity < sso_size ? &str : _data; }
+  inline const T *data() const { return capacity < sso_size ? static_cast<const T*>(str) : _data; }
+  inline T *data() { return capacity < sso_size ? static_cast<T*>(str) : _data; }
 
   inline void clear() {
     if (capacity >= sso_size) {

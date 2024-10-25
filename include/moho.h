@@ -88,7 +88,7 @@ struct BitSet
 	uint32_t inlined_values[2];
 
 	void set(uint32_t item, bool set) {
-		auto *itemPtr = &begin[item >> 5 - offset];
+		auto *itemPtr = &begin[(item >> 5) - offset];
 		if (itemPtr >= end) end = itemPtr + 1;
 		item = 1 << (item & 0x1F);
 		if (set)
@@ -1461,7 +1461,7 @@ struct CClientManagerImpl : IClientManager
 	bool unk1; // if value is 1 then KERNEL32.SetEvent is bypassed
 };
 
-typedef struct mRequest {IClient* mRequester; int mAfterBeat;};
+struct mRequest {IClient* mRequester; int mAfterBeat;};
 
 struct CClientBase : IClient
 {//0x0053B5E9, 0xD8 bytes
