@@ -124,10 +124,11 @@ public:
 const Vector3Meta Vector3Meta::vec3meta{};
 
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+v2 LOG(v3.x,v3.y,v3.z)
-// UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+1
 // UI_Lua local v1 = Vector3(1,2,3) LOG(v1.a)
+// UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+1
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+''
 // UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+nil
+// UI_Lua local v1 = Vector3(1,2,3) local v2 = Vector3(4,5,6) local v3 = v1+{}
 int Vector3(lua_State *l)
 {
     int top = lua_gettop(l);
