@@ -1,8 +1,8 @@
 #pragma once
 #include "../UserUnit/UserUnits.h"
-#include "UserUnit.h"
 #include "GenericStructures.h"
 #include "LuaAPI.h"
+#include "UserUnit.h"
 #include "moho.h"
 
 namespace Moho
@@ -31,7 +31,7 @@ namespace Moho
     SHARED
     {
         void get_units_in_selection_box(UserUnitMap * a1, Dragger * a2);
-         bool CanSelectUserUnit(Moho::UserEntity *entity, Moho::CWldSession *session);
+        bool CanSelectUserUnit(Moho::UserEntity * entity, Moho::CWldSession * session);
     }
 
     struct RRuleGameRulesImpl;
@@ -85,6 +85,8 @@ namespace Moho
         unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
 
         Moho::EntityCategory *category = gamerules->vtable->GetEntityCategory(gamerules, category_name);
+        if (category == nullptr)
+            return false;
 
         return category->data[bp_ordinal];
     }
