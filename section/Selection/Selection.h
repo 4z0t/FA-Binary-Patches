@@ -68,6 +68,11 @@ namespace Moho
     struct RRuleGameRulesImpl
     {
         vtable_gamerules *vtable;
+
+        Moho::EntityCategory *GetEntityCategory(const char *name)
+        {
+            return vtable->GetEntityCategory(this, name);
+        }
     };
 
     bool __cdecl MAUI_KeyIsDown(int) asm("0x0079CB70");
@@ -78,13 +83,14 @@ namespace Moho
         Moho::RRuleGameRulesImpl *gamerules = (Moho::RRuleGameRulesImpl *)session->gamerules;
         if (gamerules == nullptr)
             return false;
+
         void *bp = GetField<void *>(entity, 0x48);
         if (bp == nullptr)
             return false;
 
         unsigned int bp_ordinal = GetField<unsigned int>(bp, 0x5c);
 
-        Moho::EntityCategory *category = gamerules->vtable->GetEntityCategory(gamerules, category_name);
+        Moho::EntityCategory *category = gamerules->GetEntityCategory(category_name);
         if (category == nullptr)
             return false;
 
