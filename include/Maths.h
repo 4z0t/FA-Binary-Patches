@@ -25,3 +25,9 @@ struct Vector4f
 { // 0x10 bytes
     float x, y, z, w;
 };
+
+struct VTransform
+{
+    Vector4f orient;
+    Vector3f pos;
+};

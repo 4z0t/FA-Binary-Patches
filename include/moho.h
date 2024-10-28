@@ -1013,12 +1013,6 @@ struct UserEntity : WeakObject
   struct IUnit
     {
     };
-    struct VTransform
-    {
-        Vector4f orient;
-        Vector3f pos;
-        /* data */
-    };
 
 	enum EUnitState : int
  {
