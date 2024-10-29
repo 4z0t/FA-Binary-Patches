@@ -1,5 +1,5 @@
   //HOOK OnMotionTurnEventChange1
-#0x6B8FB9
+#0x6B8FB9:
   jmp 0x6B8FE0
   nop
   nop
