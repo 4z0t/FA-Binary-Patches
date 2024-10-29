@@ -1,4 +1,4 @@
-#0x00452FC0 // sqrt
+#0x00452FC0: // sqrt
     fld dword ptr [esp+4]
     fsqrt
     ret
