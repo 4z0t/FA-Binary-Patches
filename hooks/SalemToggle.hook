@@ -1,0 +1,19 @@
+// Moho::Entity::Entity
+#0x00677BC9:
+    mov dword ptr [esi+0x1F8], ebx // 0x1F9 bool forceAltFootprint
+
+//  Moho::Entity::GetFootprint
+#0x006788A5:
+    jmp @asm__GetFootprint
+    nop
+    nop
+
+
+// Salem:
+// AltFootprint = -- water only
+//     {
+//         SizeX = 2,
+//         SizeZ = 8,
+//         OccupancyCaps = 8,
+//         MinWaterDepth = 1.5,
+//     },
