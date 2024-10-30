@@ -1,4 +1,0 @@
-#0x6CC759:
-    jmp @luaSimGetStat
-    nop
-    nop
