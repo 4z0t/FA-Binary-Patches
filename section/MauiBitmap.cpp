@@ -1,6 +1,6 @@
 #include "CObject.h"
-#include "moho.h"
 #include "magic_classes.h"
+#include "moho.h"
 
 int SetColorMask(lua_State *l)
 {
@@ -27,15 +27,13 @@ int SetColorMask(lua_State *l)
         return 0;
     }
     color &= 0x00FFFFFFu;
-    *(uint32_t *)((int)bitmap + 244) = (*(uint32_t *)((int)bitmap + 244) & 0xFF000000u) | color;
+    GetField<uint32_t>(bitmap, 244) = (GetField<uint32_t>(bitmap, 244) & 0xFF000000u) | color;
     return 0;
 }
 using BitmapMethodReg = UIRegFuncT<0x00E37C14, 0x00F8D7DC>;
-
 
 BitmapMethodReg BitmapSetColorMaskDesc{
     "SetColorMask",
     "Bitmap:SetColorMask(color)",
     SetColorMask,
     "CMauiBitmap"};
-
