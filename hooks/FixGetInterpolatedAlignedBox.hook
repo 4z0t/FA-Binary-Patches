@@ -1,7 +1,7 @@
 // cfunc_CUIWorldMeshGetInterpolatedAlignedBox+0x150
-#0x086D2C0:
+0x086D2C0:
     push offset @strYMax // "yMax" from "xMax"
 
 // cfunc_CUIWorldMeshGetInterpolatedAlignedBox+0x166
-#0x086D2D6: 
+0x086D2D6: 
     push offset @strZMax // "zMax" from "xMax"

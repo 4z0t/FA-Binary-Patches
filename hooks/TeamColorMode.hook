@@ -1,12 +1,12 @@
 
-#0x847E51: //HOOK TeamColor
+0x847E51: //HOOK TeamColor
   jmp @TeamColorMode
   nop
   nop
   nop
 
 
-#0x85DB68: //HOOK TeamColorRenderer
+0x85DB68: //HOOK TeamColorRenderer
   jmp @TeamColorModeRenderer
   nop
   nop

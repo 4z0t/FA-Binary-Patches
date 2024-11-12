@@ -13,6 +13,6 @@
 //#0x76F21A: // #Moho::CIntelPosHandle::UpdatePos+0x3A
 //   fmul dword ptr [radius_movement_ratio]
 
-#0x76F258: // Moho::CIntelPosHandle::UpdatePos+0x78
+0x76F258: // Moho::CIntelPosHandle::UpdatePos+0x78
     cmp edx, tick_update_interval
 

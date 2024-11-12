@@ -1,4 +1,4 @@
-#0xC0B4C2: //HOOK _aiinitattack compare with a null.
+0xC0B4C2: //HOOK _aiinitattack compare with a null.
   cmp ecx, 0
   je 0x5F3B99
   mov edx,dword ptr [ecx]
@@ -6,6 +6,6 @@
   push eax
   jmp 0x5F39FD
 
-#0x5F39F7: //HOOK _aiinitattack prevents a crash when a target is in range but null is encountered.
+0x5F39F7: //HOOK _aiinitattack prevents a crash when a target is in range but null is encountered.
   jmp 0xC0B4C2
   nop

@@ -1,2 +1,2 @@
-#0x9283B1:
+0x9283B1:
     jmp @RegTableFuncs

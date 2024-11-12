@@ -1,16 +1,16 @@
   //CalcMaxSimRate
-#0x55AE56:
+0x55AE56:
   mov esp,ebp
   pop ebp
   ret
   nop
 
   //WLD_IncreaseSimRate
-#0x88D1FE:
+0x88D1FE:
   cmp eax,0x32
 
   //WLD_GameSpeed
-#0x88E1A8:
+0x88E1A8:
   cmp esi,0x32
   mov edx,esi
   jle l1
@@ -18,5 +18,5 @@
   l1:
 
   //InitLocalClient
-#0x53BE0D:
+0x53BE0D:
   .byte 0x32

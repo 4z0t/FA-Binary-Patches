@@ -8,21 +8,21 @@
   // call QU(HookSelection)
   // nop
   // nop
-#0x00863967:
+0x00863967:
   jmp @HookSelectionMerge
 
-#0x0086398D:
+0x0086398D:
   call @HookSelection
   nop
   nop
-#0x0086390B:
+0x0086390B:
   jmp @HookSelectionCondition
-#0x00863927:
+0x00863927:
   jmp @HookSelectionCondition2
 
 
-#0x00863870:
+0x00863870:
   jmp @DraggerHandle_OVERRIDE
 
-#0x00865E20:
+0x00865E20:
   jmp @ProcessUnitDoubleClick_OVERRIDE

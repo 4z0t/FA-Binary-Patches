@@ -1,7 +1,7 @@
-#0xA8EF63:
+0xA8EF63:
   jmp @FAExtLoad
 
-#0x45A926:
+0x45A926:
   push eax
   call @InitCtors
   pop eax

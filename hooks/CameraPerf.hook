@@ -1,12 +1,12 @@
 
-#0x493A9B: //HOOK LogParticleCap (removes the info log) runout
+0x493A9B: //HOOK LogParticleCap (removes the info log) runout
     nop
     nop
     nop
     nop
     nop
 
-#0x4946F7: //HOOK LogSegmentBuffers (removes the info log) runout
+0x4946F7: //HOOK LogSegmentBuffers (removes the info log) runout
     nop
     nop
     nop

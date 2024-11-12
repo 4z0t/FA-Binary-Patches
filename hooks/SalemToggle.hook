@@ -1,9 +1,9 @@
 // Moho::Entity::Entity
-#0x00677BC9:
+0x00677BC9:
     mov dword ptr [esi+0x1F8], ebx // 0x1F9 bool forceAltFootprint
 
 //  Moho::Entity::GetFootprint
-#0x006788A5:
+0x006788A5:
     jmp @asm__GetFootprint
     nop
     nop

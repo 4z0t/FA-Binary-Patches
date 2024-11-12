@@ -1,2 +1,2 @@
-#0x4C9DE1:
+0x4C9DE1:
     call @IsLuaFunction

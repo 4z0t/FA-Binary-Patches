@@ -1,4 +1,4 @@
-#0x6EFAC9:
+0x6EFAC9:
   jmp @BuildUnit
   add esp,4
   xor ecx,ecx
@@ -11,11 +11,11 @@
   nop
 
   //HOOK SelectUnit
-#0x8C05FE:
+0x8C05FE:
   jmp @SelectUnit
 
   //HOOK SimArmyCreate
-#0x6FF3D1:
+0x6FF3D1:
     jmp @SimArmyCreate
     nop
     call 0x4059E0

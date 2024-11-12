@@ -1,12 +1,12 @@
   //HOOK OnMotionTurnEventChange1
-#0x6B8FB9:
+0x6B8FB9:
   jmp 0x6B8FE0
   nop
   nop
   nop
 
   //HOOK OnMotionTurnEventChange2
-#0x6B953F:
+0x6B953F:
   jmp 0x6B9567
   nop
   nop
@@ -16,7 +16,7 @@
   nop
 
   //HOOK OnMotionTurnEventChange3
-#0x6BFF2C:
+0x6BFF2C:
   jmp 0x6BFF55
 
 

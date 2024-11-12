@@ -1,2 +1,2 @@
-#0xE20724:
+0xE20724:
     .string "SACU_BEHAVIOR" // from `"SUBCOMMANDER"`

@@ -1,13 +1,13 @@
   //Do not call sim beat when camera move start/end
-#0x73B3B0:
+0x73B3B0:
   .byte 0xEB
 
   //Do not call sim beat when unit selected/deselected
-#0x73B43D:
+0x73B43D:
   .byte 0xEB
 
   //Do not call sim beat when ordering a unit
-#0x73CBC9:
+0x73CBC9:
   .byte 0xEB
 
   //Do not call sim beat when pause

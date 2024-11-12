@@ -1,4 +1,4 @@
-#0x598e80:
+0x598e80:
       push ebp
       mov ebp,esp
       and esp,0xfffffff8

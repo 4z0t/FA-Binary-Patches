@@ -1,7 +1,7 @@
 
      arg_0           =  4
      limit           =  8
-#0x00915A00:
+0x00915A00:
                     push    ebp 
                     mov     ebp, [esp+4+arg_0]
                     push    esi 

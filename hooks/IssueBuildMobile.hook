@@ -1,9 +1,9 @@
-#0x6F5B98:
+0x6F5B98:
     cmp eax, 5
 
-#0x6F5B9E:
+0x6F5B9E:
     push 5
 
-#0x6F5F96:
+0x6F5F96:
     jmp @IssueBuildMobileFix
 

@@ -1,5 +1,5 @@
-#0x6CED74: //HOOK Check args
+0x6CED74: //HOOK Check args
   jmp @SiloAmmoCheckArgs
 
-#0x6CEDF1: //HOOK Set blocks
+0x6CEDF1: //HOOK Set blocks
   jmp @SiloAmmoSetBlocks

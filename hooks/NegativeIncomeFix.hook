@@ -1,4 +1,4 @@
-#0x7722b0:
+0x7722b0:
   fsubrp    st(1),st
   fstp     dword ptr [esp+0x24]
   movss    xmm1, [esp+0x24]

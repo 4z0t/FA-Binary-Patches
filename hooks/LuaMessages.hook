@@ -1,18 +1,18 @@
 // make invalid type errors make sense
-#0xD459B0:
+0xD459B0:
     .string "%s expected but got %s\0\0"  // from `attempt to %s a %s value`
-#0xD44F60:
+0xD44F60:
     .string "userdata\0\0\0\0\0\0\0"   // from `use as userdata`
-#0xE00AD0:
+0xE00AD0:
     .string "string\0\0\0\0\0\0\0"     // from `use as string`
-#0xE00AE0:
+0xE00AE0:
     .string "boolean\0\0\0\0\0\0\0"    // from `use as boolean`
-#0xE01168:
+0xE01168:
     .string "integer\0\0\0\0\0\0\0"     // from `use as integer`
-#0xE09310:
+0xE09310:
     .string "thread\0\0\0\0\0\0\0"     // from `use as thread`
-#0xE09A50:
+0xE09A50:
     .string "number\0\0\0\0\0\0\0"     // from `use as number`
 // make logging functions separate arguments with the tab
-#0xE09AEC:
+0xE09AEC:
     .string "\t\0\0\0\0"       // from `\%03o`

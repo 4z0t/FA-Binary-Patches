@@ -1,14 +1,14 @@
-#0x73D4A0:
+0x73D4A0:
   call @HeightCylinders
 
-#0x7EE2BC:
+0x7EE2BC:
   .int @MinCHeight
 
-#0x7EE33A:
+0x7EE33A:
   .int @MaxCHeight
 
-#0x81C38E:
+0x81C38E:
   .int @MinCHeight
 
-#0x81C3C5:
+0x81C3C5:
   .int @MaxCHeight

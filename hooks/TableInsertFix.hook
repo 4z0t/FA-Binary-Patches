@@ -1,13 +1,13 @@
 
 //Replaces Insert with set table
     LuaObject_SetObject = 0x009087A0
-#0x008BA4A9: // at EntityCategoryFilterOut UI
+0x008BA4A9: // at EntityCategoryFilterOut UI
     call LuaObject_SetObject
-#0x008BA177: // at EntityCategoryFilterDown UI
+0x008BA177: // at EntityCategoryFilterDown UI
     call LuaObject_SetObject
-#0x008BDB60: // at SelectUnits
+0x008BDB60: // at SelectUnits
     call LuaObject_SetObject
-#0x00759E53: // at EntityCategoryFilterDown Sim
+0x00759E53: // at EntityCategoryFilterDown Sim
     call LuaObject_SetObject
 
 // Testing commands
