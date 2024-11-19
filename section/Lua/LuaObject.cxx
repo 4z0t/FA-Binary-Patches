@@ -2,23 +2,20 @@
 #include "LuaAPI.h"
 
 LuaObject::LuaObject()
-    : m_next{nullptr}, m_prev{nullptr}, m_state{nullptr}, m_object{LUA_TNIL} {}
+    : m_next{nullptr}, m_prev{nullptr}, m_state{nullptr}, m_object{} {}
 
-LuaObject::LuaObject(LuaState *state, int index)
+LuaObject::LuaObject(LuaState *state, int index) : m_object{}
 {
-    m_object.tt = LUA_TNIL;
     AddToUsedList(state, luaA_index(state->m_state, index));
 }
 
-LuaObject::LuaObject(LuaState *state)
+LuaObject::LuaObject(LuaState *state) : m_object{}
 {
-    m_object.tt = LUA_TNIL;
     AddToUsedList(state);
 }
 
-LuaObject::LuaObject(LuaState *state, const TObject *obj)
+LuaObject::LuaObject(LuaState *state, const TObject *obj) : m_object{}
 {
-    m_object.tt = LUA_TNIL;
     AddToUsedList(state, obj);
 }
 
