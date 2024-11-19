@@ -215,6 +215,7 @@ public:
   // LuaObject GetObject(const char* key) const;
   inline const TObject *GetTableHelper(const TObject *key) const;
 
+  void SetNil(const LuaObject& key) const;
   void SetObject(const LuaObject &key, const LuaObject &value) const;
   // void SetObject(const char *key, const const LuaObject &value) const;
   void SetObject(int key, const LuaObject &value) const;

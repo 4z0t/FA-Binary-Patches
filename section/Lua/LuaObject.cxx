@@ -169,6 +169,13 @@ void LuaObject::SetTableHelper(const TObject *key, const TObject *value) const
     luaV_settable(GetActiveCState(), &m_object, key, value);
 }
 
+void LuaObject::SetNil(const LuaObject &key) const
+{
+    luaplus_assert(m_state == key.m_state);
+    TObject value{};
+    SetTableHelper(&key.m_object, &value);
+}
+
 void LuaObject::SetObject(const LuaObject &key, const LuaObject &value) const
 {
     luaplus_assert(m_state == key.m_state);
