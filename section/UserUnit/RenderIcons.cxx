@@ -11,7 +11,7 @@ void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures *unit_textures,
         return;
 
     SPtrTexture *texture = Offset<SPtrTexture *>(unit, 1000);
-    if (!texture->data)
+    if (!texture->Valid())
     {
         return;
     }
@@ -24,8 +24,8 @@ void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures *unit_textures,
     Vector3f b_l;
     Vector3f b_r;
 
-    float half_width = texture->data->width / 2;
-    float half_height = texture->data->height / 2;
+    float half_width = texture->Get()->width / 2;
+    float half_height = texture->Get()->height / 2;
     t_r.x = pos->x + half_width;
     t_r.y = pos->y - half_height;
     t_r.z = 0.0;

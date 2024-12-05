@@ -2,8 +2,9 @@
 #include "global.h"
 
 template <typename T>
-struct SharedPtr
+class SharedPtr
 {
+private:
     T *data = nullptr;
 
     struct SharedLock
@@ -20,6 +21,7 @@ struct SharedPtr
         void *px_;
     } *lock = nullptr;
 
+public:
     SharedPtr() : data{nullptr}, lock{nullptr}
     {
     }
@@ -56,12 +58,19 @@ struct SharedPtr
         other.lock = nullptr;
     }
 
-    void Lock()
+    T *Get() const
     {
-        if (lock)
-        {
-            InterlockedExchangeAdd(&lock->use_count_, 1);
-        }
+        return data;
+    }
+
+    bool Valid() const
+    {
+        return data != nullptr;
+    }
+
+    ~SharedPtr()
+    {
+        Release();
     }
 
     void Release()
@@ -77,12 +86,16 @@ struct SharedPtr
             return;
 
         lock->vtable->destroy(lock);
-    }
-
-    ~SharedPtr()
-    {
-        Release();
         lock = nullptr;
         data = nullptr;
+    }
+
+private:
+    void Lock()
+    {
+        if (lock)
+        {
+            InterlockedExchangeAdd(&lock->use_count_, 1);
+        }
     }
 };

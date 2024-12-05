@@ -55,8 +55,8 @@ void ExtendRenderIcon()
 }
 
 SPtrTexture *__cdecl FromFile(SPtrTexture *a1,
-                                              const char *filename,
-                                              int border) asm("0x004486F0");
+                              const char *filename,
+                              int border) asm("0x004486F0");
 
 int SetCustomIcon(lua_State *l)
 {
@@ -80,8 +80,6 @@ int SetCustomIcon(lua_State *l)
 
     auto *texture = Offset<SPtrTexture *>(unit, 1000);
     texture->Release();
-    texture->data = nullptr;
-    texture->lock = nullptr;
     if (lua_isnil(l, 2))
     {
         return 0;
