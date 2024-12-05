@@ -75,6 +75,14 @@ public:
 
     void Release()
     {
+        InternalRelease();
+        lock = nullptr;
+        data = nullptr;
+    }
+
+private:
+    void InternalRelease()
+    {
         if (!lock)
             return;
 
@@ -86,11 +94,8 @@ public:
             return;
 
         lock->vtable->destroy(lock);
-        lock = nullptr;
-        data = nullptr;
     }
 
-private:
     void Lock()
     {
         if (lock)
