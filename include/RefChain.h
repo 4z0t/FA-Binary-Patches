@@ -78,6 +78,12 @@ public:
         return *this;
     }
 
+    ~ObjectRef()
+    {
+        Release();
+    }
+
+private:
     void Set(T *obj)
     {
         ChainT *chain = obj ? static_cast<ChainT *>(obj) : nullptr;
@@ -109,10 +115,5 @@ public:
         }
         _next = nullptr;
         _chain = nullptr;
-    }
-
-    ~ObjectRef()
-    {
-        Release();
     }
 };
