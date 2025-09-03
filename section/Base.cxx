@@ -18,3 +18,8 @@ void operator delete[](void *p) throw()
 {
     free(p);
 }
+
+void operator delete[](void *p, unsigned int) throw()
+{
+    free(p);
+}
