@@ -3,8 +3,8 @@
 void *__cdecl luaHelper_ReallocFunction(void *ptr, unsigned int oldsize, unsigned int size, void *data, const char *allocName, unsigned int flags) asm("0x00923F20");
 void __cdecl luaHelper_FreeFunction(void *ptr, unsigned int oldsize, void *data) asm("0x00923F40");
 
-typedef void *(*lua_ReallocFunction)(void *ptr, unsigned int oldsize, unsigned int size, void *data, const char *allocName, unsigned int flags);
-typedef void (*lua_FreeFunction)(void *ptr, unsigned int oldsize, void *data);
+typedef void *(__cdecl *lua_ReallocFunction)(void *ptr, unsigned int oldsize, unsigned int size, void *data, const char *allocName, unsigned int flags);
+typedef void(__cdecl *lua_FreeFunction)(void *ptr, unsigned int oldsize, void *data);
 
 void __cdecl lua_setdefaultmemoryfunctions(
     lua_ReallocFunction reallocFunc,
