@@ -21,3 +21,5 @@ SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries li
 
     return _this;
 }
+
+//! add dtor!
