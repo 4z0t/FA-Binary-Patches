@@ -12,7 +12,8 @@ void __cdecl my_FreeFunction(void *ptr, unsigned int oldsize, void *data)
 
 SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries libs)
 {
-    LogF("UI_StateCreate");
+    LogF("UI_StateCreate: %p", _this);
+
     lua_setdefaultmemoryfunctions(my_ReallocFunction, my_FreeFunction, NULL);
 
     new (_this) LuaState(libs);
@@ -22,4 +23,8 @@ SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries li
     return _this;
 }
 
-//! add dtor!
+SHARED void __thiscall UI_StateDestroy(LuaState *_this)
+{
+    LogF("UI_StateDestroy: %p", _this);
+    _this->~LuaState();
+}

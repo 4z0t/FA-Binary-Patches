@@ -1,2 +1,5 @@
 0x00885EC9:
     call @UI_StateCreate
+
+0x008940A1:
+    call @UI_StateDestroy
