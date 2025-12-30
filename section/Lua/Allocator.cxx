@@ -1,6 +1,12 @@
 #include "Allocator.h"
 
-void *__cdecl my_ReallocFunction(void *ptr, unsigned int oldsize, unsigned int size, void *data, const char *allocName, unsigned int flags)
+void *__cdecl my_ReallocFunction(
+    void *ptr,
+    unsigned int oldsize,
+    unsigned int size,
+    void *data,
+    const char *allocName,
+    unsigned int flags)
 {
     return realloc(ptr, size);
 }
@@ -26,5 +32,6 @@ SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries li
 SHARED void __thiscall UI_StateDestroy(LuaState *_this)
 {
     LogF("UI_StateDestroy: %p", _this);
+
     _this->~LuaState();
 }
