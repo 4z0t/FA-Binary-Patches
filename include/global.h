@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include <type_traits>
 
 #define SHARED extern "C"
 
@@ -110,6 +109,8 @@ string *__thiscall AssignString(string *this_, const char *str,
 
 int __thiscall wstring_dtor(wstring *ws) asm("0x00431390");
 void __thiscall string_dtor(string *ws) asm("0x00402370");
+
+#include <type_traits>
 
 #define SSO_bytes 0x10ul
 template <typename T> struct basic_string {
