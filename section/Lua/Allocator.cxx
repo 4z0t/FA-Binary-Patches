@@ -35,3 +35,27 @@ SHARED void __thiscall UI_StateDestroy(LuaState *_this)
 
     _this->~LuaState();
 }
+
+
+
+SHARED LuaState *__thiscall SIM_StateCreate(LuaState *_this, StandardLibraries libs)
+{
+    LogF("SIM_StateCreate: %p", _this);
+
+    lua_setdefaultmemoryfunctions(my_ReallocFunction, my_FreeFunction, nullptr);
+
+    new (_this) LuaState(libs);
+
+    lua_setdefaultmemoryfunctions(nullptr, nullptr, nullptr);
+
+    return _this;
+}
+
+SHARED void __thiscall SIM_StateDestroy(LuaState *_this)
+{
+    LogF("SIM_StateDestroy: %p", _this);
+
+    _this->~LuaState();
+}
+
+
