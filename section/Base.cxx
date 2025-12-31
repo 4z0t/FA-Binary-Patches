@@ -25,12 +25,12 @@ void *operator new[](std::size_t n) noexcept(false)
 {
     return shi_new(n);
 }
-void operator delete[](void *p) throw()
+void operator delete[](void *p) noexcept
 {
     free(p);
 }
 
-void operator delete[](void *p, unsigned int) throw()
+void operator delete[](void *p, unsigned int) noexcept
 {
     free(p);
 }
