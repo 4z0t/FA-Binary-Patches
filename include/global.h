@@ -64,7 +64,7 @@ int ConsoleLogF(const char *fmt, ...) asm("0x41C990");
 int FileWrite(int fileIndex, const char *str,
               int strlen) asm("0xA9B4E6"); // index 3 is log.
 bool CopyToClipboard(const wchar_t *str) asm("0x4F2730");
-void *shi_new(size_t size) asm("0xA825B9");
+void *shi_new(size_t size) noexcept(false) asm("0xA825B9");
 
 extern "C" {
 void *realloc(void *ptr, size_t new_size) asm("0x957B00");
