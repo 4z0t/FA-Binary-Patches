@@ -20,11 +20,11 @@ SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries li
 {
     LogF("UI_StateCreate: %p", _this);
 
-    lua_setdefaultmemoryfunctions(my_ReallocFunction, my_FreeFunction, NULL);
+    lua_setdefaultmemoryfunctions(my_ReallocFunction, my_FreeFunction, nullptr);
 
     new (_this) LuaState(libs);
 
-    lua_setdefaultmemoryfunctions(NULL, NULL, NULL);
+    lua_setdefaultmemoryfunctions(nullptr, nullptr, nullptr);
 
     return _this;
 }
