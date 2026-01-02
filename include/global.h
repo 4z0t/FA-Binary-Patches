@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#define _DEBUG false
+
 #define SHARED extern "C"
 
 #define GPtr(addr, type) (*(type *)addr)
@@ -200,3 +202,18 @@ T &GetField(void *ptr, size_t offset)
 {
     return *Offset<T *>(ptr, offset);
 }
+
+
+#if _DEBUG
+#define assert(expr)                        \
+    do                                      \
+    {                                       \
+        if (!(expr))                        \
+        {                                   \
+            WarningF("%s", #expr);          \
+            CRASH_GAME(); \
+        }                                   \
+    } while (false)
+#else
+#define assert(expr)
+#endif
