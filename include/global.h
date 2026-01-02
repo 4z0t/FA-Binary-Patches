@@ -66,6 +66,8 @@ int FileWrite(int fileIndex, const char *str,
 bool CopyToClipboard(const wchar_t *str) asm("0x4F2730");
 void *shi_new(size_t size) noexcept(false) asm("0xA825B9");
 
+void CRASH_GAME() asm("0x00735120");
+
 extern "C" {
 void *realloc(void *ptr, size_t new_size) asm("0x957B00");
 void *malloc(size_t size) asm("0x958B20");

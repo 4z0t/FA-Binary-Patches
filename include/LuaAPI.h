@@ -4,7 +4,8 @@
 
 #define LUA_IDSIZE 60
 
-struct lua_Debug {
+struct lua_Debug
+{
   int event;
   const char *name;           // (n)
   const char *namewhat;       // (n) 'global', 'local', 'field', 'method'
@@ -20,7 +21,8 @@ struct lua_Debug {
 
 class LuaState;
 // lua.org/source/5.0/lstate.h.html#lua_State
-typedef struct {
+typedef struct
+{
   uint8_t pad[0x44];
   LuaState *LuaState;
 } lua_State;
@@ -32,7 +34,8 @@ typedef void (*userGCFunction)(void *);
 typedef int (*lua_CFunction)(lua_State *L);
 typedef float lua_Number;
 
-typedef struct luaL_reg {
+typedef struct luaL_reg
+{
   const char *name;
   lua_CFunction func;
 } luaL_reg;
@@ -78,14 +81,14 @@ typedef struct luaL_reg {
 #define LUA_NOREF (-2)
 #define LUA_REFNIL (-1)
 
-#define lua_boxpointer(L, u)                                                   \
+#define lua_boxpointer(L, u) \
   (*(void **)(lua_newuserdata(L, sizeof(void *))) = (u))
 #define lua_unboxpointer(L, i) (*(void **)(lua_touserdata(L, i)))
 
 #define lua_pop(L, n) lua_settop(L, -(n) - 1)
 
-#define lua_register(L, n, f)                                                  \
-  (lua_pushstring(L, n), lua_pushcfunction(L, f),                              \
+#define lua_register(L, n, f)                     \
+  (lua_pushstring(L, n), lua_pushcfunction(L, f), \
    lua_settable(L, LUA_GLOBALSINDEX))
 
 #define lua_pushcfunction(L, f) lua_pushcclosure(L, f, 0)
@@ -103,37 +106,40 @@ typedef struct luaL_reg {
 #define lua_isproto(L, n) (lua_type(L, n) == LUA_TPROTO)
 #define lua_isupvalue(L, n) (lua_type(L, n) == LUA_TUPVALUE)
 
-#define lua_pushliteral(L, s)                                                  \
+#define lua_pushliteral(L, s) \
   lua_pushlstring(L, "" s, (sizeof(s) / sizeof(char)) - 1)
 
 #define lua_getregistry(L) lua_pushvalue(L, LUA_REGISTRYINDEX)
-#define lua_setglobal(L, s)                                                    \
+#define lua_setglobal(L, s) \
   (lua_pushstring(L, s), lua_insert(L, -2), lua_settable(L, LUA_GLOBALSINDEX))
-#define lua_getglobal(L, s)                                                    \
+#define lua_getglobal(L, s) \
   (lua_pushstring(L, s), lua_gettable(L, LUA_GLOBALSINDEX))
 
-#define lua_ref(L, lock)                                                       \
-  ((lock) ? luaL_ref(L, LUA_REGISTRYINDEX)                                     \
-          : (lua_pushstring(L, "unlocked references are obsolete"),            \
+#define lua_ref(L, lock)                                            \
+  ((lock) ? luaL_ref(L, LUA_REGISTRYINDEX)                          \
+          : (lua_pushstring(L, "unlocked references are obsolete"), \
              lua_error(L), 0))
 #define lua_unref(L, ref) luaL_unref(L, LUA_REGISTRYINDEX, (ref))
 #define lua_getref(L, ref) lua_rawgeti(L, LUA_REGISTRYINDEX, ref)
-#define abs_index(L, i)                                                        \
+#define abs_index(L, i) \
   ((i) > 0 || (i) <= LUA_REGISTRYINDEX ? (i) : lua_gettop(L) + (i) + 1)
 
-typedef union {
+typedef union
+{
   void *p;
   float n;
   int b;
 } Value;
 
-void GetTableArrAndHash(const Value *t, int &narr, unsigned int &nhash) {
+void GetTableArrAndHash(const Value *t, int &narr, unsigned int &nhash)
+{
   narr = *(int *)(t->b + 32);
   nhash = *(unsigned char *)(t->b + 9);
 }
 
 // lua.org/source/5.0/lobject.h.html#TObject
-struct TObject {
+struct TObject
+{
   int tt;
   Value value;
 
@@ -146,17 +152,21 @@ struct TObject {
 VALIDATE_SIZE(TObject, 8)
 
 // namespace gpg
-class RRef {
+class RRef
+{
 public:
   void *d;
   void *t;
 };
-class RType {};
+class RType
+{
+};
 
 // namespace LuaPlus
 class LuaState;
 
-class LuaStackObject {
+class LuaStackObject
+{
 public:
   LuaState *m_state;
   int m_stackIndex;
@@ -165,7 +175,8 @@ VALIDATE_SIZE(LuaStackObject, 8)
 
 extern const char *luaT_typenames[] asm("0x00D474D8");
 
-class LuaObject { // 0x14 bytes
+class LuaObject
+{ // 0x14 bytes
   void __Index(LuaObject *out, int key) const asm("0x9091e0");
   void __Index(LuaObject *out, const char *key) const asm("0x908f60");
   void __Clone(LuaObject *out) const asm("0x90a180");
@@ -185,9 +196,9 @@ public:
   LuaObject operator[](int key) const;
   LuaObject operator[](const char *key) const;
 
-  bool operator==(const LuaObject& right) const;
-  bool operator!=(const LuaObject& right) const;
-  
+  bool operator==(const LuaObject &right) const;
+  bool operator!=(const LuaObject &right) const;
+
   bool GetBoolean() asm("0x907c90");
   bool IsConvertibleToString() asm("0x9077c0");
   bool IsFunction() asm("0x907810");
@@ -201,7 +212,7 @@ public:
   inline bool IsTable() const;
   inline bool IsUserData() const;
 
-  LuaObject GetMetaTable()const;
+  LuaObject GetMetaTable() const;
   LuaObject Clone() const;
   LuaObject DeepCopy() const;
   void Insert(const LuaObject &obj) const;
@@ -215,7 +226,7 @@ public:
   // LuaObject GetObject(const char* key) const;
   inline const TObject *GetTableHelper(const TObject *key) const;
 
-  void SetNil(const LuaObject& key) const;
+  void SetNil(const LuaObject &key) const;
   void SetObject(const LuaObject &key, const LuaObject &value) const;
   // void SetObject(const char *key, const const LuaObject &value) const;
   void SetObject(int key, const LuaObject &value) const;
@@ -292,8 +303,14 @@ private:
 };
 VALIDATE_SIZE(LuaObject, 0x14)
 
-enum StandardLibraries { LIB_NONE, LIB_BASE, LIB_OSIO };
-class LuaState { // 0x34 bytes
+enum StandardLibraries
+{
+  LIB_NONE,
+  LIB_BASE,
+  LIB_OSIO
+};
+class LuaState
+{ // 0x34 bytes
   void __LuaState(StandardLibraries libs) asm("0x90ac10");
   void __LuaState(LuaState *parentState) asm("0x90a520");
   void __LuaState(int Unused) asm("0x90a5d0");
@@ -321,7 +338,8 @@ public:
   bool m_ownState;
   LuaObject m_threadObj;
   LuaState *m_rootState;
-  struct MiniLuaObject {
+  struct MiniLuaObject
+  {
     LuaObject *m_next; // only valid when in free list
     LuaObject *m_prev; // only valid when in used list
   } m_headObject, m_tailObject;
@@ -453,8 +471,9 @@ void *lua_getglobaluserdata(lua_State *) asm("0x924050");
 void *lua_getstateuserdata(lua_State *) asm("0x9240a0");
 void *lua_tolightuserdata(lua_State *, int) asm("0x90cc10");
 TObject *luaA_index(lua_State *L, int index) asm("0x90C3D0");
-extern "C" {
-void lua_createtable(lua_State *l, int narr, int nhash);
+extern "C"
+{
+  void lua_createtable(lua_State *l, int narr, int nhash);
 }
 void GetTableAH(void *t, uint32_t *asize, uint8_t *hbits);
 
@@ -470,15 +489,21 @@ void *__thiscall luaplusassert(void *except, const char *msg) asm("0x00457880");
 void __stdcall _CXXThrowException(void *except,
                                   void *throwInfo) asm("0x00A89950");
 
-void ThrowLuaException(const char *message) {
+void ThrowLuaException(const char *message)
+{
   int info[10];
   luaplusassert((void *)info, message);
   _CXXThrowException((void *)info, (void *)0x00EC23F0);
 }
 
 // #define luaplus_assert(e) if (!(e)) throw std::exception(#e)
-#define luaplus_assert(e)                                                      \
-  if (!(e))                                                                    \
+#define luaplus_assert(e) \
+  if (!(e))               \
   ThrowLuaException(#e)
 
 LuaObject SCR_Import(LuaState *state, const char *name);
+
+void *lua_getMemData(lua_State *L)
+{
+  return GetField<void *>(GetField<void *>(L, 0x10), 0x138);
+}
