@@ -486,8 +486,7 @@ void GetTableAH(void *t, uint32_t *asize, uint8_t *hbits);
 void *FAJit = GetModuleHandleA("FAExt.dll");
 
 void *__thiscall luaplusassert(void *except, const char *msg) asm("0x00457880");
-void __stdcall _CXXThrowException(void *except,
-                                  void *throwInfo) asm("0x00A89950");
+
 
 void ThrowLuaException(const char *message)
 {

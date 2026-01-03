@@ -333,19 +333,61 @@ public:
         delete[] msg;
     }
 };
+// struct __std_exception_data
+// {
+//     char const *_What;
+//     bool _DoFree;
+// };
+
+// extern "C" void __cdecl __std_exception_copy(
+//     __std_exception_data const *_From,
+//     __std_exception_data *_To)
+// {
+//     if (_From->_What != nullptr)
+//     {
+//         _To->_What = new char[strlen(_From->_What) + 1];
+//         _strcpy((char*)_To->_What, _From->_What);
+//     }
+//     _To->_DoFree = _From->_DoFree;
+// }
+
+// extern "C" void __cdecl __std_exception_destroy(
+//     __std_exception_data *_Data)
+// {
+//     if (_Data->_DoFree)
+//     {
+//         delete[] _Data->_What;
+//     }
+// }
+
+void MohoError(const char *msg)
+{
+    XException err;
+    Moho__XException__XException(&err, msg);
+    err.pad[0] = 0x00E07DC0;
+    _CXXThrowException(&err, (void *)0x00EC2570);
+}
+
+inline string Moho__GetCallStack(int offset = 0)
+{
+    XException err;
+    Moho__XException__XException(&err, "");
+    string result;
+    Moho__PLAT_FormatCallstack(&result, offset, err.count, err.stack);
+    Moho__XException__Dtor(&err, 0);
+    return result;
+}
 
 SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries libs)
 {
     LogF("UI_StateCreate: %p", _this);
-    try
-    {
-        throw exception("UI_StateCreate hi");
-    }
-    catch(const exception& e)
-    {
-        WarningF("Catch: %s", e.what());
-    }
-    
+    string result = Moho__GetCallStack();
+    LogF("%s", result.data());
+    // throw std::exception("UI_StateCreate hi");
+    // catch(const stdexception& e)
+    // {
+    //     WarningF("Catch: %s", e.what());
+    // }
 
     MemoryPool *pool = new (std::nothrow) MemoryPool(0x4000000, 0x1000000);
 

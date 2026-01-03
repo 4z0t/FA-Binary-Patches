@@ -99,6 +99,9 @@ extern "C"
                 ...) asm("0xA82F32");
   float sqrtf(float) asm("0x452FC0");
 }
+
+void __stdcall _CXXThrowException(void *except,
+                                  void *throwInfo) asm("0x00A89950");
 // void *operator new(std::size_t n) noexcept(false) asm("0xA825B9");
 // void __cdecl operator delete(void *p) throw()asm("0x958C40");
 
