@@ -10,7 +10,7 @@
 #define WDecl(addr, type) ((type) * (uintptr_t *)addr)
 #define CSTR(NAME) extern const char NAME[]
 
-#define VALIDATE_SIZE(struc, size)                                             \
+#define VALIDATE_SIZE(struc, size) \
   static_assert(sizeof(struc) == size, "Invalid structure size of " #struc);
 
 #define g_CSimDriver GPtr(0x10C4F50, CSimDriver *)
@@ -36,24 +36,36 @@ extern bool range_RenderBuild asm("0x10A6414");
 extern bool d3d_WindowsCursor asm("0x10A636E");
 extern bool debugSelect asm("0x10A645E");
 
-CSTR(s_FACTORY) asm("0xE19824");
-CSTR(s_EXPERIMENTAL) asm("0xE204B8");
+CSTR(s_FACTORY)
+asm("0xE19824");
+CSTR(s_EXPERIMENTAL)
+asm("0xE204B8");
 // "%s\n  expected %d args, but got %d"
-CSTR(s_ExpectedButGot) asm("0xE0A220");
+CSTR(s_ExpectedButGot)
+asm("0xE0A220");
 // "%s\n  expected between %d and %d args, but got %d"
-CSTR(s_ExpectedBetweenButGot) asm("0xE0A270");
-CSTR(s_Global) asm("0xE00D90");      // "<global>"
-CSTR(s_CMauiBitmap) asm("0xE37438"); // "CMauiBitmap"
+CSTR(s_ExpectedBetweenButGot)
+asm("0xE0A270");
+CSTR(s_Global)
+asm("0xE00D90"); // "<global>"
+CSTR(s_CMauiBitmap)
+asm("0xE37438"); // "CMauiBitmap"
 // "UserUnit"
-CSTR(s_UserUnit) asm("0xE4D090");
+CSTR(s_UserUnit)
+asm("0xE4D090");
 // "Expected a game object. (Did you call with '.' instead of ':'?)"
-CSTR(s_ExpectedAGameObject) asm("0xE09860");
+CSTR(s_ExpectedAGameObject)
+asm("0xE09860");
 // "Game object has been destroyed"
-CSTR(s_GameObjectHasBeenDestroyed) asm("0xE098A0");
+CSTR(s_GameObjectHasBeenDestroyed)
+asm("0xE098A0");
 // "Incorrect type of game object.  (Did you call with '.' instead of ':'?)"
-CSTR(s_IncorrectTypeOfGameObject) asm("0xE098C0");
-CSTR(s_UnknownColor) asm("0x00E07D14"); // "Unknown color: %s"
-CSTR(s_c_object) asm("0xE016DC");       // "_c_object"
+CSTR(s_IncorrectTypeOfGameObject)
+asm("0xE098C0");
+CSTR(s_UnknownColor)
+asm("0x00E07D14"); // "Unknown color: %s"
+CSTR(s_c_object)
+asm("0xE016DC"); // "_c_object"
 extern const int g_ExeVersion1 asm("0x876666");
 extern const int g_ExeVersion2 asm("0x87612d");
 extern const int g_ExeVersion3 asm("0x4d3d40");
@@ -70,20 +82,22 @@ void *shi_new(size_t size) noexcept(false) asm("0xA825B9");
 
 void CRASH_GAME() asm("0x00735120");
 
-extern "C" {
-void *realloc(void *ptr, size_t new_size) asm("0x957B00");
-void *malloc(size_t size) asm("0x958B20");
-void free(void *ptr) asm("0x958C40");
-size_t msize(void *memblock) asm("0x957EA0");
-void *calloc(size_t num, size_t size) asm("0x957AB0");
-void *memset(void *dest, int ch, size_t count) asm("0xA89110");
-void *memcpy(void *dest, const void *src, size_t count) asm("0xA89190");
-int __cdecl memmove_s(void *dest, const size_t dest_size, const void *src,const size_t src_size) asm("0x00A824E7");
-size_t strlen(const char *str) asm("0xA94450");
-int strcmp(const char *str1, const char *str2) asm("0xAA549E");
-int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
-              ...) asm("0xA82F32");
-float sqrtf(float) asm("0x452FC0");
+extern "C"
+{
+  void *realloc(void *ptr, size_t new_size) asm("0x957B00");
+  void *malloc(size_t size) asm("0x958B20");
+  void free(void *ptr) asm("0x958C40");
+  size_t msize(void *memblock) asm("0x957EA0");
+  void *calloc(size_t num, size_t size) asm("0x957AB0");
+  void *memset(void *dest, int ch, size_t count) asm("0xA89110");
+  void *memcpy(void *dest, const void *src, size_t count) asm("0xA89190");
+  int __cdecl memmove_s(void *dest, const size_t dest_size, const void *src, const size_t src_size) asm("0x00A824E7");
+  size_t strlen(const char *str) asm("0xA94450");
+  int strcmp(const char *str1, const char *str2) asm("0xAA549E");
+  char *__cdecl _strcpy(char *dest, const char *src) asm("0x00A944E0");
+  int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
+                ...) asm("0xA82F32");
+  float sqrtf(float) asm("0x452FC0");
 }
 // void *operator new(std::size_t n) noexcept(false) asm("0xA825B9");
 // void __cdecl operator delete(void *p) throw()asm("0x958C40");
@@ -91,9 +105,9 @@ float sqrtf(float) asm("0x452FC0");
 // void *operator new[](std::size_t n) noexcept(false) asm("0xA825B9");
 // void __cdecl operator delete[](void *p) throw()asm("0x958C40");
 
-#define GetModuleHandleA                                                       \
+#define GetModuleHandleA \
   WDecl(0xC0F378, __stdcall void *(*)(const char *lpLibFileName))
-#define GetProcAddress                                                         \
+#define GetProcAddress \
   WDecl(0xC0F48C, __stdcall void *(*)(void *hModule, const char *lpProcName))
 #define GetCurrentProcess WDecl(0xC0F58C, __stdcall void *(*)())
 
@@ -102,7 +116,8 @@ float sqrtf(float) asm("0x452FC0");
 
 #define DebugLog(_s) LogF("%s", (_s))
 
-template <typename T> struct basic_string;
+template <typename T>
+struct basic_string;
 using string = basic_string<char>;
 using wstring = basic_string<wchar_t>;
 
@@ -117,24 +132,29 @@ void __thiscall string_dtor(string *ws) asm("0x00402370");
 #include <type_traits>
 
 #define SSO_bytes 0x10ul
-template <typename T> struct basic_string {
+template <typename T>
+struct basic_string
+{
   static constexpr uint32_t sso_size = SSO_bytes / sizeof(T);
   uint32_t ptr; // ?
-  union {
+  union
+  {
     T str[sso_size]; // data
     T *_data;        // pointer to data
   };
   uint32_t strLen;
   uint32_t capacity; // capacity?
 
-  basic_string() {
+  basic_string()
+  {
     ptr = 0;
     str[0] = T(0);
     strLen = 0;
     capacity = sso_size - 1;
   }
 
-  basic_string(const char *s) {
+  basic_string(const char *s)
+  {
     if constexpr (std::is_same_v<char, T>)
       InitString(this, s);
     else if constexpr (std::is_same_v<wchar_t, T>)
@@ -143,11 +163,13 @@ template <typename T> struct basic_string {
       static_assert(false, "Unknown type T.");
   }
 
-  inline const T *data() const { return capacity < sso_size ? static_cast<const T*>(str) : _data; }
-  inline T *data() { return capacity < sso_size ? static_cast<T*>(str) : _data; }
+  inline const T *data() const { return capacity < sso_size ? static_cast<const T *>(str) : _data; }
+  inline T *data() { return capacity < sso_size ? static_cast<T *>(str) : _data; }
 
-  inline void clear() {
-    if (capacity >= sso_size) {
+  inline void clear()
+  {
+    if (capacity >= sso_size)
+    {
       free(data());
     }
     ptr = 0;
@@ -164,14 +186,18 @@ static_assert(string::sso_size == 0x10);
 VALIDATE_SIZE(wstring, 0x1C)
 static_assert(wstring::sso_size == 0x8);
 
-template <typename T> struct Result {
+template <typename T>
+struct Result
+{
   T *object = nullptr;
   const char *reason = nullptr;
 
-  constexpr static Result<T> Fail(const char *reason) {
+  constexpr static Result<T> Fail(const char *reason)
+  {
     return {nullptr, reason};
   }
-  constexpr static Result<T> Success(void *data) {
+  constexpr static Result<T> Success(void *data)
+  {
     return {(T *)data, nullptr};
   }
 
@@ -180,40 +206,39 @@ template <typename T> struct Result {
 
 bool InterlockedExchangeAdd(volatile unsigned *addr, unsigned value)
 {
-    bool _result;
-    asm(
-        "lock xadd [eax], edx;"
-        "setnz al;"
-        : "=a"(_result)
-        : "a"(addr),
-          "d"(value)
-        :);
-    return _result;
+  bool _result;
+  asm(
+      "lock xadd [eax], edx;"
+      "setnz al;"
+      : "=a"(_result)
+      : "a"(addr),
+        "d"(value)
+      :);
+  return _result;
 }
 
 template <typename T>
 T Offset(void *ptr, size_t offset)
 {
-    return (T)(((char *)ptr) + offset);
+  return (T)(((char *)ptr) + offset);
 }
 
 template <typename T>
 T &GetField(void *ptr, size_t offset)
 {
-    return *Offset<T *>(ptr, offset);
+  return *Offset<T *>(ptr, offset);
 }
 
-
 #if _DEBUG
-#define assert(expr)                        \
-    do                                      \
-    {                                       \
-        if (!(expr))                        \
-        {                                   \
-            WarningF("%s", #expr);          \
-            CRASH_GAME(); \
-        }                                   \
-    } while (false)
+#define assert(expr)         \
+  do                         \
+  {                          \
+    if (!(expr))             \
+    {                        \
+      WarningF("%s", #expr); \
+      CRASH_GAME();          \
+    }                        \
+  } while (false)
 #else
 #define assert(expr)
 #endif

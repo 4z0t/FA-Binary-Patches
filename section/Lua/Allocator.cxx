@@ -298,7 +298,7 @@ void *__cdecl my_ReallocFunction(
     const char *allocName,
     unsigned int flags)
 {
-    if (size < sizeof(distrib)/sizeof(distrib[0]))
+    if (size < sizeof(distrib) / sizeof(distrib[0]))
     {
         distrib[size]++;
     }
@@ -310,9 +310,42 @@ void __cdecl my_FreeFunction(void *ptr, unsigned int oldsize, void *data)
     free(ptr);
 }
 
+class exception
+{
+private:
+    char *msg;
+    int complete;
+
+public:
+    exception() : msg(nullptr), complete(0) {}
+    exception(const char *msg) : exception{}
+    {
+        if (msg != nullptr)
+        {
+            this->msg = new char[strlen(msg) + 1];
+            _strcpy(this->msg, msg);
+        }
+    }
+
+    virtual const char *what() const { return msg; }
+    virtual ~exception()
+    {
+        delete[] msg;
+    }
+};
+
 SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries libs)
 {
     LogF("UI_StateCreate: %p", _this);
+    try
+    {
+        throw exception("UI_StateCreate hi");
+    }
+    catch(const exception& e)
+    {
+        WarningF("Catch: %s", e.what());
+    }
+    
 
     MemoryPool *pool = new (std::nothrow) MemoryPool(0x4000000, 0x1000000);
 
@@ -337,7 +370,7 @@ SHARED void __thiscall UI_StateDestroy(LuaState *_this)
     }
 
     LogF("Distribution:");
-    for (int i = 0; i < sizeof(distrib)/sizeof(distrib[0]); i++)
+    for (int i = 0; i < sizeof(distrib) / sizeof(distrib[0]); i++)
     {
         LogF("%d: %d", i, distrib[i]);
     }
@@ -368,7 +401,6 @@ SHARED void __thiscall SIM_StateDestroy(LuaState *_this)
         delete (MemoryPool *)memData;
     }
 }
-
 
 /*
     UI_Lua local x,y,z,w,v  LOG(debug.allocatedsize(function() return x,y,z,w,v end))
