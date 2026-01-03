@@ -310,55 +310,29 @@ void __cdecl my_FreeFunction(void *ptr, unsigned int oldsize, void *data)
     free(ptr);
 }
 
-class exception
-{
-private:
-    char *msg;
-    int complete;
-
-public:
-    exception() : msg(nullptr), complete(0) {}
-    exception(const char *msg) : exception{}
-    {
-        if (msg != nullptr)
-        {
-            this->msg = new char[strlen(msg) + 1];
-            _strcpy(this->msg, msg);
-        }
-    }
-
-    virtual const char *what() const { return msg; }
-    virtual ~exception()
-    {
-        delete[] msg;
-    }
-};
-// struct __std_exception_data
+// class exception
 // {
-//     char const *_What;
-//     bool _DoFree;
+// private:
+//     char *msg;
+//     int complete;
+
+// public:
+//     exception() : msg(nullptr), complete(0) {}
+//     exception(const char *msg) : exception{}
+//     {
+//         if (msg != nullptr)
+//         {
+//             this->msg = new char[strlen(msg) + 1];
+//             _strcpy(this->msg, msg);
+//         }
+//     }
+
+//     virtual const char *what() const { return msg; }
+//     virtual ~exception()
+//     {
+//         delete[] msg;
+//     }
 // };
-
-// extern "C" void __cdecl __std_exception_copy(
-//     __std_exception_data const *_From,
-//     __std_exception_data *_To)
-// {
-//     if (_From->_What != nullptr)
-//     {
-//         _To->_What = new char[strlen(_From->_What) + 1];
-//         _strcpy((char*)_To->_What, _From->_What);
-//     }
-//     _To->_DoFree = _From->_DoFree;
-// }
-
-// extern "C" void __cdecl __std_exception_destroy(
-//     __std_exception_data *_Data)
-// {
-//     if (_Data->_DoFree)
-//     {
-//         delete[] _Data->_What;
-//     }
-// }
 
 void MohoError(const char *msg)
 {
