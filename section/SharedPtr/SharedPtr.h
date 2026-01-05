@@ -1,25 +1,30 @@
 #pragma once
 #include "global.h"
 
+
+struct SharedLock
+{
+    struct vtable_counted_base
+    {
+        void(__thiscall *dtr)(SharedLock *);
+        void(__thiscall *dispose)(SharedLock *);
+        void(__thiscall *destroy)(SharedLock *);
+        void *(__thiscall *get_deleter)(SharedLock *);
+    } *vtable;
+    long use_count_;
+    long weak_count_;
+    void *px_;
+
+    void InternalRelease();
+    void Lock();
+};
+
 template <typename T>
 class SharedPtr
 {
 private:
     T *data = nullptr;
-
-    struct SharedLock
-    {
-        struct vtable_counted_base
-        {
-            void(__thiscall *dtr)(SharedLock *);
-            void(__thiscall *dispose)(SharedLock *);
-            void(__thiscall *destroy)(SharedLock *);
-            void *(__thiscall *get_deleter)(SharedLock *);
-        } *vtable;
-        unsigned use_count_;
-        unsigned weak_count_;
-        void *px_;
-    } *lock = nullptr;
+    SharedLock *lock = nullptr;
 
 public:
     SharedPtr() : data{nullptr}, lock{nullptr}
@@ -86,21 +91,14 @@ private:
         if (!lock)
             return;
 
-        if (InterlockedExchangeAdd(&lock->use_count_, -1))
-            return;
-
-        lock->vtable->dispose(lock);
-        if (InterlockedExchangeAdd(&lock->weak_count_, -1))
-            return;
-
-        lock->vtable->destroy(lock);
+        lock->InternalRelease();
     }
 
     void Lock()
     {
         if (lock)
         {
-            InterlockedExchangeAdd(&lock->use_count_, 1);
+            lock->Lock();
         }
     }
 };

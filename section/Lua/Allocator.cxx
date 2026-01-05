@@ -302,11 +302,11 @@ void *__cdecl my_ReallocFunction(
     // {
     //     distrib[size]++;
     // }
-    if (oldsize && size && size % 12 == 0)
-    {
-        string result = Moho__GetCallStack();
-        LogF("%s", result.data());
-    }
+    // if (oldsize && size && size % 12 == 0)
+    // {
+    //     string result = Moho__GetCallStack();
+    //     LogF("%s", result.data());
+    // }
     return realloc(ptr, size);
 }
 

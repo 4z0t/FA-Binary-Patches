@@ -49,4 +49,10 @@ SHARED
     void __stdcall ExtendRenderUserUnitIcon(UserUnitIconsTextures * unit_textures,
                                             struct_IconAux * aux,
                                             const Vector2f *pos);
+
+    void __stdcall ExtendUserUnitCtor(Moho::UserUnit * uunit);
+    void __stdcall ExtendUserUnitDtor(Moho::UserUnit * uunit);
 }
+SPtrTexture *__cdecl FromFile(SPtrTexture *a1,
+                              const char *filename,
+                              int border) asm("0x004486F0");
