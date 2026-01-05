@@ -1,12 +1,5 @@
 #pragma once
-#include <exception>
-#include "global.h"
-
-// struct __std_exception_data
-// {
-//     char const *_What;
-//     bool _DoFree;
-// };
+#include "Exceptions.h"
 
 extern "C"
 {
@@ -41,4 +34,23 @@ extern "C"
             free((void *)_Data->_What);
         }
     }
+}
+
+
+void MohoError(const char *msg)
+{
+    XException err;
+    Moho__XException__XException(&err, msg);
+    err.pad[0] = 0x00E07DC0;
+    _CXXThrowException(&err, (void *)0x00EC2570);
+}
+
+string Moho__GetCallStack(int offset)
+{
+    XException err;
+    Moho__XException__XException(&err, "");
+    string result;
+    Moho__PLAT_FormatCallstack(&result, offset, err.count, err.stack);
+    Moho__XException__Dtor(&err, 0);
+    return result;
 }

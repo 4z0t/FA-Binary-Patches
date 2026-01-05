@@ -95,8 +95,7 @@ extern "C"
   size_t strlen(const char *str) asm("0xA94450");
   int strcmp(const char *str1, const char *str2) asm("0xAA549E");
   char *__cdecl _strcpy(char *dest, const char *src) asm("0x00A944E0");
-  int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
-                ...) asm("0xA82F32");
+  int sprintf_s(char *Buffer, size_t BufferCount, const char *Format, ...) asm("0xA82F32");
   float sqrtf(float) asm("0x452FC0");
 
   int __cdecl strcpy_s(char *Destination, size_t SizeInBytes, const char *Source) asm("0x00A9566E");

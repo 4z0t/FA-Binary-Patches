@@ -298,9 +298,14 @@ void *__cdecl my_ReallocFunction(
     const char *allocName,
     unsigned int flags)
 {
-    if (size < sizeof(distrib) / sizeof(distrib[0]))
+    // if (size < sizeof(distrib) / sizeof(distrib[0]))
+    // {
+    //     distrib[size]++;
+    // }
+    if (oldsize && size && size % 12 == 0)
     {
-        distrib[size]++;
+        string result = Moho__GetCallStack();
+        LogF("%s", result.data());
     }
     return realloc(ptr, size);
 }
@@ -334,29 +339,11 @@ void __cdecl my_FreeFunction(void *ptr, unsigned int oldsize, void *data)
 //     }
 // };
 
-void MohoError(const char *msg)
-{
-    XException err;
-    Moho__XException__XException(&err, msg);
-    err.pad[0] = 0x00E07DC0;
-    _CXXThrowException(&err, (void *)0x00EC2570);
-}
-
-inline string Moho__GetCallStack(int offset = 0)
-{
-    XException err;
-    Moho__XException__XException(&err, "");
-    string result;
-    Moho__PLAT_FormatCallstack(&result, offset, err.count, err.stack);
-    Moho__XException__Dtor(&err, 0);
-    return result;
-}
-
 SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries libs)
 {
     LogF("UI_StateCreate: %p", _this);
-    string result = Moho__GetCallStack();
-    LogF("%s", result.data());
+    // string result = Moho__GetCallStack();
+    // LogF("%s", result.data());
     // throw std::exception("UI_StateCreate hi");
     // catch(const stdexception& e)
     // {
