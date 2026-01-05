@@ -12,10 +12,10 @@
 
 struct XException
 {
-    int pad[10];
+    int pad[10]; // std::runtime_error
     int stack[32];
     int count;
-    int pad2[7];
+    int pad2[7]; // std::string
 };
 
 XException *__stdcall Moho__XException__XException(XException *data, const char *msg) asm("0x004052A0");
