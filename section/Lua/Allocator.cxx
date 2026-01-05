@@ -3,11 +3,11 @@
 
 void *__cdecl MP_ReallocFunction(
     void *ptr,
-    unsigned int oldsize,
-    unsigned int size,
+    size_t oldsize,
+    size_t size,
     void *data,
     const char *allocName,
-    unsigned int flags)
+    size_t flags)
 {
     // LogF("%u->%u", oldsize, size);
     MemoryPool *pool = (MemoryPool *)data;
@@ -15,7 +15,7 @@ void *__cdecl MP_ReallocFunction(
     return pool->Reallocate(ptr, size);
 }
 
-void __cdecl MP_FreeFunction(void *ptr, unsigned int oldsize, void *data)
+void __cdecl MP_FreeFunction(void *ptr, size_t oldsize, void *data)
 {
     MemoryPool *pool = (MemoryPool *)data;
     pool->Free(ptr);
@@ -284,19 +284,19 @@ size_t distrib[1024]{};
 */
 
 /*
-40, 80, 160, 320 - table
-not mult of 4/8 - string
-8 - userdata
-32 - function
+40, 80, 160, 320 - hash part
+8, 16,32,64, 128,... - array part
+36 - table
+not mult of 4/8 - string?
 */
 
 void *__cdecl my_ReallocFunction(
     void *ptr,
-    unsigned int oldsize,
-    unsigned int size,
+    size_t oldsize,
+    size_t size,
     void *data,
     const char *allocName,
-    unsigned int flags)
+    size_t flags)
 {
     // if (size < sizeof(distrib) / sizeof(distrib[0]))
     // {
@@ -310,34 +310,10 @@ void *__cdecl my_ReallocFunction(
     return realloc(ptr, size);
 }
 
-void __cdecl my_FreeFunction(void *ptr, unsigned int oldsize, void *data)
+void __cdecl my_FreeFunction(void *ptr, size_t oldsize, void *data)
 {
     free(ptr);
 }
-
-// class exception
-// {
-// private:
-//     char *msg;
-//     int complete;
-
-// public:
-//     exception() : msg(nullptr), complete(0) {}
-//     exception(const char *msg) : exception{}
-//     {
-//         if (msg != nullptr)
-//         {
-//             this->msg = new char[strlen(msg) + 1];
-//             _strcpy(this->msg, msg);
-//         }
-//     }
-
-//     virtual const char *what() const { return msg; }
-//     virtual ~exception()
-//     {
-//         delete[] msg;
-//     }
-// };
 
 SHARED LuaState *__thiscall UI_StateCreate(LuaState *_this, StandardLibraries libs)
 {
