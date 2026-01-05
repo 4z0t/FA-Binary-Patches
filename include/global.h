@@ -98,6 +98,8 @@ extern "C"
   int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
                 ...) asm("0xA82F32");
   float sqrtf(float) asm("0x452FC0");
+
+  int __cdecl strcpy_s(char *Destination, size_t SizeInBytes, const char *Source) asm("0x00A9566E");
 }
 
 void __stdcall _CXXThrowException(void *except,
