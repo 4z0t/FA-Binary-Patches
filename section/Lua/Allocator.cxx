@@ -345,13 +345,14 @@ SHARED LuaState *__thiscall SIM_StateCreate(LuaState *_this, StandardLibraries l
 {
     LogF("SIM_StateCreate: %p", _this);
 
-    // LuaAllocator *pool = new (std::nothrow) LuaAllocator();
+    LuaAllocator *pool = new (std::nothrow) LuaAllocator();
 
-    // lua_setdefaultmemoryfunctions(MP_ReallocFunction, MP_FreeFunction, pool);
+    if (pool)
+        lua_setdefaultmemoryfunctions(MP_ReallocFunction, MP_FreeFunction, pool);
 
     new (_this) LuaState(libs);
 
-    // lua_setdefaultmemoryfunctions(nullptr, nullptr, nullptr);
+    lua_setdefaultmemoryfunctions(nullptr, nullptr, nullptr);
 
     return _this;
 }
