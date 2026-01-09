@@ -27,15 +27,15 @@ public:
 
     void *Realloc(void *ptr, size_t old_size, size_t new_size)
     {
+        if (ptr == nullptr || old_size == 0)
+        {
+            return Alloc(new_size);
+        }
+
         if (new_size == 0)
         {
             Free(ptr, old_size);
             return nullptr;
-        }
-
-        if (old_size == 0 || ptr == nullptr)
-        {
-            return Alloc(new_size);
         }
 
         LogF("Realloc: %p %d %d", ptr, old_size, new_size);
@@ -94,12 +94,14 @@ public:
                       table_hash_pool.Free(ptr, size) ||
                       upvalue_pool.Free(ptr, size);
         }
+
         if (is_parser || is_table) // 12
         {
             cleared = cleared ||
-                      parser_pool.Free(ptr, size) ||
-                      table_pool.Free(ptr, size);
+                      table_pool.Free(ptr, size) ||
+                      parser_pool.Free(ptr, size);
         }
+
         if (is_table_array || is_small) //  <= 128 or % 8
         {
             cleared = cleared ||
@@ -107,7 +109,10 @@ public:
                       small_pool.Free(ptr, size);
         }
 
-        if (!cleared && !FreeFromAll(ptr, size))
+        if (cleared)
+            return;
+
+        if (!FreeFromAll(ptr, size))
             free(ptr);
     }
 
