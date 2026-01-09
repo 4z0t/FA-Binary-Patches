@@ -31,6 +31,41 @@ public:
     {
     }
 
+    struct TypeFlags
+    {
+        bool is_parser;
+        bool is_table;
+        bool is_upvalue;
+        bool is_table_hash;
+        bool is_table_array;
+        bool is_small;
+    };
+
+    TypeFlags GetTypeFlags(size_t size)
+    {
+        bool is_parser = size % PARSER_LOCAL_SIZE == 0 && size <= 12 * 32;
+        //*
+        return {
+            .is_parser = is_parser,
+            .is_table = size == TABLE_SIZE,
+            .is_upvalue = size == UPVALUE_SIZE,
+            .is_table_hash = size % TABLE_HASH_SIZE == 0 && size <= 80 * 32,
+            .is_table_array = size % TABLE_ARRAY_SIZE == 0 && size <= 32 * 32 && !is_parser,
+            .is_small = size <= SMALL_SIZE,
+        };
+        //*/
+
+        /*
+        return {
+            .is_table = size == TABLE_SIZE,
+            .is_upvalue = size == UPVALUE_SIZE,
+            .is_table_hash = size % TABLE_HASH_SIZE == 0 && size <= 80 * 32,
+            .is_small = size <= SMALL_SIZE,
+            // .is_table_array = size % TABLE_ARRAY_SIZE == 0 && size <= 32 * 32,
+        };
+        //*/
+    }
+
     void *Realloc(void *ptr, size_t old_size, size_t new_size)
     {
         if (ptr == nullptr || old_size == 0)
@@ -46,25 +81,20 @@ public:
 
         DBG_LOG("Realloc: %p %d %d", ptr, old_size, new_size);
 
-        bool is_parser = new_size % PARSER_LOCAL_SIZE == 0 && new_size <= 384;
-        bool is_table = new_size == TABLE_SIZE;
-        bool is_upvalue = new_size == UPVALUE_SIZE;
-        bool is_table_hash = new_size % TABLE_HASH_SIZE == 0 && new_size <= 2560;
-        bool is_table_array = new_size % TABLE_ARRAY_SIZE == 0 && new_size <= 1024 && !is_parser;
-        bool is_small = new_size <= SMALL_SIZE;
+        TypeFlags flags = GetTypeFlags(new_size);
 
         void *result = nullptr;
-        if (is_table_hash)
+        if (flags.is_table_hash)
             result = table_hash_pool.Realloc(ptr, old_size, new_size);
-        else if (is_table_array)
+        else if (flags.is_table_array)
             result = table_array_pool.Realloc(ptr, old_size, new_size);
-        else if (is_table)
+        else if (flags.is_table)
             result = table_pool.Realloc(ptr, old_size, new_size);
-        else if (is_upvalue)
+        else if (flags.is_upvalue)
             result = upvalue_pool.Realloc(ptr, old_size, new_size);
-        else if (is_parser)
+        else if (flags.is_parser)
             result = parser_pool.Realloc(ptr, old_size, new_size);
-        else if (is_small)
+        else if (flags.is_small)
             result = small_pool.Realloc(ptr, old_size, new_size);
 
         if (result != nullptr)
@@ -90,29 +120,24 @@ public:
     void Free(void *ptr, size_t size)
     {
         DBG_LOG("Free: %p %d", ptr, size);
-        bool is_parser = size % PARSER_LOCAL_SIZE == 0 && size <= 384;
-        bool is_table = size == TABLE_SIZE;
-        bool is_upvalue = size == UPVALUE_SIZE;
-        bool is_table_hash = size % TABLE_HASH_SIZE == 0 && size <= 2560;
-        bool is_table_array = size % TABLE_ARRAY_SIZE == 0 && size <= 1024 && !is_parser;
-        bool is_small = size <= SMALL_SIZE;
+        TypeFlags flags = GetTypeFlags(size);
 
         bool cleared = false;
-        if (is_table_hash || is_upvalue) // 20
+        if (flags.is_table_hash || flags.is_upvalue) // 20
         {
             cleared = cleared ||
                       table_hash_pool.Free(ptr, size) ||
                       upvalue_pool.Free(ptr, size);
         }
 
-        if (is_parser || is_table) // 12
+        if (flags.is_parser || flags.is_table) // 12
         {
             cleared = cleared ||
                       table_pool.Free(ptr, size) ||
                       parser_pool.Free(ptr, size);
         }
 
-        if (is_table_array || is_small) //  <= 128 or % 8
+        if (flags.is_table_array || flags.is_small) //  <= 128 or % 8
         {
             cleared = cleared ||
                       table_array_pool.Free(ptr, size) ||
@@ -129,24 +154,19 @@ public:
 private:
     void *InternalAlloc(size_t size)
     {
-        bool is_parser = size % PARSER_LOCAL_SIZE == 0 && size <= 384;
-        bool is_table = size == TABLE_SIZE;
-        bool is_upvalue = size == UPVALUE_SIZE;
-        bool is_table_hash = size % TABLE_HASH_SIZE == 0 && size <= 2560;
-        bool is_table_array = size % TABLE_ARRAY_SIZE == 0 && size <= 1024 && !is_parser;
-        bool is_small = size <= SMALL_SIZE;
+        TypeFlags flags = GetTypeFlags(size);
 
-        if (is_table_hash)
+        if (flags.is_table_hash)
             return table_hash_pool.Alloc(size);
-        else if (is_table_array)
+        else if (flags.is_table_array)
             return table_array_pool.Alloc(size);
-        else if (is_table)
+        else if (flags.is_table)
             return table_pool.Alloc(size);
-        else if (is_upvalue)
+        else if (flags.is_upvalue)
             return upvalue_pool.Alloc(size);
-        else if (is_parser)
+        else if (flags.is_parser)
             return parser_pool.Alloc(size);
-        else if (is_small)
+        else if (flags.is_small)
             return small_pool.Alloc(size);
         else
             return malloc(size);
@@ -163,8 +183,8 @@ private:
     }
 
 private:
-    FixedPool<36, 4 * 1024 * 1024> table_pool;
-    FixedPool<80, 4 * 1024 * 1024> table_hash_pool;
+    FixedPool<36, 1024 * 1024> table_pool;
+    FixedPool<80, 1024 * 1024> table_hash_pool;
     FixedPool<32, 1024 * 1024> table_array_pool;
     FixedPool<20, 1024 * 1024> upvalue_pool;
     FixedPool<12, 1024 * 1024> parser_pool;

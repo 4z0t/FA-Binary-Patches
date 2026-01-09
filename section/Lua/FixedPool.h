@@ -572,7 +572,7 @@ public:
         void *new_ptr = Alloc(new_size);
         if (new_ptr)
         {
-            memcpy(new_ptr, ptr, old_size);
+            memcpy(new_ptr, ptr, std::min(old_size, new_size));
             Free(ptr, old_size);
             return new_ptr;
         }
