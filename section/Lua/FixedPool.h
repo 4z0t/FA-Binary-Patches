@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <new>
 #include <concepts>
+#include <limits>
 
 constexpr bool IsPowerOf2(size_t value)
 {
@@ -473,9 +474,6 @@ public:
         return next;
     }
 
-    template <size_t _CELL_SIZE, size_t _CELLS_IN_CHUNK>
-    friend std::ostream &operator<<(std::ostream &os, Chunk<_CELL_SIZE, _CELLS_IN_CHUNK> &chunk);
-
 private:
     BitIndex top_index;
     SelfT *next;
@@ -589,27 +587,38 @@ public:
         return cur->Alloc(size);
     }
 
-    void Free(void *ptr, size_t old_size)
+    bool Free(void *ptr, size_t old_size)
     {
         ChunkT *cur = head;
         while (cur != nullptr)
         {
             if (cur->Free(ptr, old_size))
             {
-                return;
+                return true;
             }
             cur = cur->NextChunk();
         }
-        // WTF?
+        return false;
+    }
+
+    bool BelongsToPool(void *ptr)
+    {
+        ChunkT *cur = head;
+        while (cur != nullptr)
+        {
+            if (cur->BelongsToChunk(ptr))
+            {
+                return true;
+            }
+            cur = cur->NextChunk();
+        }
+        return false;
     }
 
     size_t NumChunks() const
     {
         return num_chunks;
     }
-
-    template <size_t _CELL_SIZE, size_t _CELLS_IN_CHUNK>
-    friend std::ostream &operator<<(std::ostream &os, FixedPool<_CELL_SIZE, _CELLS_IN_CHUNK> &pool);
 
 private:
     size_t num_chunks;
