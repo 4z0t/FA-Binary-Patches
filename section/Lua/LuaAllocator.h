@@ -8,6 +8,12 @@ constexpr size_t UPVALUE_SIZE = 20;
 constexpr size_t PARSER_LOCAL_SIZE = 12;
 constexpr size_t SMALL_SIZE = 256;
 
+#ifdef DEBUG
+#define DBG_LOG(...) LogF(__VA_ARGS__);
+#else
+#define DBG_LOG(...)
+#endif
+
 class LuaAllocator
 {
 public:
@@ -38,7 +44,7 @@ public:
             return nullptr;
         }
 
-        LogF("Realloc: %p %d %d", ptr, old_size, new_size);
+        DBG_LOG("Realloc: %p %d %d", ptr, old_size, new_size);
 
         bool is_parser = new_size % PARSER_LOCAL_SIZE == 0 && new_size <= 384;
         bool is_table = new_size == TABLE_SIZE;
@@ -47,23 +53,27 @@ public:
         bool is_table_array = new_size % TABLE_ARRAY_SIZE == 0 && new_size <= 1024 && !is_parser;
         bool is_small = new_size <= SMALL_SIZE;
 
+        void *result = nullptr;
         if (is_table_hash)
-            return table_hash_pool.Realloc(ptr, old_size, new_size);
+            result = table_hash_pool.Realloc(ptr, old_size, new_size);
         else if (is_table_array)
-            return table_array_pool.Realloc(ptr, old_size, new_size);
+            result = table_array_pool.Realloc(ptr, old_size, new_size);
         else if (is_table)
-            return table_pool.Realloc(ptr, old_size, new_size);
+            result = table_pool.Realloc(ptr, old_size, new_size);
         else if (is_upvalue)
-            return upvalue_pool.Realloc(ptr, old_size, new_size);
+            result = upvalue_pool.Realloc(ptr, old_size, new_size);
         else if (is_parser)
-            return parser_pool.Realloc(ptr, old_size, new_size);
+            result = parser_pool.Realloc(ptr, old_size, new_size);
         else if (is_small)
-            return small_pool.Realloc(ptr, old_size, new_size);
+            result = small_pool.Realloc(ptr, old_size, new_size);
+
+        if (result != nullptr)
+            return result;
 
         void *new_ptr = Alloc(new_size);
         if (new_ptr)
         {
-            memcpy(new_ptr, ptr, old_size);
+            memcpy(new_ptr, ptr, std::min(old_size, new_size));
             Free(ptr, old_size);
             return new_ptr;
         }
@@ -73,13 +83,13 @@ public:
     void *Alloc(size_t size)
     {
         void *ptr = InternalAlloc(size);
-        LogF("Alloc: %p %d", ptr, size);
+        DBG_LOG("Alloc: %p %d", ptr, size);
         return ptr;
     }
 
     void Free(void *ptr, size_t size)
     {
-        LogF("Free: %p %d", ptr, size);
+        DBG_LOG("Free: %p %d", ptr, size);
         bool is_parser = size % PARSER_LOCAL_SIZE == 0 && size <= 384;
         bool is_table = size == TABLE_SIZE;
         bool is_upvalue = size == UPVALUE_SIZE;
@@ -153,10 +163,10 @@ private:
     }
 
 private:
-    FixedPool<36, 64 * 1024> table_pool;
-    FixedPool<80, 16 * 1024> table_hash_pool;
-    FixedPool<32, 16 * 1024> table_array_pool;
-    FixedPool<20, 1024> upvalue_pool;
-    FixedPool<12, 1024> parser_pool;
-    FixedPool<32, 1024> small_pool;
+    FixedPool<36, 4 * 1024 * 1024> table_pool;
+    FixedPool<80, 4 * 1024 * 1024> table_hash_pool;
+    FixedPool<32, 1024 * 1024> table_array_pool;
+    FixedPool<20, 1024 * 1024> upvalue_pool;
+    FixedPool<12, 1024 * 1024> parser_pool;
+    FixedPool<32, 2 * 1024 * 1024> small_pool;
 };

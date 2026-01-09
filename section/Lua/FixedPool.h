@@ -167,6 +167,11 @@ class Chunk
         return data + bit_index.Raw() * CELL_SIZE;
     }
 
+    size_t GetIndexByPtr(void *ptr)
+    {
+        return (static_cast<Byte *>(ptr) - Begin()) / CELL_SIZE;
+    }
+
     void *Use1Cell(BitIndex bit_index)
     {
         bits.Reset(bit_index);
@@ -197,9 +202,18 @@ class Chunk
     {
         if (!ReachedEnd())
         {
-            return Use1Cell(top_index++);
+            for (size_t i = top_index; i < BITS_SIZE; i++)
+            {
+                size_t sector = bits.GetSection(i);
+                if (sector)
+                {
+                    size_t bit = GetFirstSetBit(sector);
+                    top_index = i;
+                    return Use1Cell(BitIndex{i, bit});
+                }
+            }
+            top_index = BITS_SIZE;
         }
-
         for (size_t i = 0; i < BITS_SIZE; i++)
         {
             size_t sector = bits.GetSection(i);
@@ -242,19 +256,19 @@ class Chunk
 
         if (!ReachedEnd())
         {
-            size_t start = top_index.Index();
-            for (size_t i = start; i < BITS_SIZE; i++)
+            for (size_t i = top_index; i < BITS_SIZE; i++)
             {
                 size_t section = bits.GetSection(i);
                 for (size_t offset = 0; offset < NUM_BITS; offset += step)
                 {
                     if (((section >> offset) & mask) == mask)
                     {
-                        top_index = BitIndex{i, offset + cells};
+                        top_index = i;
                         return UseNCells(BitIndex{i, offset}, cells);
                     }
                 }
             }
+            top_index = BITS_SIZE;
         }
 
         for (size_t i = 0; i < BITS_SIZE; i++)
@@ -286,37 +300,32 @@ class Chunk
             return AllocNCellsSmall(cells);
         }
 
-        if (top_index.Raw() <= CELLS_IN_CHUNK - cells)
-        {
-            BitIndex top = top_index;
-            top_index += cells;
-            return UseNCells(top, cells);
-        }
+        // if (top_index.Raw() <= CELLS_IN_CHUNK - cells)
+        // {
+        //     BitIndex top = top_index;
+        //     top_index += cells;
+        //     return UseNCells(top, cells);
+        // }
 
-        size_t i = 0;
-        for (; i < CELLS_IN_CHUNK / NUM_BITS; i++)
-        {
-            size_t sector = bits.GetSection(i);
-            if (sector)
-                break;
-        }
+        // size_t i = 0;
+        // for (; i < CELLS_IN_CHUNK / NUM_BITS; i++)
+        // {
+        //     size_t sector = bits.GetSection(i);
+        //     if (sector)
+        //         break;
+        // }
 
-        for (BitIndex start{i, 0}; start.Raw() <= CELLS_IN_CHUNK - cells; ++start)
-        {
-            size_t free_cells = CountFree(start, cells);
-            if (free_cells == cells)
-            {
-                return UseNCells(start, cells);
-            }
-            start += free_cells;
-        }
+        // for (BitIndex start{i, 0}; start.Raw() <= CELLS_IN_CHUNK - cells; ++start)
+        // {
+        //     size_t free_cells = CountFree(start, cells);
+        //     if (free_cells == cells)
+        //     {
+        //         return UseNCells(start, cells);
+        //     }
+        //     start += free_cells;
+        // }
 
         return nullptr;
-    }
-
-    size_t GetIndexByPtr(void *ptr)
-    {
-        return (static_cast<Byte *>(ptr) - Begin()) / CELL_SIZE;
     }
 
 public:
@@ -340,14 +349,39 @@ public:
 
     void *Extend(void *ptr, size_t old_size, size_t new_size)
     {
+        if (!BelongsToChunk(ptr))
+            return nullptr;
+
         size_t old_cells = CountCells(old_size);
         size_t new_cells = CountCells(new_size);
-        if (old_cells >= new_cells)
+        if (old_cells == new_cells)
         {
             return ptr;
         }
 
-        // check forward bits
+        BitIndex pos = GetIndexByPtr(ptr);
+        if (old_cells < new_cells) // more space needed
+        {
+            size_t free_cells = CountFree(pos + old_cells, new_cells - old_cells);
+            if (free_cells == new_cells - old_cells)
+            {
+                for (size_t offset = old_cells; offset < new_cells; ++offset)
+                {
+                    bits.Reset(pos + offset);
+                }
+                return ptr;
+            }
+        }
+        else // less space needed
+        {
+            for (size_t i = new_cells; i < old_cells; i++)
+            {
+                bits.Set(pos + i);
+            }
+            return ptr;
+        }
+
+        //! check forward bits
 
         return nullptr;
     }
@@ -360,19 +394,22 @@ public:
         constexpr size_t mask = Mask(Cells);
         if (!ReachedEnd())
         {
-            size_t start = top_index.Index();
-            for (size_t i = start; i < BITS_SIZE; i++)
+            for (size_t i = top_index; i < BITS_SIZE; i++)
             {
                 size_t section = bits.GetSection(i);
-                for (size_t offset = 0; offset < NUM_BITS; offset += Cells)
+                if (section)
                 {
-                    if (((section >> offset) & mask) == mask)
+                    for (size_t offset = 0; offset < NUM_BITS; offset += Cells)
                     {
-                        top_index = BitIndex{i, offset + Cells};
-                        return UseNCells(BitIndex{i, offset}, Cells);
+                        if (((section >> offset) & mask) == mask)
+                        {
+                            top_index = i;
+                            return UseNCells(BitIndex{i, offset}, Cells);
+                        }
                     }
                 }
             }
+            top_index = BITS_SIZE;
         }
 
         for (size_t i = 0; i < BITS_SIZE; i++)
@@ -429,7 +466,7 @@ public:
 
     bool ReachedEnd() const
     {
-        return top_index.Raw() >= CELLS_IN_CHUNK;
+        return top_index >= BITS_SIZE;
     }
 
     Byte *Begin()
@@ -475,7 +512,7 @@ public:
     }
 
 private:
-    BitIndex top_index;
+    size_t top_index;
     SelfT *next;
     BitArray<CELLS_IN_CHUNK> bits;
     Byte data[CHUNK_SIZE];
@@ -513,6 +550,9 @@ public:
             Free(ptr, old_size);
             return nullptr;
         }
+
+        if (!BelongsToPool(ptr))
+            return nullptr;
 
         ChunkT *cur = head;
         ChunkT *prev = nullptr;
