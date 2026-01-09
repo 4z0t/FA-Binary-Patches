@@ -1,19 +1,4 @@
-#include "CObject.h"
-#include "magic_classes.h"
-#include "moho.h"
-#include "utility.h"
-
-void Project(float *camera, const Vector3f *v, Vector2f *result)
-{
-    asm(
-        "call 0x471080;"
-        :
-        : "a"(result),
-          "d"(v),
-          "c"(camera)
-        //: "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6", "xmm7"
-    );
-}
+#include "WorldView.h"
 
 Vector2f ProjectVec(const Vector3f &v, float *camera)
 {
@@ -22,12 +7,17 @@ Vector2f ProjectVec(const Vector3f &v, float *camera)
     return res;
 }
 
+void GetTableAH(const char *t, uint32_t *asize, uint8_t *hbits) {
+    *asize = *(int*)(t + 32);
+    *hbits = *(uint8_t*)(t + 9);
+}
+
 void ProjectVectors(lua_State *l, int index, float *camera)
 {
     const char *t = (const char *)lua_topointer(l, index);
     uint32_t asize;
     uint8_t hbits;
-    GetTableAH((void*)t, &asize, &hbits);
+    GetTableAH(t, &asize, &hbits);
     lua_createtable(l, asize, hbits); // result table
     lua_pushvalue(l, index);          // input vectors
     lua_pushnil(l);
