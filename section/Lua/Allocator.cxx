@@ -18,7 +18,7 @@ void __cdecl MP_FreeFunction(void *ptr, size_t oldsize, void *data)
     static_cast<LuaAllocator *>(data)->Free(ptr, oldsize);
 }
 
-size_t distrib[1024]{};
+// size_t distrib[1024]{};
 
 /*
 0: 0
@@ -296,10 +296,10 @@ void *__cdecl my_ReallocFunction(
     const char *allocName,
     size_t flags)
 {
-    if (size < sizeof(distrib) / sizeof(distrib[0]))
-    {
-        distrib[size]++;
-    }
+    // if (size < sizeof(distrib) / sizeof(distrib[0]))
+    // {
+    //     distrib[size]++;
+    // }
     // if (oldsize && size && size % 12 == 0)
     // {
     //     string result = Moho__GetCallStack();
