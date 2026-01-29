@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include <type_traits>
 
 #define SHARED extern "C"
 
@@ -98,6 +97,8 @@ float sqrtf(float) asm("0x452FC0");
 #define QueryPerformanceFrequency WDecl(0xC0F46C, __stdcall bool (*)(int64_t *))
 
 #define DebugLog(_s) LogF("%s", (_s))
+
+#include <type_traits>
 
 template <typename T> struct basic_string;
 using string = basic_string<char>;
