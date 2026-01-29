@@ -201,6 +201,41 @@ int LuaDrawLine(lua_State *l)
 
 static UIRegFunc DrawLineReg{"UI_DrawLine", "", LuaDrawLine};
 
+int LuaDrawText(lua_State *l)
+{
+    int *batcher = *(int **)(((int *)g_WRenViewport) + 2135);
+    if (batcher == nullptr || _worldview == nullptr)
+    {
+        return 0;
+    }
+    if (!is_in_render_world)
+    {
+        luaL_error(l, "Attempt to call DrawLine outside of OnRenderWorld");
+        return 0;
+    }
+
+    auto r = GetCScriptObject<CMauiText>(l, 1);
+    if (r.IsFail())
+    {
+        lua_pushstring(l, r.reason);
+        lua_error(l);
+        return 0;
+    }
+
+    Vector3f v1 = ToVector(l, 2);
+    Vector3f v2 = ToVector(l, 3);
+    Vector3f v3{0, 0, 0};
+    Vector3f v4 = ToVector(l, 4);
+    float width = lua_tonumber(l, 5);
+
+    void *font = GetField<void *>(r.object, 0x11c);
+    string* text = Offset<string*>(r.object, 0x120);
+    Moho__CD3DFont__Render(&v1, &v2, &v3, font, text->data(), batcher, &v4, 0xFFFFFFFF, width);
+    return 0;
+}
+
+static UIRegFunc DrawTextReg{"UI_DrawText", "", LuaDrawText};
+
 SHARED float delta_frame = 0.1;
 // offset +284 from CUIWorldView
 void __thiscall CustomDraw(void *_this, void *batcher)

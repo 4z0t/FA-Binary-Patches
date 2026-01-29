@@ -178,3 +178,26 @@ void DrawQuad2(
           [a6] "g"(a6)
         :);
 }
+
+void Moho__CD3DFont__Render(Vector3f *p1, Vector3f *p2, Vector3f *p3, void *font, const char *text, void *batcher, Vector3f *p4, uint32_t color, float width)
+{
+    asm(
+        "push %[width];"
+        "push %[color];"
+        "push %[p4];"
+        "push %[batcher];"
+        "push %[text];"
+        "push %[font];"
+        "call 0x00426470;"
+        :
+        : [p1] "a"(p1),
+          [p2] "b"(p2),
+          [p3] "D"(p3),
+          [font] "g"(font),
+          [text] "g"(text),
+          [batcher] "g"(batcher),
+          [p4] "g"(p4),
+          [color] "g"(color),
+          [width] "g"(width)
+        :);
+}
