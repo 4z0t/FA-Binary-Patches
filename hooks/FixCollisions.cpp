@@ -1,5 +1,3 @@
-#include "../define.h"
-
 asm(R"(
 
 	Vector3f__Normalize = 0x0044F7E0
