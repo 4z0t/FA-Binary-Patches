@@ -53,14 +53,7 @@ namespace Refaf
         WeakPtr *_next = nullptr;
 
     public:
-        const T *GetObject() const
-        {
-            return _object != nullptr
-                       ? static_cast<const T *>(_object)
-                       : nullptr;
-        }
-
-        T *GetObject()
+        T *GetObject() const
         {
             return _object != nullptr
                        ? static_cast<T *>(_object)
@@ -71,9 +64,13 @@ namespace Refaf
         {
         }
 
-        WeakPtr(T &obj) : WeakPtr()
+        WeakPtr(T *obj) : WeakPtr()
         {
-            Link(&obj);
+            Link(obj);
+        }
+
+        WeakPtr(T &obj) : WeakPtr(&obj)
+        {
         }
 
         WeakPtr(const WeakPtr &other) : WeakPtr(other.GetObject())
