@@ -13,21 +13,21 @@ namespace Refaf
         friend class WeakPtrT;
 
     private:
-        WeakPtrT* _head;
+        WeakPtrT *_head;
 
     public:
-        WeakObject() : _head{ nullptr }
+        WeakObject() : _head{nullptr}
         {
         }
 
-        WeakObject(const WeakObject&) = delete;
-        WeakObject(WeakObject&&) = delete;
-        WeakObject& operator=(const WeakObject&) = delete;
-        WeakObject& operator=(WeakObject&&) = delete;
+        WeakObject(const WeakObject &) = delete;
+        WeakObject(WeakObject &&) = delete;
+        WeakObject &operator=(const WeakObject &) = delete;
+        WeakObject &operator=(WeakObject &&) = delete;
 
         ~WeakObject()
         {
-            for (WeakPtrT* node = _head, *next = nullptr; node != nullptr; node = next)
+            for (WeakPtrT *node = _head, *next = nullptr; node != nullptr; node = next)
             {
                 next = node->_next;
                 node->_object = nullptr;
@@ -46,57 +46,57 @@ namespace Refaf
         friend WeakObjectT;
 
     private:
-        WeakObjectT* _object = nullptr;
-        WeakPtr* _next = nullptr;
+        WeakObjectT *_object = nullptr;
+        WeakPtr *_next = nullptr;
 
     public:
-        const T* GetObject() const
+        const T *GetObject() const
         {
             return _object != nullptr
-                ? static_cast<const T*>(_object)
-                : nullptr;
+                       ? static_cast<const T *>(_object)
+                       : nullptr;
         }
 
-        T* GetObject()
+        T *GetObject()
         {
             return _object != nullptr
-                ? static_cast<T*>(_object)
-                : nullptr;
+                       ? static_cast<T *>(_object)
+                       : nullptr;
         }
 
-        WeakPtr() : _object{ nullptr }, _next{ nullptr }
+        WeakPtr() : _object{nullptr}, _next{nullptr}
         {
         }
 
-        WeakPtr(T& obj)
+        WeakPtr(T &obj) : WeakPtr()
         {
             Link(&obj);
         }
 
-        WeakPtr(const WeakPtr& other) : WeakPtr(other.GetObject())
+        WeakPtr(const WeakPtr &other) : WeakPtr(other.GetObject())
         {
         }
 
-        WeakPtr& operator=(const WeakPtr& other)
-        {
-            Unlink();
-            Link(other.GetObject());
-            return *this;
-        }
-
-        WeakPtr& operator=(WeakPtr&& other)
+        WeakPtr &operator=(const WeakPtr &other)
         {
             Unlink();
             Link(other.GetObject());
             return *this;
         }
 
-        WeakPtr& operator=(T& object)
+        WeakPtr &operator=(WeakPtr &&other)
+        {
+            Unlink();
+            Link(other.GetObject());
+            return *this;
+        }
+
+        WeakPtr &operator=(T &object)
         {
             Unlink();
             Link(&object);
             return *this;
-		}
+        }
 
         ~WeakPtr()
         {
@@ -104,9 +104,9 @@ namespace Refaf
         }
 
     private:
-        void Link(T* obj)
+        void Link(T *obj)
         {
-            WeakObjectT* weak_object = obj ? static_cast<WeakObjectT*>(obj) : nullptr;
+            WeakObjectT *weak_object = obj ? static_cast<WeakObjectT *>(obj) : nullptr;
             _object = weak_object;
             if (_object)
             {
@@ -123,7 +123,7 @@ namespace Refaf
         {
             if (_object)
             {
-                for (WeakPtr* node = _object->_head; node != nullptr; node = node->_next)
+                for (WeakPtr *node = _object->_head; node != nullptr; node = node->_next)
                 {
                     if (node->_next == this)
                     {
