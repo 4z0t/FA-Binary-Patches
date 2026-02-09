@@ -10,10 +10,10 @@ class ObjectRefChain
     friend class NodeT;
 
 private:
-    NodeT *_start;
+    NodeT *_head;
 
 public:
-    ObjectRefChain() : _start{nullptr}
+    ObjectRefChain() : _head{nullptr}
     {
     }
 
@@ -24,9 +24,9 @@ public:
 
     ~ObjectRefChain()
     {
-        for (NodeT *node = _start; node; node = _start)
+        for (NodeT *node = _head, next = nullptr; node != nullptr; node = next)
         {
-            _start = node->_next;
+            next = node->_next;
             node->_chain = nullptr;
             node->_next = nullptr;
         }
@@ -90,8 +90,8 @@ private:
         _chain = chain;
         if (chain)
         {
-            _next = chain->_start;
-            chain->_start = this;
+            _next = chain->_head;
+            chain->_head = this;
         }
         else
         {
@@ -103,7 +103,7 @@ private:
     {
         if (_chain)
         {
-            ObjectRef<T> **i = &_chain->_start;
+            ObjectRef<T> **i = &_chain->_head;
             if (i)
             {
                 while (*i != this)
