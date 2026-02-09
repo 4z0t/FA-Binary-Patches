@@ -15,7 +15,7 @@ extern "C" void __cdecl __std_exception_copy(
     if (_From->_What != nullptr)
     {
         _To->_What = new char[strlen(_From->_What) + 1];
-        _strcpy((char *)_To->_What, _From->_What);
+        strcpy((char *)_To->_What, _From->_What);
     }
     _To->_DoFree = _From->_DoFree;
 }

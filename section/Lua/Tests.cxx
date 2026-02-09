@@ -1,6 +1,5 @@
 #include "LuaAPI.h"
 #include "magic_classes.h"
-#include "Exceptions.h"
 
 int TEST_Exceptions(lua_State *l)
 {

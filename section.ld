@@ -12,6 +12,8 @@ OUTPUT(section.pe)
 "__CxxThrowException@8"     = 0xA89950;
 "_memset"                   = 0xA89110;
 "__invoke_watson"           = 0xA848E8;
+"_strcpy"                   = 0xA944E0;
+"_memcpy"                   = 0xA84A60;
 
 SECTIONS {
     . = __image_base__ + 0x1000;
