@@ -1,8 +1,10 @@
 
 #include <type_traits>
 
+// From MohoEngine.dll: 0x10005430 - 0x1000548E
 namespace Refaf
 {
+    // Moho::WeakPtr:
     template <typename T>
     class WeakPtr;
 
@@ -42,7 +44,7 @@ namespace Refaf
     {
         static_assert(std::is_base_of_v<WeakObject<T>, T>);
 
-        using WeakObjectT = typename T::WeakObject;
+        using WeakObjectT = WeakObject<T>;
         friend WeakObjectT;
 
     private:
@@ -129,14 +131,19 @@ namespace Refaf
         {
             if (_object)
             {
-                for (WeakPtr *node = _object->_head; node != nullptr; node = node->_next)
+                if (_object->_head == this)
                 {
-                    if (node->_next == this)
-                    {
-                        node->_next = _next;
-                        break;
-                    }
+                    _object->_head = _next;
                 }
+                else
+                    for (WeakPtr *node = _object->_head; node != nullptr; node = node->_next)
+                    {
+                        if (node->_next == this)
+                        {
+                            node->_next = _next;
+                            break;
+                        }
+                    }
             }
             _next = nullptr;
             _object = nullptr;
