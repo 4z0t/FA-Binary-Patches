@@ -98,6 +98,12 @@ namespace Refaf
             return *this;
         }
 
+        WeakPtr &operator=(std::nullptr_t)
+        {
+            Unlink();
+            return *this;
+        }
+
         ~WeakPtr()
         {
             Unlink();
