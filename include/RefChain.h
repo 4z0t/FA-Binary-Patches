@@ -90,8 +90,8 @@ private:
         _chain = chain;
         if (chain)
         {
-            _next = chain->_start;
-            chain->_start = this;
+            _next = chain->_head;
+            chain->_head = this;
         }
         else
         {
@@ -103,7 +103,7 @@ private:
     {
         if (_chain)
         {
-            ObjectRef<T> **i = &_chain->_start;
+            ObjectRef<T> **i = &_chain->_head;
             if (i)
             {
                 while (*i != this)
