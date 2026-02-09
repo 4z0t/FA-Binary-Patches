@@ -4,10 +4,11 @@
 // From MohoEngine.dll: 0x10005430 - 0x1000548E
 namespace Refaf
 {
-    // Moho::WeakPtr:
+    // Moho::WeakPtr
     template <typename T>
     class WeakPtr;
 
+    // Moho::WeakObject
     template <typename T>
     class WeakObject
     {
@@ -112,6 +113,7 @@ namespace Refaf
         }
 
     private:
+        // MohoEngine.dll: 0x10005450
         void Link(T *obj)
         {
             WeakObjectT *weak_object = obj ? static_cast<WeakObjectT *>(obj) : nullptr;
@@ -127,6 +129,7 @@ namespace Refaf
             }
         }
 
+        // MohoEngine.dll: 0x10005470
         void Unlink()
         {
             if (_object)
