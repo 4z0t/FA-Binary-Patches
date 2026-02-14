@@ -28,6 +28,10 @@ namespace Refaf
         WeakObject &operator=(const WeakObject &) = delete;
         WeakObject &operator=(WeakObject &&) = delete;
 
+        /* Applications:
+            Moho::UserEntity : 0x008B8892
+            Moho::Unit : 0x006A736E
+        */
         ~WeakObject()
         {
             for (WeakPtrT *node = _head, *next = nullptr; node != nullptr; node = next)
