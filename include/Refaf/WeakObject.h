@@ -81,6 +81,8 @@ namespace Refaf
         {
         }
 
+        WeakPtr(WeakPtr &&other) = delete;
+
         WeakPtr &operator=(const WeakPtr &other)
         {
             Unlink();
@@ -88,12 +90,7 @@ namespace Refaf
             return *this;
         }
 
-        WeakPtr &operator=(WeakPtr &&other)
-        {
-            Unlink();
-            Link(other.GetObject());
-            return *this;
-        }
+        WeakPtr &operator=(WeakPtr &&other) = delete;
 
         WeakPtr &operator=(T &object)
         {
