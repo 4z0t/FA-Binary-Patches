@@ -219,6 +219,15 @@ namespace Moho
         }
     };
 
+    enum class EEntityType : int
+    {
+
+        ENTITYTYPE_Unit = 0x100,
+        ENTITYTYPE_Prop = 0x200,
+        ENTITYTYPE_Projectile = 0x400,
+        ENTITYTYPE_Entity = 0x800,
+    };
+
     using ::UserEntity;
     using ::UserUnit;
 
@@ -243,7 +252,7 @@ VALIDATE_SIZE(Moho::EntityCategory, 0x28);
 
 SHARED
 {
-    int get_session_user_entities(BaseVector<UserEntity *> * output, int a2, Moho::struct_session_res3 *a3);
+    int get_session_user_entities(BaseVector<UserEntity *> * output, Moho::EEntityType type, Moho::struct_session_res3 *a3);
 }
 
 Moho::EntityCategory *__cdecl CastEntityCategory(LuaObject obj) asm("0x005575E0");

@@ -1,5 +1,6 @@
 #include "UserUnits.h"
 #include "magic_classes.h"
+#include "Maths.h"
 
 BitSetGetResult BitSetGet_(const BitSet &set, unsigned int ordinal)
 {
@@ -37,7 +38,7 @@ int GetFocusArmyUnits(lua_State *L)
     }
 
     InlinedVector<UserEntity *, 2> entities;
-    get_session_user_entities(&entities, 256, &cwldsession->v20);
+    get_session_user_entities(&entities, Moho::EEntityType::ENTITYTYPE_Unit, &cwldsession->v20);
 
     const bool is_observer = cwldsession->IsObserver();
     void *focus_army = cwldsession->GetFocusArmy();
@@ -90,3 +91,31 @@ static UIRegFunc GetFocusArmyUnitsReg{
     "GetFocusArmyUnits",
     "",
     GetFocusArmyUnits};
+
+int TestThing(lua_State *L)
+{
+    using namespace Moho;
+
+    if (cwldsession == nullptr)
+        return 0;
+
+    auto ls = L->LuaState;
+
+    InlinedVector<UserEntity *, 2> entities;
+    get_session_user_entities(&entities, Moho::EEntityType::ENTITYTYPE_Prop, &cwldsession->v20);
+
+    for (UserEntity *entity : entities)
+    {
+        void *var_data = Offset<VTransform *>(entity, 0x50);
+        VTransform *transform = Offset<VTransform *>(var_data, 0x24);
+
+        LogF("%p: %f %f %f", entity, transform->pos.x, transform->pos.y, transform->pos.z);
+    }
+
+    return 0;
+}
+// UI_Lua TestProps()
+static UIRegFunc _AAA{
+    "TestProps",
+    "",
+    TestThing};

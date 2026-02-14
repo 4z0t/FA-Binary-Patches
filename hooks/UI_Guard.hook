@@ -1,0 +1,9 @@
+0x008201F0:
+    mov ecx, edi # CommandMode Data
+    push ebp     # unit below mouse
+    call @HandleGuardOrder
+    jmp 0x00821EEA
+    nop
+
+0x00820597:
+    jnz asm__FactoryGroundAssist

@@ -85,7 +85,7 @@ namespace Moho
     enum TargetType
     {
         AITARGET_None = 0,
-        AITARGET_Entity = 2,
+        AITARGET_Entity = 1,
         AITARGET_Ground = 2,
     };
 
@@ -142,6 +142,11 @@ namespace Moho
         inline static TargetData Ground(Vector3f pos)
         {
             return {AITARGET_Ground, 0xF0000000, pos};
+        }
+
+         inline static TargetData Entity(uint32_t id)
+        {
+            return {AITARGET_Entity, id, {}};
         }
 
         ~TargetData() = default;

@@ -111,7 +111,7 @@ void HandleClickSelection(Moho::CWldSession *session, char modifiers)
         }
 
         InlinedVector<UserEntity *, 2> entities;
-        get_session_user_entities(&entities, 256, &session->v20);
+        get_session_user_entities(&entities, Moho::EEntityType::ENTITYTYPE_Unit, &session->v20);
 
         void *focus_army = session->GetFocusArmy();
         void *bp_entity_below_mouse = uunit_below_mouse->GetBlueprint();
