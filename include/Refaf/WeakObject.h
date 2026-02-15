@@ -1,4 +1,5 @@
 
+#pragma once
 #include <type_traits>
 
 // From MohoEngine.dll: 0x10005430 - 0x1000548E
@@ -12,8 +13,8 @@ namespace Refaf
     template <typename T>
     class WeakObject
     {
-        using WeakPtrT = typename WeakPtr<T>;
-        friend class WeakPtrT;
+        using WeakPtrT = WeakPtr<T>;
+        friend WeakPtrT;
 
     private:
         WeakPtrT *_head;
