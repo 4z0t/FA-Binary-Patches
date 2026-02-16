@@ -197,7 +197,7 @@ namespace Moho
     struct AddResult
     {
         uint32_t **add_location;
-        bool resized;
+        bool inserted;
     };
 
     // requires dtor!!!

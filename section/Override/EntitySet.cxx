@@ -70,12 +70,12 @@ SHARED Moho::AddResult *__stdcall OVERRIDE_EntitySet_Add(Moho::EntitySet *set, M
         uint32_t index = spot - set->data.begin;
         EntitySetData__InsertAt(&set->data, spot, &entity, &entity + 1);
         insert_res->add_location = &set->data.begin[index];
-        insert_res->resized = true;
+        insert_res->inserted = true;
     }
     else
     {
         insert_res->add_location = spot;
-        insert_res->resized = false;
+        insert_res->inserted = false;
     }
 
     return insert_res;
