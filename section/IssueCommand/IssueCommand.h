@@ -40,7 +40,7 @@ namespace Moho
                 free(data.begin);
                 uint32_t **inlined = data.inlined;
                 data.begin = inlined;
-                data.capacity_end = (uint32_t **)*inlined;
+                data.capacity_end = (uint32_t **)*inlined; //why?
             }
             data.end = data.begin;
         }
