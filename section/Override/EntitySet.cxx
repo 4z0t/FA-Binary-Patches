@@ -68,7 +68,7 @@ SHARED Moho::AddResult *__stdcall OVERRIDE_EntitySet_Add(Moho::EntitySet *set, M
     if (spot == set->data.end || *spot != entity)
     {
         uint32_t index = spot - set->data.begin;
-        EntitySetData__InsertAt(&set->data, spot, &entity, &entity + 1);
+        EntitySetData__InsertRange(&set->data, spot, &entity, &entity + 1); // lmfao why pass like this
         insert_res->add_location = &set->data.begin[index];
         insert_res->inserted = true;
     }

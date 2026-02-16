@@ -4,3 +4,7 @@
     push eax
     call @OVERRIDE_EntitySet_Add
     ret 4
+    nop
+    nop
+    nop
+    nop
