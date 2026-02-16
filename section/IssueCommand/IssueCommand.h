@@ -72,11 +72,10 @@ namespace Moho
             if (data.begin != data.inlined)
             {
                 free(data.begin);
-                uint32_t **inlined = data.inlined;
-                data.begin = inlined;
-                data.capacity_end = (uint32_t **)*inlined;
+                data.begin = inlined_set_items;
+                data.end = inlined_set_items;
+                data.capacity_end = inlined_set_items + 2;
             }
-            data.end = data.begin;
             next->prev = prev;
             prev->next = next;
             prev = this;
