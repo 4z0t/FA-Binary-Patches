@@ -4,7 +4,7 @@
 namespace Refaf
 {
     template <size_t N>
-    struct Pad
+    class Pad
     {
         std::byte _pad[N];
     };

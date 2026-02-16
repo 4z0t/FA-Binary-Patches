@@ -6,11 +6,19 @@
 
 namespace Refaf
 {
-    class UserEntity : Pad<8> /* vtable and dead value */, public WeakObject<UserEntity>
+    class UserUnit;
+    class UserEntity : public Pad<4> /* dead value */, public WeakObject<UserEntity>
     {
     public:
         CWldSession *session;
         Pad<312> pad;
+
+        virtual ~UserEntity() {}
+
+        virtual void Tick() {}
+        virtual UserUnit *IsUserUnit() { return nullptr; }
+        virtual UserUnit *ToUserUnit() { return nullptr; }
+        virtual float GetUniformScale() { return 1.0f; }
     };
 
     // 0x0089495D
