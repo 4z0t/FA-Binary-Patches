@@ -14,16 +14,16 @@ namespace Moho
 
     struct EntitySetData
     {
-        uint32_t *begin;
-        uint32_t *end;
-        uint32_t *capacity_end;
-        uint32_t *inlined;
+        uint32_t **begin;
+        uint32_t **end;
+        uint32_t **capacity_end;
+        uint32_t **inlined;
     };
 
     struct CellData
     {
         EntitySetData data;
-        uint32_t inlined_set_items[2];
+        uint32_t *inlined_set_items[2];
 
         CellData()
         {
@@ -38,9 +38,9 @@ namespace Moho
             if (data.begin != data.inlined)
             {
                 free(data.begin);
-                uint32_t *inlined = data.inlined;
+                uint32_t **inlined = data.inlined;
                 data.begin = inlined;
-                data.capacity_end = (uint32_t *)*inlined;
+                data.capacity_end = (uint32_t **)*inlined;
             }
             data.end = data.begin;
         }
@@ -51,7 +51,7 @@ namespace Moho
         EntitySet *next;
         EntitySet *prev;
         EntitySetData data;
-        uint32_t inlined_set_items[2];
+        uint32_t *inlined_set_items[2];
 
         EntitySet()
         {
@@ -59,9 +59,11 @@ namespace Moho
             next = this;
             data.begin = inlined_set_items;
             data.end = inlined_set_items;
-            data.capacity_end = (uint32_t *)(inlined_set_items + 2);
+            data.capacity_end = inlined_set_items + 2;
             data.inlined = inlined_set_items;
         }
+
+        size_t Size() { return data.end - data.begin; }
 
         bool IsEmpty() { return data.begin == data.end; }
 
@@ -70,9 +72,9 @@ namespace Moho
             if (data.begin != data.inlined)
             {
                 free(data.begin);
-                uint32_t *inlined = data.inlined;
+                uint32_t **inlined = data.inlined;
                 data.begin = inlined;
-                data.capacity_end = (uint32_t *)*inlined;
+                data.capacity_end = (uint32_t **)*inlined;
             }
             data.end = data.begin;
             next->prev = prev;
@@ -144,7 +146,7 @@ namespace Moho
             return {AITARGET_Ground, 0xF0000000, pos};
         }
 
-         inline static TargetData Entity(uint32_t id)
+        inline static TargetData Entity(uint32_t id)
         {
             return {AITARGET_Entity, id, {}};
         }
@@ -194,7 +196,7 @@ namespace Moho
 
     struct AddResult
     {
-        uint32_t *add_location;
+        uint32_t **add_location;
         bool resized;
     };
 

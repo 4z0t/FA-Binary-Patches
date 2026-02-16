@@ -1,0 +1,6 @@
+0x0057DDD0:
+    push [esp + 4]
+    push ebx
+    push eax
+    call @OVERRIDE_EntitySet_Add
+    ret 4
