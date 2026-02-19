@@ -2,21 +2,22 @@
     jz  j_ZERO_VELOCITY
     add     eax,  0x0FFFFFFFC
     jz  j_ZERO_VELOCITY
-    mov     eax, [esi+4]            # weak_ref = cai_target->weak_obj
-    lea     ecx, [eax-4]            # cast weak_ref (WeakObject<Entity>) to Entity
-    mov     eax, ds:[ecx + 0x148]   # sim = entity->sim;
-    mov     eax, ds:[eax + 0x900]   # tick = sim->cur_tick;
-    mov     edx, ds:[ecx + 0x174]   # lastUpdateTick = entity->lastUpdateTick;
-    cmp     eax, edx                # if (tick ==  lastUpdateTick)
-    je j_ZERO_VELOCITY              #     velocity = { 0, 0, 0 };
-    mov     eax, [ecx]              # else
-    mov     eax, [eax + 0x3C]       #
-    lea     edx, [esp + 0x44]       #
-    push    edx                     #
-    call    eax                     # velocity = entity->vtable->GetVelocity(entity);
+    push esi
+    mov     ecx, esi
+    call    @CheckNeedAddEntityVelocity
+    pop esi
+    jz j_ZERO_VELOCITY                 #     velocity = { 0, 0, 0 };
+    mov     eax, [esi+4]               # weak_ref = cai_target->weak_obj
+    lea     ecx, [eax-4]
+    mov     eax, [ecx]                 # else
+    mov     eax, [eax + 0x3C]          #
+    lea     edx, [esp + 0x44]          #
+    push    edx                        #
+    call    eax                        # velocity = entity->vtable->GetVelocity(entity);
     jmp j_COMPUTE_AIM_POS
-    nop
-    nop
+    nop;nop;nop;nop;nop
+    nop;nop;nop;nop;nop
+    nop;nop;nop
 j_ZERO_VELOCITY:
     xor     eax, eax
     mov     [esp + 0x44], eax
@@ -24,3 +25,14 @@ j_ZERO_VELOCITY:
     mov     [esp + 0x4C], eax
     lea     eax, [esp + 0x44]
 j_COMPUTE_AIM_POS:
+
+
+
+# velocity = 0x38
+# aim_pos = 0x20
+# 0x00631A72:
+#     mov ecx, esi
+#     push eax                      # target_pos
+#     lea eax, [esp + velocity - 4] # velocity
+#     lea eax, [esp + aim_pos - 8]  # aim_pos
+#     @call AimAddVelocity

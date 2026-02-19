@@ -203,8 +203,8 @@ namespace Moho
     struct CAiTarget
     {
         int targetType;
-        void *next;
-        void *prev;
+        void *entity;
+        void *next_weak_ptr;
         Vector3f position;
         int targetPoint;
         bool targetIsMobile;
