@@ -1,38 +1,47 @@
-0x00631A00:
-    jz  j_ZERO_VELOCITY
-    add     eax,  0x0FFFFFFFC
-    jz  j_ZERO_VELOCITY
-    push esi
-    mov     ecx, esi
-    call    @CheckNeedAddEntityVelocity
-    pop esi
-    jz j_ZERO_VELOCITY                 #     velocity = { 0, 0, 0 };
-    mov     eax, [esi+4]               # weak_ref = cai_target->weak_obj
-    lea     ecx, [eax-4]
-    mov     eax, [ecx]                 # else
-    mov     eax, [eax + 0x3C]          #
-    lea     edx, [esp + 0x44]          #
-    push    edx                        #
-    call    eax                        # velocity = entity->vtable->GetVelocity(entity);
-    jmp j_COMPUTE_AIM_POS
-    nop;nop;nop;nop;nop
-    nop;nop;nop;nop;nop
-    nop;nop;nop
-j_ZERO_VELOCITY:
-    xor     eax, eax
-    mov     [esp + 0x44], eax
-    mov     [esp + 0x48], eax
-    mov     [esp + 0x4C], eax
-    lea     eax, [esp + 0x44]
-j_COMPUTE_AIM_POS:
+# 0x00631A00:
+#     jz  j_ZERO_VELOCITY
+#     add     eax,  0x0FFFFFFFC
+#     jz  j_ZERO_VELOCITY
+#     push esi
+#     mov     ecx, esi
+#     call    @CheckNeedAddEntityVelocity
+#     pop esi
+#     jz j_ZERO_VELOCITY                 #     velocity = { 0, 0, 0 };
+#     mov     eax, [esi+4]               # weak_ref = cai_target->weak_obj
+#     lea     ecx, [eax-4]
+#     mov     eax, [ecx]                 # else
+#     mov     eax, [eax + 0x3C]          #
+#     lea     edx, [esp + 0x44]          #
+#     push    edx                        #
+#     call    eax                        # velocity = entity->vtable->GetVelocity(entity);
+#     jmp j_COMPUTE_AIM_POS
+#     nop;nop;nop;nop;nop
+#     nop;nop;nop;nop;nop
+#     nop;nop;nop
+# j_ZERO_VELOCITY:
+#     xor     eax, eax
+#     mov     [esp + 0x44], eax
+#     mov     [esp + 0x48], eax
+#     mov     [esp + 0x4C], eax
+#     lea     eax, [esp + 0x44]
+# j_COMPUTE_AIM_POS:
 
 
 
-# velocity = 0x38
-# aim_pos = 0x20
-# 0x00631A72:
-#     mov ecx, esi
-#     push eax                      # target_pos
-#     lea eax, [esp + velocity - 4] # velocity
-#     lea eax, [esp + aim_pos - 8]  # aim_pos
-#     @call AimAddVelocity
+target_velocity = 0x38
+shooter_pos = 0x64
+aim_pos = 0x20
+dist = 0x1C
+0x00631A72:
+    mov ecx, esi
+    push eax                              # target_pos
+    lea eax, [esp + 4 + target_velocity]
+    push eax
+    lea eax, [esp + 8 + shooter_pos]
+    push eax
+    lea eax, [esp + 12 + aim_pos]
+    push eax
+    call @AimAddVelocity
+    sub esp, 4                            # dead
+    fst dword ptr [esp + dist]
+    jmp 0x00631AD9

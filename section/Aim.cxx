@@ -17,10 +17,19 @@ SHARED __thiscall bool CheckNeedAddEntityVelocity(Moho::CAiTarget *cai_target)
     return true;
 }
 
-SHARED __thiscall void AddVelocity(Moho::CAiTarget *cai_target,
-                                   Vector3f *aim_pos,
-                                   const Vector3f *velocity,
-                                   const Vector3f *target_pos)
+#include <cmath>
+
+SHARED __thiscall float AimAddVelocity(
+    Moho::CAiTarget *cai_target,
+    Vector3f &aim_pos,
+    const Vector3f &shooter_pos,
+    const Vector3f &target_velocity,
+    const Vector3f &target_pos)
 {
-    *aim_pos = *target_pos + *velocity;
+    aim_pos = target_pos + target_velocity;
+
+    return std::sqrt(
+        (aim_pos.x - shooter_pos.x) * (aim_pos.x - shooter_pos.x) +
+        // (aim_pos.y - shooter_pos.y) * (aim_pos.y - shooter_pos.y) +
+        (aim_pos.z - shooter_pos.z) * (aim_pos.z - shooter_pos.z));
 }
