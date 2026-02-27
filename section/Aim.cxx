@@ -26,7 +26,10 @@ SHARED __thiscall float AimAddVelocity(
     const Vector3f &target_velocity,
     const Vector3f &target_pos)
 {
-    aim_pos = target_pos + target_velocity;
+    if (CheckNeedAddEntityVelocity(cai_target) && cai_target->HasTargetPoint())
+        aim_pos = target_pos + target_velocity;
+    else
+        aim_pos = target_pos;
 
     return std::sqrt(
         (aim_pos.x - shooter_pos.x) * (aim_pos.x - shooter_pos.x) +

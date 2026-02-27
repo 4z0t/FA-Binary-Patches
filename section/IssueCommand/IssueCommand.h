@@ -208,6 +208,8 @@ namespace Moho
         Vector3f position;
         int targetPoint;
         bool targetIsMobile;
+
+        bool HasTargetPoint()const {return targetPoint != -1;}
     };
 
 } // namespace Moho
