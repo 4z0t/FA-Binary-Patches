@@ -3,7 +3,6 @@
 #include "Selection.h"
 #include "Iterators.h"
 #include <exception>
-#include "Refaf/UserUnit.h"
 
 #include "../IssueCommand/IssueCommand.h"
 
