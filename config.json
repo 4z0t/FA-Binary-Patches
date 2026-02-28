@@ -1,6 +1,6 @@
 {
-    "input_name": "ForgedAlliance_base.exe",
-    "output_name": "ForgedAlliance_exxt.exe",
+    "input_exe_path": "ForgedAlliance_base.exe",
+    "output_exe_path": "C:\\ProgramData\\FAForever\\bin\\ForgedAlliance_exxt.exe",
     "clang_flags": [
         "-pipe",
         "-m32",
