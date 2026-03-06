@@ -10,7 +10,6 @@ float Dot(const Vector4f &a, const Vector4f &b)
 
 Vector2f Project(const float *camera, const Vector3f &v)
 {
-    Vector2f dest;
     const VMatrix4 &viewProjection = GetField<const VMatrix4>(camera, 0x9C);
     const VMatrix4 &viewport = GetField<const VMatrix4>(camera, 0x284);
     Vector4f v0 = {v.x, v.y, v.z, 1.0f};
@@ -19,9 +18,10 @@ Vector2f Project(const float *camera, const Vector3f &v)
     Vector4f v3 = {viewProjection.d[0].d[3], viewProjection.d[1].d[3], viewProjection.d[2].d[3], viewProjection.d[3].d[3]};
 
     float inv = Dot(v0, v3);
-    dest.x = viewport.d[3].d[2] * (Dot(v0, v1) / inv + 1.0f) * 0.5f + viewport.d[3].d[0];
-    dest.y = -viewport.d[3].d[3] * (Dot(v0, v2) / inv + 1.0f) * 0.5f + viewport.d[3].d[3] + viewport.d[3].d[1];
-    return dest;
+    return {
+        .x = viewport.d[3].d[2] * (Dot(v0, v1) / inv + 1.0f) * 0.5f + viewport.d[3].d[0],
+        .y = -viewport.d[3].d[3] * (Dot(v0, v2) / inv + 1.0f) * 0.5f + viewport.d[3].d[3] + viewport.d[3].d[1],
+    };
 }
 
 void ProjectVectors(lua_State *l, int index, float *camera)
