@@ -1,3 +1,4 @@
+#pragma once
 #include "../Draw/DrawFunc.h"
 #include "GenericStructures.h"
 #include "UserUnits.h"
@@ -8,9 +9,7 @@ struct UserUnitIconsTextures
 {
     Moho::UserEntity *entity;
     signed __int32 field_0;
-    signed __int32 field_8;
-    signed __int32 field_C;
-    signed __int32 field_10;
+    Vector3f pos;
     SPtrTexture field_14;
     SPtrTexture field_1C;
     SPtrTexture field_24;
@@ -21,10 +20,11 @@ VALIDATE_SIZE(UserUnitIconsTextures, 0x34);
 
 struct struct_IconAux // sizeof=0xAC
 {
-    Vector4f v0;
+    Vector2f unk;
+    Vector2f size;
     Moho::CWldSession *session;
     /*Moho::CD3DPrimBatcher*/ void **batcher;
-    /*Moho::GeomCamera3*/ void **cam;
+    /*Moho::GeomCamera3*/ float *cam;
     /*Moho::CWldMap*/ void **map;
     SPtrTexture v8;
     FastVector<void *> genericIconList;

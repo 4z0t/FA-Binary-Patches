@@ -14,6 +14,7 @@ OUTPUT(section.pe)
 "__invoke_watson"           = 0xA848E8;
 "_strcpy"                   = 0xA944E0;
 "_memcpy"                   = 0xA84A60;
+"_floor"                    = 0xA8DF30;
 
 SECTIONS {
     . = __image_base__ + 0x1000;

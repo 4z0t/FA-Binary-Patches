@@ -106,3 +106,12 @@ Vector2f *__thiscall Moho__GeomCamera__Project(const float *cam, Vector2f *resul
     *result = Project(cam, *pos);
     return result;
 }
+
+#include <cmath>
+
+Vector2f *__stdcall ComputeUnitPosOOnScreen(const UserUnitIconsTextures *t, const struct_IconAux *aux, Vector2f *result)
+{
+    Vector2f res = Project(aux->cam, t->pos, 0, aux->size.x, aux->size.y, 0);
+    *result = {std::floor(res.x), std::floor(res.y)};
+    return result;
+}
