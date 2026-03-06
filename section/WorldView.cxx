@@ -13,12 +13,13 @@ Vector2f Project(const float *camera, const Vector3f &v)
     Vector2f dest;
     const VMatrix4 &viewProjection = GetField<const VMatrix4>(camera, 0x9C);
     const VMatrix4 &viewport = GetField<const VMatrix4>(camera, 0x284);
-    float x = v.x;
-    float y = v.y;
-    float z = v.z;
-    float v5 = 1.0f / ((((viewProjection.d[0].d[3] * x) + (viewProjection.d[2].d[3] * z)) + (viewProjection.d[1].d[3] * y)) + viewProjection.d[3].d[3] * 1.0f);
-    dest.x = ((viewport.d[3].d[2] * ((((((viewProjection.d[2].d[0] * z) + (viewProjection.d[1].d[0] * y)) + (viewProjection.d[0].d[0] * x)) + viewProjection.d[3].d[0]) * v5) + 1.0f)) * 0.5f) + viewport.d[3].d[0];
-    dest.y = ((-viewport.d[3].d[3] * ((((((viewProjection.d[0].d[1] * x) + (viewProjection.d[2].d[1] * z)) + (viewProjection.d[1].d[1] * y)) + viewProjection.d[3].d[1]) * v5) + 1.0f)) * 0.5f) + (viewport.d[3].d[3] + viewport.d[3].d[1]);
+    Vector4f v0 = {v.x, v.y, v.z, 1.0f};
+    float inv = 1.0f / Dot(v0, {viewProjection.d[0].d[3], viewProjection.d[1].d[3], viewProjection.d[2].d[3], viewProjection.d[3].d[3]});
+    Vector4f v1 = {viewProjection.d[0].d[0], viewProjection.d[1].d[0], viewProjection.d[2].d[0], viewProjection.d[3].d[0]};
+    Vector4f v2 = {viewProjection.d[0].d[1], viewProjection.d[1].d[1], viewProjection.d[2].d[1], viewProjection.d[3].d[1]};
+
+    dest.x = viewport.d[3].d[2] * (Dot(v0, v1) * inv + 1.0f) * 0.5f + viewport.d[3].d[0];
+    dest.y = -viewport.d[3].d[3] * (Dot(v0, v2) * inv + 1.0f) * 0.5f + viewport.d[3].d[3] + viewport.d[3].d[1];
     return dest;
 }
 
