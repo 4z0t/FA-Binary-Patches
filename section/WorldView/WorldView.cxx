@@ -1,7 +1,4 @@
-#include "CObject.h"
-#include "magic_classes.h"
-#include "moho.h"
-#include "utility.h"
+#include "WorldView.h"
 
 float Dot(const Vector4f &a, const Vector4f &b)
 {
@@ -97,3 +94,15 @@ WorldViewMethodReg WorldViewProjectMultiple{
     "WorldView:ProjectMultiple(vectors)",
     ProjectMultiple,
     "CUIWorldView"};
+
+Vector2f *__thiscall Moho__CameraImpl__Project(/*Moho::CameraImpl*/ const void *__this, Vector2f *result, Vector3f *pos)
+{
+    *result = Project(Offset<const float *>(__this, 0x70), *pos);
+    return result;
+}
+
+Vector2f *__thiscall Moho__GeomCamera__Project(const float *cam, Vector2f *result, Vector3f *pos)
+{
+    *result = Project(cam, *pos);
+    return result;
+}

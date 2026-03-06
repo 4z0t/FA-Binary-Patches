@@ -1,0 +1,11 @@
+0x00E3C488:
+    .int offset Moho__CameraImpl__Project
+
+0x00471080:
+    push edx
+    push eax
+    call Moho__GeomCamera__Project
+    ret
+
+0x00872F89:
+    
