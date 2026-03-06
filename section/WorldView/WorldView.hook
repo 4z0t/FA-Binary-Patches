@@ -7,9 +7,9 @@
     call Moho__GeomCamera__Project
     ret
 
-# native 1000 units ~ 450fps
-# this one is ~ 350fps
-# I guess because of jumps and overhead of pushing args on stack
+# native 1000 units ~ 470fps
+# this one is ~ 450fps
+# I guess because of cache misses and call overhead
 # RenderUnitIcon
 0x0085D9C6:
     # esi - struct_IconAux
