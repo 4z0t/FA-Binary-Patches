@@ -13,10 +13,10 @@ Vector2f Project(const float *camera, const Vector3f &v, float left, float right
     Vector4f v2 = {viewProjection.d[0].d[1], viewProjection.d[1].d[1], viewProjection.d[2].d[1], viewProjection.d[3].d[1]};
     Vector4f v3 = {viewProjection.d[0].d[3], viewProjection.d[1].d[3], viewProjection.d[2].d[3], viewProjection.d[3].d[3]};
 
-    float inv = Dot(v0, v3);
+    float inv = 1.0f / Dot(v0, v3);
     return {
-        .x = (right - left) * (Dot(v0, v1) / inv + 1.0f) * 0.5f + left,
-        .y = (bottom - top) * (Dot(v0, v2) / inv + 1.0f) * 0.5f + top,
+        .x = (right - left) * (Dot(v0, v1) * inv + 1.0f) * 0.5f + left,
+        .y = (bottom - top) * (Dot(v0, v2) * inv + 1.0f) * 0.5f + top,
     };
 }
 
