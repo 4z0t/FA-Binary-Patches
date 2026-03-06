@@ -1,9 +1,5 @@
 #include "LuaAPI.h"
 
-void GetTableAH(void *t, uint32_t *asize, uint8_t *hbits) {
-    *asize = *(int*)(t + 32);
-    *hbits = *(uint8_t*)(t + 9);
-}
 
 struct LuaExts {
     LuaExts() {

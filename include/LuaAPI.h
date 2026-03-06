@@ -456,7 +456,11 @@ TObject *luaA_index(lua_State *L, int index) asm("0x90C3D0");
 extern "C" {
 void lua_createtable(lua_State *l, int narr, int nhash);
 }
-void GetTableAH(void *t, uint32_t *asize, uint8_t *hbits);
+static void GetTableAH(const void *t, uint32_t *asize, uint8_t *hbits) {
+    *asize = *(int*)((const char*)t + 32);
+    *hbits = *(uint8_t*)((const char*)t + 9);
+}
+
 
 // typedef void GetTableAH_t(void* t, uint32_t *asize, uint8_t *hbits);
 // GetTableAH_t *GetTableAH;

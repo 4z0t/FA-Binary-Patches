@@ -3,23 +3,23 @@
 #include "moho.h"
 #include "utility.h"
 
-void Project(float *camera, const Vector3f *v, Vector2f *result)
+float Dot(const Vector4f &a, const Vector4f &b)
 {
-    asm(
-        "call 0x471080;"
-        :
-        : "a"(result),
-          "d"(v),
-          "c"(camera)
-        //: "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6", "xmm7"
-    );
+    return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 }
 
-Vector2f ProjectVec(const Vector3f &v, float *camera)
+Vector2f Project(const float *camera, const Vector3f &v)
 {
-    Vector2f res;
-    Project(camera, &v, &res);
-    return res;
+    Vector2f dest;
+    const VMatrix4 &viewProjection = GetField<const VMatrix4>(camera, 0x9C);
+    const VMatrix4 &viewport = GetField<const VMatrix4>(camera, 0x284);
+    float x = v.x;
+    float y = v.y;
+    float z = v.z;
+    float v5 = 1.0f / ((((viewProjection.d[0].d[3] * x) + (viewProjection.d[2].d[3] * z)) + (viewProjection.d[1].d[3] * y)) + viewProjection.d[3].d[3] * 1.0f);
+    dest.x = ((viewport.d[3].d[2] * ((((((viewProjection.d[2].d[0] * z) + (viewProjection.d[1].d[0] * y)) + (viewProjection.d[0].d[0] * x)) + viewProjection.d[3].d[0]) * v5) + 1.0f)) * 0.5f) + viewport.d[3].d[0];
+    dest.y = ((-viewport.d[3].d[3] * ((((((viewProjection.d[0].d[1] * x) + (viewProjection.d[2].d[1] * z)) + (viewProjection.d[1].d[1] * y)) + viewProjection.d[3].d[1]) * v5) + 1.0f)) * 0.5f) + (viewport.d[3].d[3] + viewport.d[3].d[1]);
+    return dest;
 }
 
 void ProjectVectors(lua_State *l, int index, float *camera)
@@ -27,16 +27,16 @@ void ProjectVectors(lua_State *l, int index, float *camera)
     const char *t = (const char *)lua_topointer(l, index);
     uint32_t asize;
     uint8_t hbits;
-    GetTableAH((void*)t, &asize, &hbits);
+    GetTableAH((void *)t, &asize, &hbits);
     lua_createtable(l, asize, hbits); // result table
     lua_pushvalue(l, index);          // input vectors
     lua_pushnil(l);
     while (lua_next(l, -2)) // -1 = value, -2 =  key, -3 = table, -4 = result table
     {
         Vector3f v = ToVector(l, -1);
-        Vector2f p = ProjectVec(v, camera);
+        Vector2f p = Project(camera, v);
         lua_pushvalue(l, -2); // key
-        PushVector2f(l, p);     // value
+        PushVector2f(l, p);   // value
         lua_rawset(l, -6);
         lua_pop(l, 1);
     }
@@ -79,7 +79,7 @@ int ProjectMultiple(lua_State *l)
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple())
 // UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft.ProjectMultiple({},{}))
 
-using WorldViewMethodReg = RegFunc<0xF59690,0x00E491E8, 0x00F8D88C>;
+using WorldViewMethodReg = RegFunc<0xF59690, 0x00E491E8, 0x00F8D88C>;
 
 WorldViewMethodReg WorldViewProjectMultiple{
     "ProjectMultiple",

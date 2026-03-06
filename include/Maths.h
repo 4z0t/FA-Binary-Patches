@@ -1,10 +1,5 @@
 #pragma once
 #include "global.h"
-struct VMatrix4
-{
-    float data[16];
-};
-VALIDATE_SIZE(VMatrix4, 0x40);
 
 struct Vector2f
 { // 0x8 bytes
@@ -23,7 +18,14 @@ struct Vector3f
 
 struct Vector4f
 { // 0x10 bytes
-    float x, y, z, w;
+    union
+    {
+        float d[4];
+        struct
+        {
+            float x, y, z, w;
+        };
+    };
 };
 
 struct VTransform
@@ -31,3 +33,9 @@ struct VTransform
     Vector4f orient;
     Vector3f pos;
 };
+
+struct VMatrix4
+{
+    Vector4f d[4];
+};
+VALIDATE_SIZE(VMatrix4, 0x40);
