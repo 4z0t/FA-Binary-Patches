@@ -19,8 +19,8 @@
 
     lea eax, [esp + 0x40]
     push eax
-    push esi
-    push edi
+    mov ecx, edi
+    mov edx, esi
     call ComputeUnitPosOOnScreen
 
     mov     ecx, [edi]
