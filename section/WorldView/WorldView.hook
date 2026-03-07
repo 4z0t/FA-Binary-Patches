@@ -18,9 +18,8 @@
     mov edi, [ebp + 8]; # UserUnitIconsTextures
 
     lea eax, [esp + 0x40]
-    push eax
-    mov ecx, edi
-    mov edx, esi
+    mov edx, edi
+    mov ecx, esi
     call ComputeUnitPosOOnScreen
 
     mov     ecx, [edi]
