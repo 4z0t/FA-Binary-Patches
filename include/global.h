@@ -77,8 +77,7 @@ void *memcpy(void *dest, const void *src, size_t count) asm("0xA89190");
 int __cdecl memmove_s(void *dest, const size_t dest_size, const void *src,const size_t src_size) asm("0x00A824E7");
 size_t strlen(const char *str) asm("0xA94450");
 int strcmp(const char *str1, const char *str2) asm("0xAA549E");
-int sprintf_s(char *Buffer, size_t BufferCount, const char *Format,
-              ...) asm("0xA82F32");
+int _sprintf_s(char *Buffer, size_t BufferCount, const char *Format,              ...) asm("0xA82F32");
 float sqrtf(float) asm("0x452FC0");
 }
 // void *operator new(std::size_t n) noexcept(false) asm("0xA825B9");

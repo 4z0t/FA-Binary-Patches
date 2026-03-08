@@ -10,7 +10,7 @@ void __thiscall SimGetCommandQueueInsert(LuaObject *this_, LuaObject *obj)
     auto targetId = command->targetId;
     if (targetId != 0xF0000000) {
         char buf[16];
-        sprintf_s(buf, sizeof(buf), "%d", targetId);  //like game doing entityId with std::string
+        _sprintf_s(buf, sizeof(buf), "%d", targetId);  //like game doing entityId with std::string
         obj->SetString("targetId", buf);
     }
     auto bp = command->bpBuild;

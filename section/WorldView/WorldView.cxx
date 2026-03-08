@@ -148,14 +148,29 @@ int ProjectProps(lua_State *l)
         entityIdsAndPos.push_back({id, pos});
     }
 
+    LuaObject result;
+    result.AssignNewTable(s, 0, 0);
+
     for (EntityIdAndPos &e : entityIdsAndPos)
     {
-        LogF("id: %d, pos: %f, %f, %f", e.id, e.pos.x, e.pos.y, e.pos.z);
+        char buf[32]{0};
+        _sprintf_s(buf, sizeof(buf), "%d", e.id);
+        LuaObject o = ids.GetByName(buf);
+        if (!o.IsNil())
+        {
+            Vector2f screenPos = Project(geomcamera, e.pos);
+            LuaObject pos;
+            pos.AssignNewTable(s, 2, 0);
+            pos.SetNumber(1, screenPos.x);
+            pos.SetNumber(2, screenPos.y);
+            result.SetObject(buf, pos);
+        }
     }
 
+    result.PushStack(l);
     return 1;
 }
-// UI_Lua import("/lua/ui/game/worldview.lua").viewLeft:ProjectpProps({})
+// UI_Lua reprsl(import("/lua/ui/game/worldview.lua").viewLeft:ProjectpProps({}))
 
 static WorldViewMethodReg WorldViewProjectPropsOnScreen{
     "ProjectpProps",

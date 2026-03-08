@@ -223,6 +223,13 @@ lua_Number LuaObject::GetNumber(int key) const
 
 int LuaObject::GetInteger(int key) const { return GetNumber(key); }
 
+LuaObject LuaObject::GetByName(const char *name) const
+{
+    LuaObject res;
+    GetByName(&res, name);
+    return res;
+}
+
 void LuaObject::Insert(const LuaObject &obj) const
 {
     luaplus_assert(m_state == obj.m_state);
@@ -284,4 +291,10 @@ bool LuaObject::operator==(const LuaObject &right) const
 bool LuaObject::operator!=(const LuaObject &right) const
 {
     return !(*this == right);
+}
+
+void LuaObject::SetObject(const char *key, const LuaObject &value) const
+{
+    luaplus_assert(m_state == value.m_state);
+    SetTableHelper(key, &value.m_object);
 }

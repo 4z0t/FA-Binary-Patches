@@ -210,6 +210,8 @@ public:
   LuaObject GetObject(const LuaObject &key) const;
   LuaObject GetObject(int key) const;
 
+  LuaObject GetByName(const char *name) const;
+
   lua_Number GetNumber(int key) const;
   int GetInteger(int key) const;
   // LuaObject GetObject(const char* key) const;
@@ -217,7 +219,7 @@ public:
 
   void SetNil(const LuaObject& key) const;
   void SetObject(const LuaObject &key, const LuaObject &value) const;
-  // void SetObject(const char *key, const const LuaObject &value) const;
+  void SetObject(const char *key, const LuaObject &value) const;
   void SetObject(int key, const LuaObject &value) const;
   void SetTableHelper(const TObject *key, const TObject *value) const;
 
@@ -225,7 +227,7 @@ public:
                    int lnhash) asm("0x908c10");
   void CreateTable(LuaObject *out, int key, int narray,
                    int lnhash) asm("0x908ca0");
-  void GetByName(LuaObject *out, const char *name) asm("0x90a160");
+  void GetByName(LuaObject *out, const char *name) const asm("0x90a160");
   LuaObject *__GetMetaTable(LuaObject *out) const asm("0x908ba0");
   void Lookup(LuaObject *out, const char *key) asm("0x9093b0");
   void PushStack(LuaStackObject *out, LuaState *state) const asm("0x907d80");
@@ -276,6 +278,8 @@ public:
   void SetString(const char *key, const char *value) asm("0x908450");
   void SetString(int key, const char *value) asm("0x9084e0");
   void TypeError(const char *msg) asm("0x9072d0");
+
+  void SetTableHelper(const char *key, const TObject *obj) const asm("0x009074B0");
 
   // private
   void AddToUsedList(LuaState *state) asm("0x908890");
