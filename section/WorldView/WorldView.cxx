@@ -89,10 +89,63 @@ int ProjectMultiple(lua_State *l)
 
 using WorldViewMethodReg = RegFunc<0xF59690, 0x00E491E8, 0x00F8D88C>;
 
-WorldViewMethodReg WorldViewProjectMultiple{
+static WorldViewMethodReg WorldViewProjectMultiple{
     "ProjectMultiple",
     "WorldView:ProjectMultiple(vectors)",
     ProjectMultiple,
+    "CUIWorldView"};
+
+int ProjectProps(lua_State *l)
+{
+    if (lua_gettop(l) != 2)
+    {
+        l->LuaState->Error(s_ExpectedButGot, __FUNCTION__, 2, lua_gettop(l));
+    }
+
+    Result<CUIWorldView> r = GetCScriptObject<CUIWorldView>(l, 1);
+    if (r.IsFail())
+    {
+        lua_pushstring(l, r.reason);
+        lua_error(l);
+        return 0;
+    }
+    void *worldview = r.object;
+    if (worldview == nullptr)
+        return 0;
+
+    void *camera = (void *)(*(int(__thiscall **)(int))(*(int *)((int)worldview + 284) + 12))((int)worldview + 284);
+    if (camera == nullptr)
+        return 0;
+
+    float *geomcamera = (float *)(*(int(__thiscall **)(void *))(*(int *)camera + 8))(camera);
+    if (geomcamera == nullptr)
+        return 0;
+
+    LuaState *s = l->LuaState;
+
+    LuaObject ids{s, 2};
+    if (!ids.IsTable())
+    {
+        s->Error(s_ExpectedButGot, __FUNCTION__, "table", ids.TypeName());
+    }
+
+    InlinedVector<UserEntity *, 2> entities;
+    GetEntitiesInView(geomcamera, &entities, &cwldsession->v20, Moho::EEntityType::ENTITYTYPE_Prop);
+
+    for (UserEntity *entity : entities)
+    {
+        uint32_t id = GetField<uint32_t>(entity, 0x44);
+        LogF("id: %x", id);
+    }
+
+    return 1;
+}
+// UI_Lua import("/lua/ui/game/worldview.lua").viewLeft:ProjectpProps({})
+
+static WorldViewMethodReg WorldViewProjectPropsOnScreen{
+    "ProjectpProps",
+    "WorldView:ProjectpProps(vectors)",
+    ProjectProps,
     "CUIWorldView"};
 
 Vector2f *__thiscall Moho__CameraImpl__Project(/*Moho::CameraImpl*/ const void *__this, Vector2f *result, Vector3f *pos)
