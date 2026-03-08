@@ -15,6 +15,7 @@ OUTPUT(section.pe)
 "_strcpy"                   = 0xA944E0;
 "_memcpy"                   = 0xA84A60;
 "_floor"                    = 0xA8DF30;
+"_memmove"                  = 0xA84A60;
 
 SECTIONS {
     . = __image_base__ + 0x1000;

@@ -95,6 +95,7 @@ static WorldViewMethodReg WorldViewProjectMultiple{
     ProjectMultiple,
     "CUIWorldView"};
 
+#include <vector>
 int ProjectProps(lua_State *l)
 {
     if (lua_gettop(l) != 2)
@@ -132,10 +133,24 @@ int ProjectProps(lua_State *l)
     InlinedVector<UserEntity *, 2> entities;
     GetEntitiesInView(geomcamera, &entities, &cwldsession->v20, Moho::EEntityType::ENTITYTYPE_Prop);
 
+    struct EntityIdAndPos
+    {
+        uint32_t id;
+        Vector3f pos;
+    };
+
+    std::vector<EntityIdAndPos> entityIdsAndPos;
+
     for (UserEntity *entity : entities)
     {
         uint32_t id = GetField<uint32_t>(entity, 0x44);
-        LogF("id: %x", id);
+        Vector3f pos = GetField<VTransform>(entity, 0x50 + 0x24).pos;
+        entityIdsAndPos.push_back({id, pos});
+    }
+
+    for (EntityIdAndPos &e : entityIdsAndPos)
+    {
+        LogF("id: %d, pos: %f, %f, %f", e.id, e.pos.x, e.pos.y, e.pos.z);
     }
 
     return 1;
