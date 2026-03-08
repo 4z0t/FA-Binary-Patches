@@ -140,6 +140,7 @@ int ProjectProps(lua_State *l)
     };
 
     std::vector<EntityIdAndPos> entityIdsAndPos;
+    entityIdsAndPos.reserve(entities.size());
 
     for (UserEntity *entity : entities)
     {

@@ -31,6 +31,8 @@ struct BaseVector
     Iterator begin() { return Iterator(this->_begin); }
     Iterator end() { return Iterator(this->_end); }
 
+    size_t size() { return this->_begin ? this->_end - this->_begin : 0; }
+
 public:
     T *_begin;
     T *_end;
