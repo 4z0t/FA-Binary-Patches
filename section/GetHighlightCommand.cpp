@@ -25,7 +25,7 @@ int UIGetHighlightCommand(lua_State *L) {
     auto targetId = command->targetId;
     if (targetId != 0xF0000000) {
         char buf[16];
-        _sprintf_s(buf, sizeof(buf), "%d", targetId);
+        sprintf_s(buf, sizeof(buf), "%d", targetId);
         lua_pushstring(L, "targetId");
         lua_pushstring(L, buf);
         lua_rawset(L, -3);
