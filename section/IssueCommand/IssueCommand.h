@@ -1,14 +1,6 @@
 #pragma once
 #include "moho.h"
 
-struct Quaternion
-{
-    float x;
-    float y;
-    float z;
-    float w;
-};
-
 namespace Moho
 {
 

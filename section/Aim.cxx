@@ -1,5 +1,6 @@
 #include "global.h"
 #include "IssueCommand/IssueCommand.h"
+#include "Sim/DebugCanvas.h"
 
 // When targeted manually it uses blip and when not - unit
 SHARED __thiscall bool CheckNeedAddEntityVelocity(Moho::CAiTarget *cai_target)
@@ -45,6 +46,16 @@ SHARED __thiscall float AimAddVelocity(
         aim_pos = target_pos + target_velocity;
     else
         aim_pos = target_pos;
+
+    void *entity = cai_target->entity;
+    if (entity != 0 && entity != (void *)4)
+    {
+        entity = Offset(entity, -4);
+        void *sim = GetField<void *>(entity, 0x148);
+        void *canvas = Moho__Sim__GetDebugCanvas(sim);
+        Vector4f o = {1.0f, 0.0f, 0.0f, 0.0f};
+        Moho__CDebugCanvas__AddWireCoords(&aim_pos, canvas, &o, 1.0f);
+    }
 
     // aim_pos = target_pos + target_velocity;
     return std::sqrt(

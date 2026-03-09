@@ -28,6 +28,8 @@ struct Vector4f
     };
 };
 
+using Quaternion = Vector4f;
+
 struct VTransform
 {
     Vector4f orient;
