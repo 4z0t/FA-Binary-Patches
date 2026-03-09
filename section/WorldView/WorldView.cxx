@@ -160,11 +160,9 @@ int ProjectProps(lua_State *l)
         if (!o.IsNil())
         {
             Vector2f screenPos = Project(geomcamera, e.pos);
-            LuaObject pos;
-            pos.AssignNewTable(s, 2, 0);
+            LuaObject pos = result.CreateTable(buf, 2, 0);
             pos.SetNumber(1, screenPos.x);
             pos.SetNumber(2, screenPos.y);
-            result.SetObject(buf, pos);
         }
     }
 

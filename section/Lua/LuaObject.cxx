@@ -180,6 +180,20 @@ void LuaObject::SetObject(const LuaObject &key, const LuaObject &value) const
     SetTableHelper(&key.m_object, &value.m_object);
 }
 
+LuaObject LuaObject::CreateTable(int key, int narr, int nrec) const
+{
+    LuaObject result;
+    CreateTable(&result, key, narr, nrec);
+    return result;
+}
+
+LuaObject LuaObject::CreateTable(const char *key, int narr, int nrec) const
+{
+    LuaObject result;
+    CreateTable(&result, key, narr, nrec);
+    return result;
+}
+
 // void LuaObject::SetObject(const char *key, const LuaObject &value) const {
 //   TObject key_obj{};
 //   key_obj.tt = LUA_TSTRING;

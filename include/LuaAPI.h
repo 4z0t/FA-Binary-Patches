@@ -223,10 +223,12 @@ public:
   void SetObject(int key, const LuaObject &value) const;
   void SetTableHelper(const TObject *key, const TObject *value) const;
 
-  void CreateTable(LuaObject *out, const char *key, int narray,
-                   int lnhash) asm("0x908c10");
-  void CreateTable(LuaObject *out, int key, int narray,
-                   int lnhash) asm("0x908ca0");
+  void CreateTable(LuaObject *out, const char *key, int narray, int lnhash) const  asm("0x908c10");
+  void CreateTable(LuaObject *out, int key, int narray, int lnhash) const asm("0x908ca0");
+
+  LuaObject CreateTable(int key, int narr, int nrec) const;
+  LuaObject CreateTable(const char* key, int narr, int nrec) const;
+
   void GetByName(LuaObject *out, const char *name) const asm("0x90a160");
   LuaObject *__GetMetaTable(LuaObject *out) const asm("0x908ba0");
   void Lookup(LuaObject *out, const char *key) asm("0x9093b0");
