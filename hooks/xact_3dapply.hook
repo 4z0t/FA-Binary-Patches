@@ -1,3 +1,2 @@
-0x4D9A60:
-    jmp @xact_3d_apply
-    nop
+0x004D9B21:
+    call fix__XACTApplyFailed
