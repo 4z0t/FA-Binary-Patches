@@ -16,6 +16,8 @@ OUTPUT(section.pe)
 "_memcpy"                   = 0xA84A60;
 "_floor"                    = 0xA8DF30;
 "_memmove"                  = 0xA84A60;
+"_sprintf"                  = 0xA82E9D;
+"_sprintf_s"                = 0xA82F32;
 
 SECTIONS {
     . = __image_base__ + 0x1000;

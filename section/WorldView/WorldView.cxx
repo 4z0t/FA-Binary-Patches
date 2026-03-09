@@ -155,7 +155,7 @@ int ProjectProps(lua_State *l)
     for (EntityIdAndPos &e : entityIdsAndPos)
     {
         char buf[32]{0};
-        _sprintf_s(buf, sizeof(buf), "%d", e.id);
+        sprintf_s(buf, sizeof(buf), "%d", e.id);
         LuaObject o = ids.GetByName(buf);
         if (!o.IsNil())
         {
