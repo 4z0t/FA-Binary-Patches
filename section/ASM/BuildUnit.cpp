@@ -1,5 +1,4 @@
-char _sCQUEMOV[] = "CQUEMOV";
-char** _pCQUEMOV = (char**)&_sCQUEMOV;
+const char CQUEMOV_s[] = "CQUEMOV";
 
 void BuildUnit()
 {
@@ -7,9 +6,7 @@ void BuildUnit()
         "PUSH 0x00E19824;"
         "JMP BU_L1;"
         "BU_L2:;"
-    );
-    asm(
-        "PUSH %[_pCQUEMOV];"
+        "PUSH offset %[CQUEMOV_s];"
         "MOV EDX,SS:[ESP-0x80];"
         "MOV ECX,SS:[ESP];"
         "MOV EDX,SS:[EDX];"
@@ -30,7 +27,6 @@ void BuildUnit()
         "JNE 0x006EFAF8;"
         "JMP BU_L2;"
         :
-        : [_pCQUEMOV] "d" (_pCQUEMOV)
-        :
-    );
+        : [CQUEMOV_s] "i"(CQUEMOV_s)
+        :);
 }
