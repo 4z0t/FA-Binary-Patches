@@ -5,17 +5,31 @@ namespace Refaf
 {
     class CountedObject
     {
-    public:
         int refcount;
 
-        CountedObject() : refcount{1} {}
+    public:
+        // 0x004228D0
+        CountedObject()
+            : refcount{0}
+        {
+        }
 
+        // 0x00422910
         void Release()
         {
             if (--refcount == 0)
                 delete this;
         }
 
-        virtual ~CountedObject() {}
+        // 0x00422900
+        void Acquire()
+        {
+            ++refcount;
+        }
+
+        // 0x004228C0
+        virtual ~CountedObject()
+        {
+        }
     };
 }

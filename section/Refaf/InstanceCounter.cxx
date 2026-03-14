@@ -1,4 +1,4 @@
-#include "InstanceCounterGetStatItem.h"
+#include "Refaf/EXE/Functions.h"
 #include "magic_classes.h"
 
 UIRegFunc __s{
