@@ -201,3 +201,17 @@ void Moho__CD3DFont__Render(Vector3f *p1, Vector3f *p2, Vector3f *p3, void *font
           [width] "g"(width)
         :);
 }
+
+void *Moho__CD3DFont__Render2D(Vector2f *pos, void *batcher, void *font, const char *chText, int color)
+{
+    void *__result;
+    asm(
+        "push %[color];"
+        "push %[chText];"
+        "push %[font];"
+        "call 0x00426580;"
+        : "=a"(__result)
+        : "a"(pos), "d"(batcher), [font] "g"(font), [chText] "g"(chText), [color] "g"(color)
+        :);
+    return __result;
+}

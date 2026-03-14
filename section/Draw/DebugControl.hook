@@ -1,0 +1,2 @@
+0x0084DA61:
+    jmp asm__DebugControl
