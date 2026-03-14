@@ -32,4 +32,6 @@ namespace Refaf
         {
         }
     };
+
+    static_assert(sizeof(CountedObject) == 8);
 }
