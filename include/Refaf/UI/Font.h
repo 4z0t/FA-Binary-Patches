@@ -1,6 +1,7 @@
 #pragma once
 #include "Refaf/Utility/Pad.h"
 #include "CountedObject.h"
+#include "Refaf/Math/Vector2.h"
 
 namespace Refaf
 {
@@ -9,6 +10,9 @@ namespace Refaf
     class Font : public CountedObject
     {
         Pad<0x4C> pad;
+
+    public:
+        void Render2D(void *batcher, const char *text, const Math::Vector2f &pos, int color);
     };
 
     class FontRef;
@@ -24,7 +28,10 @@ namespace Refaf
 
         void Create(const char *font_name, int font_size);
 
-        Font *Get() const { return font; }
+        Font *Get() const
+        {
+            return font;
+        }
 
         ~FontRef();
     };

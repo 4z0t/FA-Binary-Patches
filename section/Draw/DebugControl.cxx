@@ -12,6 +12,6 @@ void __thiscall _DrawDebugControl(void *control, void *batcher, Vector3f *tl)
 
     string *name = Offset<string *>(control, 0x100);
 
-    Vector2f pos = {tl->x, tl->y - 5.f};
-    Moho__CD3DFont__Render2D(&pos, batcher, default_font.Get(), name->data(), 0xFFFF00FF);
+    Refaf::Math::Vector2f pos = {tl->x, tl->y - 5.f};
+    default_font.Get()->Render2D(batcher, name->data(), pos, 0xFFFF00FF);
 }

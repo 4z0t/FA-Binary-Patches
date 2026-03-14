@@ -23,5 +23,10 @@ Refaf::FontRef::~FontRef()
 void Refaf::FontRef::Create(const char *font_name, int font_size)
 {
     Release();
-    InternalCreate(this, font_name, font_size);
+    FontInternalCreate(this, font_name, font_size);
+}
+
+void Refaf::Font::Render2D(void *batcher, const char *text, const Math::Vector2f &pos, int color)
+{
+    FontInternalRender2D(&pos, batcher, this, text, color);
 }

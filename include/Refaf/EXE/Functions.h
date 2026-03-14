@@ -14,6 +14,7 @@ namespace Refaf
 
     SHARED
     {
-        void *InternalCreate(FontRef * font, const char *font_name, int font_size);
+        void *FontInternalCreate(FontRef * font, const char *font_name, int font_size);
+        void *FontInternalRender2D(const Math::Vector2f *pos, void *batcher, Font *font, const char *chText, int color);
     }
 } // namespace Refaf
