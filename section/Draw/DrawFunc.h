@@ -47,5 +47,4 @@ SHARED
     char *DrawQuad(Vertex * a1, void *batcher, Vertex *a3, Vertex *a4, Vertex *a5);
     void DrawQuad2(unsigned int color, Vector3f *a2, Vector3f *ecx0, Vector3f *esi0, void *batcher, Vector3f *a6);
     void Moho__CD3DFont__Render(Vector3f * p1, Vector3f * p2, Vector3f * p3, void *font, const char *text, void *batcher, Vector3f *p4, uint32_t color, float width);
-    void *Moho__CD3DFont__Render2D(Vector2f * pos, void *batcher, Refaf::Font *font, const char *chText, int color);
 }

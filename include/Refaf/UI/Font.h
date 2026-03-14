@@ -5,8 +5,6 @@
 
 namespace Refaf
 {
-    class Font;
-
     class Font : public CountedObject
     {
         Pad<0x4C> pad;
@@ -14,8 +12,6 @@ namespace Refaf
     public:
         void Render2D(void *batcher, const char *text, const Math::Vector2f &pos, int color);
     };
-
-    class FontRef;
 
     class FontRef
     {
