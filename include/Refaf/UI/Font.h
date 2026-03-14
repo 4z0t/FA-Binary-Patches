@@ -1,50 +1,35 @@
 #pragma once
+#include "Refaf/Utility/Pad.h"
 #include "CountedObject.h"
 
 namespace Refaf
 {
     class Font;
 
-    void __stdcall Font__Dtor(Font *font) asm("0x425860");
-
     class Font : public CountedObject
     {
+        Pad<0x4C> pad;
     };
 
     class FontRef;
-
-    SHARED void *InternalCreate(FontRef *font, const char *font_name, int font_size);
 
     class FontRef
     {
         Font *font;
 
+        void Release();
+
     public:
-        FontRef() : font(nullptr)
-        {
-        }
+        FontRef();
 
-        void Create(const char *font_name, int font_size)
-        {
-            if (font != nullptr)
-            {
-                font->Release();
-                font = nullptr;
-            }
-            InternalCreate(this, font_name, font_size);
-        }
+        void Create(const char *font_name, int font_size);
 
-        Font *Get() { return font; }
+        Font *Get() const { return font; }
 
-        ~FontRef()
-        {
-            if (font != nullptr)
-            {
-                font->Release();
-                font = nullptr;
-            }
-        }
+        ~FontRef();
     };
 
+    // 0x00425373
+    static_assert(sizeof(Font) == 0x54);
     static_assert(sizeof(FontRef) == 4);
 }
