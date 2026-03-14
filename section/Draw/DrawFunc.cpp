@@ -202,7 +202,7 @@ void Moho__CD3DFont__Render(Vector3f *p1, Vector3f *p2, Vector3f *p3, void *font
         :);
 }
 
-void *Moho__CD3DFont__Render2D(Vector2f *pos, void *batcher, void *font, const char *chText, int color)
+void *Moho__CD3DFont__Render2D(Vector2f *pos, void *batcher, Refaf::Font *font, const char *chText, int color)
 {
     void *__result;
     asm(

@@ -5,6 +5,6 @@
 #include "utility.h"
 #include <cmath>
 
-extern void *default_font asm("0x010C4284");
+// extern void *default_font asm("0x010C4284");
 
 SHARED void __thiscall _DrawDebugControl(void *control, void *batcher, Vector3f *tl);
