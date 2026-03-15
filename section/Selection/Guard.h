@@ -30,6 +30,7 @@ struct CFormation
 };
 
 void __stdcall Moho__CFormation__ChooseFormation(CFormation *formation, Vector3f *pos, Moho::UserUnitMap *units, bool shift) asm("0x008384C0");
+void __cdecl PartitionRebuilders(Moho::UserUnitMap &units, Moho::UserUnitMap &non_rebuilders, Moho::UserUnitMap &rebuilders) asm("0x0081E9E0");
 
 SHARED
 {
