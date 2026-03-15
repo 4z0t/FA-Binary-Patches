@@ -158,8 +158,8 @@ namespace Moho
         int v11;
         int v12;
         int v13;
-        int v14;
-        Quaternion v15;
+        int bestFormation;
+        Quaternion orientation;
         float v19;
         void *blueprint;
         int v21;

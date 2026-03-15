@@ -34,12 +34,20 @@ void __thiscall HandleGroundAssist(void *__this)
     int mods = GetField<int>(__this, 0x54);
     void *mouse_drag_start = Offset<void *>(__this, 0xC);
     Vector3f pos = GetField<Vector3f>(mouse_drag_start, 0x4);
+    bool is_shift = mods & 1;
 
-    Moho::SSTICommandIssueData data{Moho::EUnitCommandType::UNITCOMMAND_Guard};
+    CFormation *formation = GetField<CFormation *>(cwldsession, 0x400);
+    Moho__CFormation__ChooseFormation(formation, &pos, &cwldsession->selectedUnits, is_shift);
+    if (formation->bestFormation >= 0)
+    {
+        Moho::SSTICommandIssueData data{Moho::EUnitCommandType::UNITCOMMAND_Guard};
+        data.bestFormation = formation->bestFormation;
+        data.orientation = formation->direction;
+        data.v19 = formation->v22;
 
-    data.target_data = Moho::TargetData::Ground(pos);
+        data.target_data = Moho::TargetData::Ground(pos);
 
-    Moho__ISSUE_FactoryCommand(&cwldsession->selectedUnits, &data, !(mods & 1));
-
-    LogF("Mods %08x", mods);
+        Moho__ISSUE_FactoryCommand(&cwldsession->selectedUnits, &data, !is_shift);
+        Moho__CFormation__Reset(formation);
+    }
 }

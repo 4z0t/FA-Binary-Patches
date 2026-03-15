@@ -34,3 +34,12 @@ void Moho__ISSUE_FactoryCommand(Moho::UserUnitMap *units, Moho::SSTICommandIssue
         : "b"(units), [data] "g"(data), [clear] "g"(clear)
         :);
 }
+
+void Moho__CFormation__Reset(CFormation *formation)
+{
+    asm(
+        "call 0x008380E0;"
+        :
+        : "S"(formation)
+        :);
+}
