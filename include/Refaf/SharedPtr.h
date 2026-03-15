@@ -102,4 +102,6 @@ namespace Refaf
             }
         }
     };
+
+    static_assert(sizeof(SharedPtr<void>) == 8);
 }

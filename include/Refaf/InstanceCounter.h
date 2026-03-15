@@ -17,12 +17,19 @@ namespace Refaf
     // 0x0040D208
     static_assert(sizeof(StatItem) == 0xA0);
 
+    class InstanceCounterBase
+    {
+    protected:
+        static void Increment(long volatile *counter);
+        static void Decrement(long volatile *counter);
+    };
+
     template <typename T>
-    class InstanceCounter
+    class InstanceCounter : InstanceCounterBase
     {
     public:
-        InstanceCounter() { _InterlockedExchangeAdd(&GetStatItem()->counter, 1); }
-        ~InstanceCounter() { _InterlockedExchangeAdd(&GetStatItem()->counter, -1); }
+        InstanceCounter() { Increment(&GetStatItem()->counter); }
+        ~InstanceCounter() { Decrement(&GetStatItem()->counter); }
 
         static StatItem *GetStatItem();
     };
