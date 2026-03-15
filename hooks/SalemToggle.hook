@@ -1,13 +1,11 @@
-// Moho::Entity::Entity
-0x00677BC9:
-    mov dword ptr [esi+0x1F8], ebx // 0x1F9 bool forceAltFootprint
+//Moho::SSTIEntityVariableData::SSTIEntityVariableData
+0x00558823:
+    mov dword ptr [eax+0x0A4], ecx // 0x0A5 bool forceAltFootprint
 
 //  Moho::Entity::GetFootprint
-0x006788A5:
-    jmp @asm__GetFootprint
+0x00678880:
+    jmp @Moho__Entity__GetFootprint
     nop
-    nop
-
 
 // Salem:
 // AltFootprint = -- water only
