@@ -4,6 +4,7 @@ SHARED void __thiscall HandleGuardOrder(void *__this, UserUnit *below_mouse)
 {
     using namespace Moho;
     int mods = GetField<int>(__this, 0x54);
+    bool is_shift = mods & 1;
     void *var_data = Offset<void *>(below_mouse, 0x50);
     VTransform *transform = Offset<VTransform *>(var_data, 0x24);
 
@@ -19,7 +20,7 @@ SHARED void __thiscall HandleGuardOrder(void *__this, UserUnit *below_mouse)
 
         data.target_data = TargetData::Entity(id);
 
-        Moho__ISSUE_Command(&non_rebuilders, &data, !(mods & 1));
+        Moho__ISSUE_Command(&non_rebuilders, &data, !is_shift);
     }
 
     {
@@ -27,7 +28,7 @@ SHARED void __thiscall HandleGuardOrder(void *__this, UserUnit *below_mouse)
 
         data.target_data = TargetData::Ground(transform->pos);
 
-        Moho__ISSUE_Command(&rebuilders, &data, !(mods & 1));
+        Moho__ISSUE_Command(&rebuilders, &data, !is_shift);
     }
 }
 
