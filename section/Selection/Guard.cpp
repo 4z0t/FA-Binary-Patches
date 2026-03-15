@@ -15,7 +15,7 @@ void Moho__ISSUE_Command(Moho::UserUnitMap *units, Moho::SSTICommandIssueData *a
 void asm__FactoryGroundAssist()
 {
     asm(
-        "mov ecx, edi;"
+        "mov ecx, edi;" // command mode data
         "call %[HandleGroundAssist];"
         "jmp 0x00820637;"
         :
