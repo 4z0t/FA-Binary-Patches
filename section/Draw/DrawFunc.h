@@ -1,5 +1,5 @@
 #pragma once
-#include "SharedPtr.h"
+#include "Refaf/SharedPtr.h"
 #include "moho.h"
 
 // #include <windows.h>
@@ -8,10 +8,10 @@ namespace Moho::CPrimBatcher
     __stdcall void *FlushBatcher(void *batcher) asm("0x0043A140");
     struct Texture;
 
-    void FromSolidColor(SharedPtr<Texture> *t, unsigned int color) asm("0x4478C0");
+    void FromSolidColor(Refaf::SharedPtr<Texture> *t, unsigned int color) asm("0x4478C0");
     SHARED
     {
-        void __stdcall SetTexture(void *batcher, SharedPtr<Texture> *texture);
+        void __stdcall SetTexture(void *batcher, Refaf::SharedPtr<Texture> *texture);
         void __stdcall SetViewProjMatrix(void *batcher, void *matrix);
     }
 

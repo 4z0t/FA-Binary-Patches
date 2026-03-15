@@ -2,18 +2,6 @@
 #include "RenderIcons.h"
 #include "CObject.h"
 
-void __stdcall ExtendUserUnitCtor(Moho::UserUnit *uunit)
-{
-    auto texture = Offset<SPtrTexture *>(uunit, 1000);
-    new (texture) SPtrTexture();
-}
-
-void __stdcall ExtendUserUnitDtor(Moho::UserUnit *uunit)
-{
-    auto texture = Offset<SPtrTexture *>(uunit, 1000);
-    texture->~SharedPtr();
-}
-
 void ExtendCtor()
 {
     asm("push ebp;"
@@ -53,51 +41,3 @@ void ExtendRenderIcon()
         : [ExtendRenderUserUnitIcon] "i"(ExtendRenderUserUnitIcon)
         :);
 }
-
-SPtrTexture *__cdecl FromFile(SPtrTexture *a1,
-                              const char *filename,
-                              int border) asm("0x004486F0");
-
-int SetCustomIcon(lua_State *l)
-{
-
-    if (lua_gettop(l) != 2)
-    {
-        l->LuaState->Error(s_ExpectedButGot, __FUNCTION__, 2, lua_gettop(l));
-    }
-
-    Result<UserUnit> r = GetCScriptObject<UserUnit>(l, 1);
-
-    if (r.IsFail())
-    {
-        lua_pushstring(l, r.reason);
-        lua_error(l);
-        return 0;
-    }
-    void *unit = r.object;
-    if (unit == nullptr)
-        return 0;
-
-    auto *texture = Offset<SPtrTexture *>(unit, 1000);
-    texture->Release();
-    if (lua_isnil(l, 2))
-    {
-        return 0;
-    }
-
-    const char *path = lua_tostring(l, 2);
-    if (!path)
-    {
-        luaL_typerror(l, 2, "string");
-    }
-
-    FromFile(texture, path, 0);
-
-    return 0;
-}
-
-UserUnitMethodReg UserUnitSetCustomIcon{
-    "SetCustomIcon",
-    "UserUnit:SetCustomIcon()",
-    SetCustomIcon,
-    s_UserUnit};

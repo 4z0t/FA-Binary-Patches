@@ -1,7 +1,6 @@
 #pragma once
 #include "GenericStructures.h"
 #include "Maths.h"
-#include "SharedPtr.h"
 #include "global.h"
 
 namespace Moho
@@ -21,8 +20,8 @@ namespace Moho
         FastVector<Vertex> vertices;
         FastVector<short> primitives;
         int mode;
-        SharedPtr<void *> tex1;
-        SharedPtr<void *> batchTexture;
+        Refaf::SharedPtr<void *> tex1;
+        Refaf::SharedPtr<void *> batchTexture;
         Vector2f p2;
         Vector2f p1;
         VMatrix4 viewMatrix;

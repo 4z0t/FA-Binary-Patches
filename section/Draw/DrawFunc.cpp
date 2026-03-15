@@ -67,7 +67,7 @@ unsigned int GetCircleColor()
     return CIRCLE_COLOR;
 }
 
-void __stdcall Moho::CPrimBatcher::SetTexture(void *batcher, SharedPtr<Texture> *texture)
+void __stdcall Moho::CPrimBatcher::SetTexture(void *batcher, Refaf::SharedPtr<Texture> *texture)
 {
     asm("call 0x4386A0;"
         :

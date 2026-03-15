@@ -43,9 +43,9 @@ namespace Moho
             *(char *)((int *)batcher + 285) = 0;
         }
 
-        SharedPtr<Texture> FromSolidColor(unsigned int color)
+        Refaf::SharedPtr<Texture> FromSolidColor(unsigned int color)
         {
-            SharedPtr<Texture> t;
+            Refaf::SharedPtr<Texture> t;
             FromSolidColor(&t, color);
             return t;
         }
@@ -229,7 +229,7 @@ int LuaDrawText(lua_State *l)
     float width = lua_tonumber(l, 5);
 
     void *font = GetField<void *>(r.object, 0x11c);
-    string* text = Offset<string*>(r.object, 0x120);
+    string *text = Offset<string *>(r.object, 0x120);
     Moho__CD3DFont__Render(&v1, &v2, &v3, font, text->data(), batcher, &v4, 0xFFFFFFFF, width);
     return 0;
 }
@@ -274,7 +274,7 @@ void __thiscall CustomDraw(void *_this, void *batcher)
     Moho::SetupDevice(device, "primbatcher", "TAlphaBlendLinearSampleNoDepth");
     Moho::CPrimBatcher::ResetBatcher(batcher);
     Moho::CPrimBatcher::SetViewProjMatrix(batcher, Moho::GetWorldCamera(_worldview));
-    SharedPtr<Moho::CPrimBatcher::Texture> t;
+    Refaf::SharedPtr<Moho::CPrimBatcher::Texture> t;
     Moho::CPrimBatcher::FromSolidColor(&t, 0xFFFFFFFF);
     Moho::CPrimBatcher::SetTexture(batcher, &t);
 

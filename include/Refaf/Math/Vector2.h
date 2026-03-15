@@ -1,6 +1,5 @@
 #pragma once
 #include <cmath>
-#include <cmath>
 
 namespace Refaf::Math
 {
