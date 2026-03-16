@@ -1,5 +1,5 @@
 0x008630A0:
-    cvtsi2ss xmm0, eax; # eax contains half height
+    cvtsi2ss xmm0, eax; # eax contains half width
     movss    xmm1, ds:resources_icon_scale
     mulss    xmm0, xmm1
     movss    dword ptr[esp + 0x4C], xmm0 # half width
@@ -12,7 +12,7 @@
     nop 8
 
 0x0086329D:
-    cvtsi2ss xmm0, eax; # eax contains half height
+    cvtsi2ss xmm0, eax; # eax contains half width
     movss    xmm1, ds:resources_icon_scale
     mulss    xmm0, xmm1
     movss    dword ptr[esp + 0x4C], xmm0 # half width
