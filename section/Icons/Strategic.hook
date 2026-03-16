@@ -37,7 +37,7 @@
     cvtsi2ss xmm0, eax;
     mulss    xmm0, xmm1
     movss    dword ptr[esp + 0x38], xmm0 # half height
-    mov      eax, [esi+0x14]
+    mov      eax, [esi + 0x14]
     nop 8
 
 # objective underlay
@@ -53,5 +53,5 @@
     cvtsi2ss xmm0, eax;
     mulss    xmm0, xmm1
     movss    dword ptr[esp + 0x38], xmm0 # half height
-    movss   xmm6, dword ptr [esp+0x40]
+    movss    xmm6, dword ptr [esp + 0x40]
     nop 8
