@@ -1,3 +1,5 @@
+
+# mass deposit
 0x008630A0:
     cvtsi2ss xmm0, eax; # eax contains half width
     movss    xmm1, ds:resources_icon_scale
@@ -11,6 +13,7 @@
     mov      esi, [ebp + 0xC] # batcher
     nop 8
 
+# hydrocarbon deposit
 0x0086329D:
     cvtsi2ss xmm0, eax; # eax contains half width
     movss    xmm1, ds:resources_icon_scale
