@@ -8,7 +8,7 @@
     cvtsi2ss xmm0, eax;
     mulss    xmm0, xmm1
     movss    dword ptr[esp + 0x48], xmm0 # half height
-    mov esi, [ebp + 0xC] # batcher
+    mov      esi, [ebp + 0xC] # batcher
     nop 8
 
 0x0086329D:
