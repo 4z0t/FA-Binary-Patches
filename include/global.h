@@ -1,8 +1,6 @@
 #pragma once
 #include <cstdint>
 
-#define SHARED extern "C"
-
 #define GPtr(addr, type) (*(type *)addr)
 
 #define WDecl(addr, type) ((type) * (uintptr_t *)addr)
@@ -173,39 +171,4 @@ template <typename T> struct Result {
   inline bool IsFail() { return reason != nullptr; }
 };
 
-bool InterlockedExchangeAdd(volatile unsigned *addr, unsigned value)
-{
-    bool _result;
-    asm(
-        "lock xadd [eax], edx;"
-        "setnz al;"
-        : "=a"(_result)
-        : "a"(addr),
-          "d"(value)
-        :);
-    return _result;
-}
-
-template <typename T=void*>
-T Offset(void *ptr, size_t offset)
-{
-    return (T)(((char *)ptr) + offset);
-}
-
-template <typename T=void*>
-const T Offset(const void *ptr, size_t offset)
-{
-    return (const T)(((const char *)ptr) + offset);
-}
-
-template <typename T=void*>
-T &GetField(void *ptr, size_t offset)
-{
-    return *Offset<T *>(ptr, offset);
-}
-
-template <typename T=void*>
-const T &GetField(const void *ptr, size_t offset)
-{
-    return *Offset<T *>(ptr, offset);
-}
+#include "Refaf/Utility/Base.h"
