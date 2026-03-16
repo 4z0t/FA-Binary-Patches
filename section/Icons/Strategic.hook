@@ -55,3 +55,30 @@
     movss    dword ptr[esp + 0x38], xmm0 # half height
     movss    xmm6, dword ptr [esp + 0x40]
     nop 8
+
+
+# projectile icon texture
+0x008625A3:
+    mov     byte ptr [esp+0x23], 1
+    cvtsi2ss xmm0, eax; # eax contains half width
+    movss    xmm1, ds:iconscale
+    mulss    xmm0, xmm1
+    movss    dword ptr[esp + 0x48], xmm0 # half width
+    mov     eax, [ecx+0x10]
+    shr eax, 1
+    cvtsi2ss xmm0, eax;
+    mulss    xmm0, xmm1
+    movss    dword ptr[esp + 0x44], xmm0 # half height
+    cmp      byte ptr [0x00F57B24], 0
+    nop 8
+
+
+# projectile icon yellow square
+0x0086269C:
+    mulss xmm0, ds:0xE4F724
+    mulss xmm0, ds:iconscale
+    movd  edi, xmm0
+    mov   dword ptr [esp+0x48], edi
+    mov   dword ptr [esp+0x44], edi
+    nop 3
+
