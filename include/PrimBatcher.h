@@ -2,6 +2,7 @@
 #include "GenericStructures.h"
 #include "Maths.h"
 #include "global.h"
+#include "Refaf/SharedPtr.h"
 
 namespace Moho
 {
