@@ -1,12 +1,7 @@
 #include "TeamColorMode.h"
+#include "Iterators.h"
 
 int custom_colors[32]{};
-
-SHARED int TeamColorMode(lua_State *L)
-{
-    LogF("TeamColorMode");
-    return 0;
-}
 
 enum class ETeamColorMode : std::uint8_t
 {
@@ -15,7 +10,44 @@ enum class ETeamColorMode : std::uint8_t
     Custom,
 };
 
-SHARED int __thiscall SelectTeamColor(Moho::CWldSession *session, void *unit, struct_IconAux *aux)
+// UI_Lua TeamColorMode(0)
+// UI_Lua TeamColorMode(1)
+// UI_Lua TeamColorMode(2, {'ff00ff00', 'ffffff00', 'red', 'blue' })
+SHARED int TeamColorMode(lua_State *L)
+{
+    int top = lua_gettop(L);
+    if (top < 1 || top > 2)
+        L->LuaState->Error(s_ExpectedBetweenButGot, __FUNCTION__, 1, 2, top);
+
+    if (!cwldsession)
+        return 0;
+
+    ETeamColorMode mode = (ETeamColorMode)lua_tonumber(L, 1);
+    GetField<ETeamColorMode>(cwldsession, 0x4e9) = mode;
+
+    LuaObject colors{L->LuaState, 2};
+    if (!colors.IsTable())
+        return 0;
+
+    for (const auto &[i, color] : IPairs(colors))
+    {
+        const char *s = color.ToString();
+        if (s)
+        {
+            int id = i - 1;
+            uint32_t color_i;
+            if (id >= 0 && id < 32 && Moho::TryConvertToColor(s, color_i))
+                custom_colors[id] = color_i;
+        }
+    }
+
+    return 0;
+}
+
+SHARED int __thiscall SelectTeamColor(
+    Moho::CWldSession *session,
+    void *unit,
+    struct_IconAux *aux)
 {
     ETeamColorMode mode = GetField<ETeamColorMode>(session, 0x4e9);
     void *focus_army = session->GetFocusArmy();
