@@ -1,12 +1,13 @@
 0x00847DE2:
-    mov dword ptr[0x10C3CC8 + 0x14], offset TeamColorMode
+    mov   dword ptr[0x10C3CC8 + 0x14], offset TeamColorMode
 
-0x0085DB31: # ecx is session
-    mov  byte ptr [esp + 0x33], 1 # flag that unit is identified
-    mov ebx, eax
-    push esi # aux 
-    push eax # UserUnit
-    call SelectTeamColor
-    mov  [esp + 0x34], eax # color
-    xchg  ebx, eax # eax must store UserUnit
-    jmp  0x0085DBC2
+0x0085DB31:                        # ecx is session
+    mov   byte ptr [esp + 0x33], 1 # flag that unit is identified
+    mov   ebx, eax
+    push  esi                      # aux 
+    push  eax                      # UserUnit
+    call  SelectTeamColor
+    mov   [esp + 0x34], eax        # color
+    xchg  ebx, eax                 # eax must store UserUnit
+    jmp   0x85DBC2
+    clear 121
