@@ -10,6 +10,10 @@ enum class ETeamColorMode : std::uint8_t
     Custom,
 };
 
+// UI_Lua TeamColorMode()
+// UI_Lua TeamColorMode(1,2,3)
+// UI_Lua TeamColorMode(2, {'aaa' })
+// UI_Lua TeamColorMode(2, {1,2,3 })
 // UI_Lua TeamColorMode(0)
 // UI_Lua TeamColorMode(1)
 // UI_Lua TeamColorMode(2, {'ff00ff00', 'ffffff00', 'red', 'blue' })
@@ -36,8 +40,13 @@ SHARED int TeamColorMode(lua_State *L)
         {
             int id = i - 1;
             uint32_t color_i;
-            if (id >= 0 && id < 32 && Moho::TryConvertToColor(s, color_i))
-                custom_colors[id] = color_i;
+            if (id >= 0 && id < 32)
+            {
+                if (Moho::TryConvertToColor(s, color_i))
+                    custom_colors[id] = color_i;
+                else
+                    L->LuaState->Error(s_UnknownColor, s);
+            }
         }
     }
 
