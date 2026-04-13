@@ -15,6 +15,8 @@ SHARED void __thiscall HandleGuardOrder(void *__this, UserUnit *below_mouse)
     UserUnitMap non_rebuilders;
 
     PartitionRebuilders(cwldsession->selectedUnits, non_rebuilders, rebuilders);
+    non_rebuilders.Remove(below_mouse);
+    rebuilders.Remove(below_mouse);
     {
         SSTICommandIssueData data{EUnitCommandType::UNITCOMMAND_Guard};
 
