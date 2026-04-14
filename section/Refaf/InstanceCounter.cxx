@@ -1,5 +1,4 @@
-#include "Refaf/EXE/Functions.h"
-#include "magic_classes.h"
+#include "Refaf/InstanceCounter.h"
 
 namespace Refaf
 {
@@ -12,10 +11,3 @@ namespace Refaf
         _InterlockedExchangeAdd(counter, -1);
     }
 }
-
-UIRegFunc __s{
-    "stat", "", [](lua_State *L) -> int
-    {
-        lua_pushnumber(L, Refaf::InstanceCounter<Refaf::CTask>::GetStatItem()->counter);
-        return 1;
-    }};
