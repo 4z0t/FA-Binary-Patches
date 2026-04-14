@@ -33,10 +33,11 @@ namespace STD
         using Iterator = _Iterator;
 
         T &operator[](int index) { return this->_begin[index]; }
+        const T &operator[](int index) const { return this->_begin[index]; }
 
         Iterator begin() { return Iterator(this->_begin); }
         Iterator end() { return Iterator(this->_end); }
 
-        size_t size() { return this->_begin ? this->_end - this->_begin : 0; }
+        size_t size() const { return this->_begin ? this->_end - this->_begin : 0; }
     };
 } // namespace STD

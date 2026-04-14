@@ -14,3 +14,19 @@ UIRegFunc __s{
         lua_pushnumber(L, Refaf::InstanceCounter<Refaf::CTask>::GetStatItem()->counter);
         return 1;
     }};
+
+class MyConCommand : public Refaf::ConCommand
+{
+public:
+    MyConCommand() : ConCommand("my_command", "My command") {}
+    void Handle(const STD::Vector<STD::String> &args) const override
+    {
+        for (int i = 0; i < args.size(); i++)
+        {
+            Refaf::Con_Printf("arg %d: %s", i, args[i].data());
+        }
+        Refaf::Con_Printf("my_command called");
+    }
+};
+
+MyConCommand my_command;

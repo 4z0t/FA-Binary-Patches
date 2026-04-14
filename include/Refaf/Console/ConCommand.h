@@ -7,6 +7,8 @@ namespace Refaf
 {
     struct ConCommandMap;
 
+    void Con_Printf(const char *format, ...) asm("0x41C990");
+
     class ConCommand
     {
     protected:
