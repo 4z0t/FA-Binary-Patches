@@ -18,6 +18,7 @@ OUTPUT(section.pe)
 "_memmove"                  = 0xA84A60;
 "_sprintf"                  = 0xA82E9D;
 "_sprintf_s"                = 0xA82F32;
+"__purecall"                = 0xA82547;
 
 SECTIONS {
     . = __image_base__ + 0x1000;

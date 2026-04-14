@@ -1,5 +1,15 @@
 #include "Refaf/EXE/Functions.h"
 
+void Refaf::Con_UnregisterCommand(ConCommandMap *map, const ConCommand *command)
+{
+    asm(
+        "push %[command];"
+        "call 0x41E4E0;"
+        :
+        : "a"(map), [command] "g"(command)
+        :);
+}
+
 void *Refaf::FontInternalCreate(FontRef *font, const char *name, int size)
 {
     void *__result;
