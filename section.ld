@@ -19,6 +19,7 @@ OUTPUT(section.pe)
 "_sprintf"                  = 0xA82E9D;
 "_sprintf_s"                = 0xA82F32;
 "__purecall"                = 0xA82547;
+"_atoi"                     = 0xA835CE;
 
 SECTIONS {
     . = __image_base__ + 0x1000;
