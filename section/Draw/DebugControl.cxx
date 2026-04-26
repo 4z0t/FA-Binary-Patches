@@ -2,13 +2,17 @@
 #include "Refaf/UI/Font.h"
 #include "Refaf/Console/TConVar.h"
 
-static Refaf::FontRef default_font;
+namespace
+{
+    Refaf::FontRef default_font;
 
-bool draw_control_name = false;
-static Refaf::TConVar<bool> ui_draw_control_name_var{
-    "ui_draw_control_name",
-    "Draw debug control",
-    &draw_control_name};
+    bool draw_control_name = false;
+
+    Refaf::TConVar<bool> var{
+        "ui_draw_control_name",
+        "Draw debug control",
+        &draw_control_name};
+}
 
 void __thiscall _DrawDebugControl(void *control, void *batcher, Vector3f *tl)
 {
