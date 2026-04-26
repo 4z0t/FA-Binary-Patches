@@ -1,7 +1,8 @@
 #include "Networkstats.h"
 #include <cstdlib>
+#include <array>
 
-const uint32_t colors[21] = {
+const std::array<uint32_t, 21> colors{
     0xff00FF00, // #00FF00
     0xff1AFF00, // #1AFF00
     0xff33FF00, // #33FF00
@@ -36,11 +37,11 @@ int clamp(int value, int min, int max)
 
 SHARED int __thiscall PickColorForConnections(const string *s, int row, int index)
 {
-    if (row > 0 &&  (index == 4 || index >= 7))
+    if (row > 0 && (index == 4 || index >= 7))
     {
         const char *cs = s->data();
         int v = atoi(cs);
-        return colors[clamp(v, 0, 20)];
+        return colors[clamp(v, 0, colors.size() - 1)];
     }
     return 0xffffffff;
 }
