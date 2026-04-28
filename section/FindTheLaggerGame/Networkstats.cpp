@@ -25,12 +25,9 @@ void asm__NetworkstatsHook()
         :);
 }
 
-void asm__NetworkstatsCreateFont()
-{
-    asm(
-        "mov ecx, _networkstats_font_size;"
-        "jmp 0x00425290;"
-        :
-        :
-        :);
-}
+asm(R"(
+    .global asm__NetworkstatsCreateFont
+    asm__NetworkstatsCreateFont:
+        mov ecx, _networkstats_font_size
+        jmp 0x00425290
+)");
