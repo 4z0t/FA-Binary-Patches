@@ -1,6 +1,17 @@
 #include "Networkstats.h"
 #include <cstdlib>
 #include <array>
+#include "magic_classes.h"
+
+SHARED int networkstats_font_size = 10;
+namespace
+{
+    ConDescReg networkstats_font_size_var{
+        "networkstats_font_size",
+        "",
+        &networkstats_font_size};
+
+};
 
 const std::array<uint32_t, 21> colors{
     0xff00FF00, // #00FF00
@@ -34,10 +45,10 @@ int clamp(int value, int min, int max)
         return max;
     return value;
 }
-
+// Columns  0: army index | 1: nickname | 2: ping | 3: max speed | 4: data | 5: behind | 6: avail | 7-... : data for each player
 SHARED int __thiscall PickColorForConnections(const string *s, int row, int index)
 {
-    if (row > 0 && (index == 4 || index >= 7))
+    if (row > 0 && (index == 4 || index >= 7)) // row 0 is header
     {
         const char *cs = s->data();
         int v = atoi(cs);

@@ -9,9 +9,9 @@ void asm__NetworkstatsHook()
     asm(
         "fstp    dword ptr [esp];"
         "mov     eax, [esp + 0x44 + 4];" // row
-        "pushf;"
-        "push    ecx;" // preserve these
-        "push    edx;" // preserve these
+        "pushf;"                         // store flags since original code makes a cmp before and uses it after
+        "push    ecx;"                   // preserve these
+        "push    edx;"                   // preserve these
         "push    esi;"
         "push    eax;"
         "call    %[PickColorForConnections];"
@@ -22,5 +22,15 @@ void asm__NetworkstatsHook()
         "jmp     0x0073EFC1;"
         :
         : [PickColorForConnections] "i"(PickColorForConnections)
+        :);
+}
+
+void asm__NetworkstatsCreateFont()
+{
+    asm(
+        "mov ecx, _networkstats_font_size;"
+        "jmp 0x00425290;"
+        :
+        :
         :);
 }

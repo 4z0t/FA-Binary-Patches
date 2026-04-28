@@ -1,2 +1,5 @@
+0x0073E042:
+    call asm__NetworkstatsCreateFont
+
 0x0073EFBC:
     jmp asm__NetworkstatsHook
