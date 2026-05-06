@@ -1,2 +1,6 @@
 0x00820847:
     jmp asm__AssistConstruction
+
+
+0x008215CD:
+    jz asm__CheckWithReclaimOrder
