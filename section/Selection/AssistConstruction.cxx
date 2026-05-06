@@ -13,9 +13,9 @@ SHARED void __thiscall CheckCanAssistCon(Moho::SSTICommandIssueData &cmd, incomp
         cmd.orientation = {1.0f, 0.0f, 0.0f, 0.0f};
         /**
          * Notes:
-         * Any entity below mouse override order, so we have to handle reclaim
+         * Any entity below mouse override order, so we have to handle reclaim for example
          * Have to check that we can build that, otherwise order just cancels
-         *
+         * Can stack multiple commands like this. Must filter units that do not queued that order
          */
     }
 }
