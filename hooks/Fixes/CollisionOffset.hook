@@ -1,15 +1,24 @@
 
 # Moho::Unit::GetBoneWorldTransform(int)+77
-0x006AA637:
-    mov     ecx, esi                 # esi - Entity
-    push    0xFFFFFFFF               # -1
-    mov     eax, dword ptr [ebp + 8] # result transform
-    push    eax
-    call 0x00679CE0                  # Moho::VTransform * thiscall Moho::Entity::GetBoneWorldTransform(Moho::Entity *this, Moho::VTransform *result, int boneIndex)
+# 0x006AA637:
+#     mov     ecx, esi                 # esi - Entity
+#     push    0xFFFFFFFF               # -1
+#     mov     eax, dword ptr [ebp + 8] # result transform
+#     push    eax
+#     call 0x00679CE0                  # Moho::VTransform * thiscall Moho::Entity::GetBoneWorldTransform(Moho::Entity *this, Moho::VTransform *result, int boneIndex)
+# 
+#     pop     edi                      # function return
+#     pop     esi                      #
+#     mov     esp, ebp                 #
+#     pop     ebp                      #
+#     ret     8                        #
+#     clear   198
+# 
 
-    pop     edi                      # function return
-    pop     esi                      #
-    mov     esp, ebp                 #
-    pop     ebp                      #
-    ret     8                        #
-    clear   198
+0x006AB34D:
+    lea     ecx, [edi+8]    # entity
+    push    0xFFFFFFFF      # -1
+    lea     edx, [esp+0x0C] # transform
+    push    edx
+    call    0x00679CE0      # Moho::VTransform *__thiscall Moho::Entity::GetBoneWorldTransform(Moho::Entity *this, Moho::VTransform *a2, int a3)
+    nop 3
