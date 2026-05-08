@@ -1,0 +1,4 @@
+0x007D19FF:
+    jmp asm__MinimapRangeRenderHook
+    nop
+    nop
