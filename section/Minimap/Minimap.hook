@@ -1,4 +1,6 @@
 0x007D19FF:
     jmp asm__MinimapRangeRenderHook
-    nop
-    nop
+    nop 2
+
+0x007D1BD9:
+    nop 12 # disable render of debug info in cartographic mode

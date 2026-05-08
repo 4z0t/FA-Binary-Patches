@@ -1,2 +1,0 @@
-0x007D1BD9:
-    nop 12 # disable render of debug info in cartographic mode
